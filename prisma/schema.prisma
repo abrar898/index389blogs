@@ -1,0 +1,325 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  role          String    @default("READER") // ADMIN, EDITOR, AUTHOR, READER, MODERATOR
+  status        String    @default("ACTIVE") // ACTIVE, SUSPENDED
+  avatar        String?
+  bio           String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  profile       UserProfile?
+  articles      Article[]
+  revisions     ArticleRevision[]
+  writeups      WriteUp[]
+  knowledgeDocs KnowledgeDocument[]
+  comments      Comment[]
+  discussions   Discussion[]
+  discussionReplies DiscussionReply[]
+  bookmarks     Bookmark[]
+  auditLogs     AuditLog[]
+  reports       Report[]
+  notifications Notification[]
+  uploadedAssets UploadedAsset[]
+  cveRecords    CVERecord[]
+}
+
+model UserProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  website     String?
+  github      String?
+  twitter     String?
+  linkedin    String?
+  interests   String?
+  isPublic    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  icon        String?
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+}
+
+model Tag {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  slug        String       @unique
+  articles    ArticleTag[]
+  createdAt   DateTime     @default(now())
+}
+
+model Article {
+  id                 String            @id @default(cuid())
+  title              String
+  slug               String            @unique
+  subtitle           String?
+  summary            String
+  content            String            // Raw Markdown with frontmatter support
+  coverImage         String?
+  categoryId         String?
+  category           Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  authorId           String
+  author             User              @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  status             String            @default("DRAFT") // DRAFT, REVIEW, SCHEDULED, PUBLISHED, ARCHIVED
+  visibility         String            @default("PUBLIC") // PUBLIC, UNLISTED, PRIVATE
+  isFeatured         Boolean           @default(false)
+  readingTimeMinutes Int               @default(5)
+  viewsCount         Int               @default(0)
+  publishedAt        DateTime?
+  scheduledAt        DateTime?
+  seoTitle           String?
+  seoDescription     String?
+  canonicalUrl       String?
+  editorialNotes     String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  tags               ArticleTag[]
+  revisions          ArticleRevision[]
+  comments           Comment[]
+}
+
+model ArticleTag {
+  id        String   @id @default(cuid())
+  articleId String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tagId     String
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, tagId])
+}
+
+model ArticleRevision {
+  id          String   @id @default(cuid())
+  articleId   String
+  article     Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  title       String
+  content     String
+  summary     String?
+  version     Int      @default(1)
+  note        String?
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model CVERecord {
+  id                   String                   @id @default(cuid())
+  cveId                String                   @unique // e.g. CVE-2026-1337
+  title                String
+  summary              String
+  technicalDescription String
+  affectedProducts     String                   // Comma or JSON separated
+  affectedVersions     String
+  fixedVersions        String?
+  cvssScore            Float                    @default(0.0)
+  cvssVector           String?
+  severity             String                   @default("MEDIUM") // CRITICAL, HIGH, MEDIUM, LOW, NONE
+  cweId                String?                  // e.g. CWE-79
+  vendorAdvisoryUrl    String?
+  nvdUrl               String?
+  patchAvailable       Boolean                  @default(false)
+  knownExploited       Boolean                  @default(false)
+  detectionRules       String?                  // Sigma, YARA, or snort rules
+  mitigation           String?
+  analysisContent      String?                  // Technical deep dive in markdown
+  authorId             String
+  author               User                     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isPublished          Boolean                  @default(true)
+  publishedAt          DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+
+  references           VulnerabilityReference[]
+}
+
+model VulnerabilityReference {
+  id          String    @id @default(cuid())
+  cveRecordId String
+  cveRecord   CVERecord @relation(fields: [cveRecordId], references: [id], onDelete: Cascade)
+  title       String
+  url         String
+  source      String?
+}
+
+model WriteUp {
+  id                String   @id @default(cuid())
+  title             String
+  slug              String   @unique
+  platform          String   @default("HACKTHEBOX") // HACKTHEBOX, TRYHACKME, CTF, PROVING_GROUNDS, OTHER
+  machineName       String
+  difficulty        String   @default("MEDIUM") // EASY, MEDIUM, HARD, INSANE
+  os                String   @default("LINUX") // LINUX, WINDOWS, ANDROID, OTHER
+  skillsRequired    String   // Comma separated
+  skillsLearned     String   // Comma separated
+  overview          String
+  content           String   // Markdown with enumeration, initial access, privesc, remediation
+  spoilerProtection Boolean  @default(true)
+  coverImage        String?
+  authorId          String
+  author            User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  status            String   @default("PUBLISHED") // DRAFT, PUBLISHED
+  isFeatured        Boolean  @default(false)
+  publishedAt       DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model KnowledgeDocument {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  folder      String   @default("General") // Linux, Active Directory, Web Security, Cheat Sheets, etc.
+  category    String   @default("Notes")
+  content     String   // Markdown notes and command snippets
+  visibility  String   @default("PUBLIC") // PRIVATE, UNLISTED, PUBLIC
+  isFavorite  Boolean  @default(false)
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UploadedAsset {
+  id           String   @id @default(cuid())
+  filename     String
+  originalName String
+  mimeType     String
+  sizeBytes    Int
+  url          String
+  path         String
+  altText      String?
+  uploaderId   String
+  uploader     User     @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+}
+
+model Bookmark {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contentType String   // ARTICLE, WRITEUP, CVE, KNOWLEDGE, DISCUSSION
+  contentId   String
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, contentType, contentId])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  articleId String
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+  status    String    @default("APPROVED") // APPROVED, PENDING, FLAGGED, REMOVED
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Discussion {
+  id         String            @id @default(cuid())
+  title      String
+  slug       String            @unique
+  content    String
+  category   String            @default("GENERAL") // GENERAL, RESEARCH, METHODOLOGY, CAREER, DEFENSIVE
+  authorId   String
+  author     User              @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isPinned   Boolean           @default(false)
+  isLocked   Boolean           @default(false)
+  viewsCount Int               @default(0)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  replies    DiscussionReply[]
+}
+
+model DiscussionReply {
+  id               String            @id @default(cuid())
+  discussionId     String
+  discussion       Discussion        @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  authorId         String
+  author           User              @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content          String
+  parentId         String?
+  parent           DiscussionReply?  @relation("ReplyReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies          DiscussionReply[] @relation("ReplyReplies")
+  isAcceptedAnswer Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reporterId  String
+  reporter    User     @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+  targetType  String   // COMMENT, DISCUSSION, ARTICLE, USER
+  targetId    String
+  reason      String
+  status      String   @default("PENDING") // PENDING, RESOLVED, DISMISSED
+  notes       String?
+  createdAt   DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  status      String    @default("SUBSCRIBED") // SUBSCRIBED, UNSUBSCRIBED
+  confirmedAt DateTime?
+  token       String    @unique @default(cuid())
+  createdAt   DateTime  @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  link      String?
+  isRead    Boolean  @default(false)
+  type      String   @default("INFO") // INFO, COMMENT, PUBLISH, ALERT
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String   // e.g. ARTICLE_PUBLISH, USER_ROLE_CHANGE, COMMENT_MODERATION
+  entityType String   // ARTICLE, USER, CVE, WRITEUP, SYSTEM
+  entityId   String?
+  details    String?  // JSON string
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+}
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+}
