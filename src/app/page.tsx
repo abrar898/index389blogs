@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import {
   ShieldAlert,
@@ -62,8 +63,8 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="relative border-b border-[#1f3352] bg-[#0c1421] py-16 sm:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(159,239,0,0.12),transparent_70%)]"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-10">
+          <div className="max-w-3xl space-y-6 flex-1">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9fef00]/30 bg-[#9fef00]/10 text-[#9fef00] text-xs font-mono font-bold tracking-wider">
               <span className="w-2 h-2 rounded-full bg-[#9fef00] animate-pulse"></span>
               CYBERSECURITY RESEARCH & KNOWLEDGE BASE
@@ -102,6 +103,23 @@ export default async function HomePage() {
                 <BookOpen className="w-4 h-4 text-[#9fef00]" />
                 <span>Knowledge Base</span>
               </Link>
+            </div>
+          </div>
+
+          {/* Hero Emblem Logo */}
+          <div className="relative flex-shrink-0 flex items-center justify-center">
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-[#9fef00]/30 shadow-[0_0_60px_rgba(159,239,0,0.25)] p-2 bg-[#090f19]/80 backdrop-blur-md group hover:border-[#9fef00]/60 transition-all">
+              <div className="w-full h-full rounded-full overflow-hidden relative">
+                <Image
+                  src="/logo.png"
+                  alt="Index 389 Emblem"
+                  width={288}
+                  height={288}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority
+                />
+              </div>
+              <div className="absolute -inset-1 rounded-full border border-[#9fef00]/20 pointer-events-none animate-pulse"></div>
             </div>
           </div>
         </div>

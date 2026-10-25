@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Shield, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
@@ -8,9 +9,15 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand & mission */}
           <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded bg-[#111d30] border border-[#1f3352] flex items-center justify-center text-[#9fef00]">
-                <Shield className="w-4 h-4" />
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#9fef00]/40 bg-[#090f19] flex items-center justify-center group-hover:border-[#9fef00] transition-colors flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Index 389 Logo"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-mono font-bold text-base tracking-wider text-slate-100">
                 INDEX <span className="text-[#9fef00]">389</span>

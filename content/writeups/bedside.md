@@ -1021,4 +1021,4 @@ bash -p → euid=0(root) → root.txt
 
 ---
 
-*Writeup by LEvi | HackTheBox — Bedside (Medium)*
+*Writeup by Arax0n | HackTheBox — Bedside (Medium)*

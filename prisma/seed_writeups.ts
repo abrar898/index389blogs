@@ -4,16 +4,18 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding Hack The Box and TryHackMe write-ups by Abrar (abrarjr66)...");
+  console.log("Seeding Hack The Box and TryHackMe write-ups by Arax0n...");
 
-  // 1. Upsert Author: Abrar
-  const passwordHash = await bcrypt.hash("AbrarCyberVault2026!", 12);
+  // 1. Upsert Author: Arax0n
+  const passwordHash = await bcrypt.hash("Arax0nCyberVault2026!", 12);
   const author = await prisma.user.upsert({
     where: { email: "abrarjr66@cybervault.local" },
-    update: {},
+    update: {
+      name: "Arax0n",
+    },
     create: {
       email: "abrarjr66@cybervault.local",
-      name: "Abrar (abrarjr66)",
+      name: "Arax0n",
       passwordHash,
       role: "AUTHOR",
       bio: "Offensive Security Researcher, CTF Player, and Penetration Tester publishing walk-throughs for Hack The Box and TryHackMe.",

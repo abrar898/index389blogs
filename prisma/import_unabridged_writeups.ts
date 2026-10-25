@@ -220,7 +220,7 @@ async function main() {
 
     const meta = writeupMapping[matchedKey];
     const markdownBody = htmlToMarkdown(item.content);
-    const fullContent = `> [!NOTE]\n> Originally written and published by **Abrar (abrarjr66)** on Medium: [Read Original Publication](${item.link})\n\n${markdownBody}`;
+    const fullContent = `> [!NOTE]\n> Originally written and published by **Arax0n** on Medium: [Read Original Publication](${item.link})\n\n${markdownBody}`;
 
     // 1. Update WriteUp
     await prisma.writeUp.upsert({

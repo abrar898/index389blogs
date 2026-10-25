@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getCurrentUser } from "@/lib/auth/session";
 import { Shield, Search, PenLine, User, LogOut, LayoutDashboard } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
@@ -21,9 +22,16 @@ export async function Header() {
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#111d30] border border-[#1f3352] flex items-center justify-center text-[#9fef00] group-hover:border-[#9fef00]/60 group-hover:shadow-[0_0_15px_rgba(159,239,0,0.35)] transition-all flex-shrink-0">
-              <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-[#9fef00]/40 bg-[#090f19] flex items-center justify-center group-hover:border-[#9fef00] group-hover:shadow-[0_0_20px_rgba(159,239,0,0.45)] transition-all flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Index 389 Logo"
+                width={40}
+                height={40}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                priority
+              />
             </div>
             <div>
               <span className="font-mono font-bold text-sm sm:text-base lg:text-lg tracking-wider text-slate-100 flex items-center gap-1">

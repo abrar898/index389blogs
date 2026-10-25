@@ -20,6 +20,10 @@ const envs = [
   {
     key: "STORAGE_TYPE",
     value: "local"
+  },
+  {
+    key: "NEXT_PUBLIC_APP_URL",
+    value: "https://blogs-index389.vercel.app"
   }
 ];
 
