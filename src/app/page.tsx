@@ -85,7 +85,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/cheatsheets"
-                className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] text-white dark:text-[#0b121e] hover:opacity-90 font-bold text-sm transition-all shadow-md flex items-center gap-2 font-mono"
+                className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] hover:bg-[var(--htb-green-hover)] text-[#0D0D1A] font-bold text-sm transition-all shadow-md flex items-center gap-2 font-mono"
               >
                 <Terminal className="w-4 h-4" />
                 <span>⚡ Pentest Cheatsheets</span>
@@ -219,7 +219,7 @@ export default async function HomePage() {
             />
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] hover:opacity-90 text-white dark:text-[#0b121e] font-bold text-xs uppercase font-mono transition-opacity whitespace-nowrap shadow-sm text-center justify-center flex items-center"
+              className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] hover:bg-[var(--htb-green-hover)] text-[#0D0D1A] font-bold text-xs uppercase font-mono transition-colors whitespace-nowrap shadow-sm text-center justify-center flex items-center"
             >
               Subscribe
             </button>

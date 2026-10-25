@@ -128,7 +128,7 @@ export default function CheatsheetsPage() {
             onClick={() => setActiveTab("cheatsheets")}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all border ${
               activeTab === "cheatsheets"
-                ? "bg-[var(--htb-green)] text-white dark:text-[#0b121e] border-[var(--htb-green)] shadow-sm"
+                ? "bg-[var(--htb-green)] text-[#0D0D1A] border-[var(--htb-green)] shadow-sm"
                 : "bg-[var(--surface-card)] text-[var(--foreground)] border-[var(--surface-border)] hover:border-[var(--htb-green)]/60"
             }`}
           >
@@ -140,7 +140,7 @@ export default function CheatsheetsPage() {
             onClick={() => setActiveTab("nmap-suggestor")}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-mono font-bold transition-all border ${
               activeTab === "nmap-suggestor"
-                ? "bg-[var(--htb-green)] text-white dark:text-[#0b121e] border-[var(--htb-green)] shadow-sm"
+                ? "bg-[var(--htb-green)] text-[#0D0D1A] border-[var(--htb-green)] shadow-sm"
                 : "bg-[var(--surface-card)] text-[var(--foreground)] border-[var(--surface-border)] hover:border-[var(--htb-green)]/60"
             }`}
           >

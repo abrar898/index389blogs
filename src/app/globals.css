@@ -57,285 +57,328 @@
   --code-text: #e2e8f0;
 }
 
-/* White Theme (Clean, Crisp, Professional Cybersecurity Palette) */
+/* White Theme (Official "HTB White" Contrast Aesthetic) */
 html.white,
 html:not(.dark).white {
   color-scheme: light;
 
-  /* Surfaces & Canvas */
-  --background: #f8fafc;
-  --foreground: #334155;
-  --foreground-bright: #0f172a;
-  --foreground-muted: #64748b;
+  /* Backgrounds */
+  --background: #F0F2F5; /* page/body background (light gray, not pure white — easier on eyes) */
+  --surface: #FFFFFF;    /* cards, modals, panels */
+  --surface-card: #FFFFFF;
+  --surface-elevated: #E8EAF0; /* input fields, table row alternates */
+  --surface-input: #E8EAF0;
+  --surface-dropdown: #1A1A2E; /* navbar & dropdowns keep cyber dark #1A1A2E */
+  --surface-border: #E2E4EB; /* card and input borders (default) */
+  --surface-border-hover: #9FEF00; /* focused input or selected card border */
 
-  --surface: #ffffff;
-  --surface-card: #ffffff;
-  --surface-elevated: #f1f5f9;
-  --surface-dropdown: rgba(255, 255, 255, 0.98);
-  --surface-border: #e2e8f0;
-  --surface-border-hover: rgba(4, 120, 87, 0.45);
+  /* Text */
+  --foreground: #0D0D1A;         /* main headings and body text (near-black, dark navy feel) */
+  --foreground-bright: #0D0D1A;
+  --foreground-secondary: #4A4A6A; /* secondary text, labels, subheadings */
+  --foreground-muted: #9A9AB0;   /* placeholder text, captions, muted hints */
 
-  /* Deep Cyber Emerald for light mode (5.6:1 AAA contrast on white) */
-  --htb-green: #047857;
-  --htb-green-hover: #065f46;
-  --htb-green-glow: rgba(4, 120, 87, 0.15);
+  /* Navbar */
+  --navbar-bg: #1A1A2E;
+  --navbar-link: #FFFFFF;
+  --navbar-link-hover: #9FEF00;
 
-  /* Deep Ocean Sapphire for cyan in light mode */
-  --htb-cyan: #0284c7;
-  --htb-cyan-glow: rgba(2, 132, 199, 0.15);
+  /* Accent / Brand (Iconic HTB Green) */
+  --htb-green: #9FEF00;
+  --htb-green-hover: #77C400;
+  --htb-green-glow: rgba(159, 239, 0, 0.35);
+  --htb-green-tint: #E8FFF0; /* green tint background for success states/tags */
 
-  /* High-contrast functional accents */
-  --htb-orange: #c2410c;
-  --htb-red: #dc2626;
-  --htb-purple: #7e22ce;
+  /* Status Colors */
+  --htb-cyan: #00B4D8;       /* info, cyan badges (very HTB-style) */
+  --htb-cyan-glow: rgba(0, 180, 216, 0.25);
+  --htb-orange: #FFA500;     /* warnings, medium risk */
+  --htb-red: #FF4D4D;        /* errors, danger, failed */
+  --htb-purple: #A855F7;
 
-  /* Code block styling */
-  --code-bg: #0f172a;
-  --code-header-bg: #1e293b;
-  --code-text: #f8fafc;
+  /* Code block styling (stays authentic cyber terminal in #1A1A2E) */
+  --code-bg: #1A1A2E;
+  --code-header-bg: #141424;
+  --code-text: #F0F2F5;
 }
 
 /* System Theme Browser Match when not explicitly set to white */
 @media (prefers-color-scheme: light) {
   html:not(.dark):not(.white) {
     color-scheme: light;
-    --background: #f8fafc;
-    --foreground: #334155;
-    --foreground-bright: #0f172a;
-    --foreground-muted: #64748b;
+    --background: #F0F2F5;
+    --surface: #FFFFFF;
+    --surface-card: #FFFFFF;
+    --surface-elevated: #E8EAF0;
+    --surface-input: #E8EAF0;
+    --surface-dropdown: #1A1A2E;
+    --surface-border: #E2E4EB;
+    --surface-border-hover: #9FEF00;
 
-    --surface: #ffffff;
-    --surface-card: #ffffff;
-    --surface-elevated: #f1f5f9;
-    --surface-dropdown: rgba(255, 255, 255, 0.98);
-    --surface-border: #e2e8f0;
-    --surface-border-hover: rgba(4, 120, 87, 0.45);
+    --foreground: #0D0D1A;
+    --foreground-bright: #0D0D1A;
+    --foreground-secondary: #4A4A6A;
+    --foreground-muted: #9A9AB0;
 
-    --htb-green: #047857;
-    --htb-green-hover: #065f46;
-    --htb-green-glow: rgba(4, 120, 87, 0.15);
+    --navbar-bg: #1A1A2E;
+    --navbar-link: #FFFFFF;
+    --navbar-link-hover: #9FEF00;
 
-    --htb-cyan: #0284c7;
-    --htb-cyan-glow: rgba(2, 132, 199, 0.15);
+    --htb-green: #9FEF00;
+    --htb-green-hover: #77C400;
+    --htb-green-glow: rgba(159, 239, 0, 0.35);
+    --htb-green-tint: #E8FFF0;
 
-    --htb-orange: #c2410c;
-    --htb-red: #dc2626;
-    --htb-purple: #7e22ce;
+    --htb-cyan: #00B4D8;
+    --htb-cyan-glow: rgba(0, 180, 216, 0.25);
+    --htb-orange: #FFA500;
+    --htb-red: #FF4D4D;
+    --htb-purple: #A855F7;
 
-    --code-bg: #0f172a;
-    --code-header-bg: #1e293b;
-    --code-text: #f8fafc;
+    --code-bg: #1A1A2E;
+    --code-header-bg: #141424;
+    --code-text: #F0F2F5;
   }
 }
 
-/* White Theme Comprehensive CSS Overrides (Transforms dark-mode hex classes into crisp light theme) */
+/* HTB White Theme Comprehensive Component Styling */
 html.white {
   color-scheme: light;
 }
 
-/* Surfaces and Cards */
-html.white .bg-\[\#0b121e\],
-html.white .bg-\[\#070b13\],
-html.white .bg-\[\#0c1421\],
-html.white .bg-\[\#090e17\],
-html.white .bg-\[\#090f19\],
-html.white .bg-\[\#0b121e\]\/95,
-html.white .bg-\[\#0b121e\]\/90 {
-  background-color: #ffffff !important;
+/* Page Body Background */
+html.white body {
+  background-color: #F0F2F5 !important;
+  color: #0D0D1A !important;
 }
 
-html.white .bg-\[\#111d30\],
-html.white .bg-\[\#14233c\],
-html.white .bg-\[\#182844\],
-html.white .bg-\[\#111d30\]\/95,
-html.white .bg-\[\#111d30\]\/90,
-html.white .bg-\[\#111d30\]\/80,
-html.white .bg-\[\#111d30\]\/60,
-html.white .bg-\[\#090f19\]\/80 {
-  background-color: #ffffff !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+/* Navbar — Keeps Iconic Cyber Dark (#1A1A2E) in White Theme */
+html.white header {
+  background-color: #1A1A2E !important;
+  border-bottom: 1px solid #2A2A44 !important;
 }
 
-/* Secondary Container Elements */
+html.white header a {
+  color: #FFFFFF;
+}
+
+html.white header a:hover {
+  color: #9FEF00 !important;
+}
+
+/* Cards, Modals, Panels (#FFFFFF) */
+html.white .bg-\[\#0b121e\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#070b13\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#0c1421\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#090e17\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#090f19\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#111d30\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#14233c\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#182844\]:not(header *):not(.code-block-wrapper *):not(pre *),
+html.white .bg-\[\#111d30\]\/95:not(header *),
+html.white .bg-\[\#111d30\]\/90:not(header *),
+html.white .bg-\[\#111d30\]\/80:not(header *),
+html.white .bg-\[\#111d30\]\/60:not(header *),
+html.white .bg-\[\#0b121e\]\/95:not(header *),
+html.white .bg-\[\#0b121e\]\/90:not(header *),
+html.white .bg-\[\#090f19\]\/80:not(header *) {
+  background-color: #FFFFFF !important;
+  border-color: #E2E4EB !important;
+  box-shadow: 0 1px 3px 0 rgba(13, 13, 26, 0.05), 0 1px 2px -1px rgba(13, 13, 26, 0.03) !important;
+}
+
+/* Card and Input Borders (#E2E4EB default) */
+html.white .border-\[\#1f3352\]:not(header *),
+html.white .border-\[\#2a3a54\]:not(header *),
+html.white .border-\[\#1f3352\]\/70:not(header *) {
+  border-color: #E2E4EB !important;
+}
+
+/* Input Fields & Alternates (#E8EAF0) */
 html.white select,
 html.white textarea,
-html.white input {
-  background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  color: #0f172a !important;
+html.white input:not(header input) {
+  background-color: #E8EAF0 !important;
+  border-color: #E2E4EB !important;
+  color: #0D0D1A !important;
 }
 
 html.white input::placeholder,
 html.white textarea::placeholder {
-  color: #94a3b8 !important;
+  color: #9A9AB0 !important;
 }
 
+/* Focused input or selected card border (#9FEF00) */
 html.white input:focus,
 html.white textarea:focus,
 html.white select:focus {
-  border-color: #059669 !important;
-  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15) !important;
+  border-color: #9FEF00 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(159, 239, 0, 0.35) !important;
 }
 
-/* Borders */
-html.white .border-\[\#1f3352\],
-html.white .border-\[\#2a3a54\],
-html.white .border-\[\#1f3352\]\/70 {
-  border-color: #e2e8f0 !important;
+/* Text Hierarchy */
+/* Main Headings & Body (#0D0D1A) */
+html.white h1:not(header *),
+html.white h2:not(header *),
+html.white h3:not(header *),
+html.white h4:not(header *),
+html.white h5:not(header *),
+html.white h6:not(header *) {
+  color: #0D0D1A !important;
 }
 
-/* Headings in White Theme (Crisp charcoal slate, NOT green or cyan) */
-html.white h1,
-html.white h2,
-html.white h3,
-html.white h4,
-html.white h5,
-html.white h6 {
-  color: #0f172a !important;
+html.white .text-slate-100:not(header *) {
+  color: #0D0D1A !important;
 }
 
-/* Text Overrides */
-html.white .text-slate-100 {
-  color: #0f172a !important;
+html.white .text-slate-200:not(header *) {
+  color: #0D0D1A !important;
 }
 
-html.white .text-slate-200 {
-  color: #1e293b !important;
-}
-
-html.white .text-slate-300,
-html.white .text-slate-300\/90 {
-  color: #334155 !important;
-}
-
-html.white .text-slate-400 {
-  color: #64748b !important;
-}
-
-html.white .text-slate-500 {
-  color: #94a3b8 !important;
-}
-
+/* Secondary Text, Labels, Subheadings (#4A4A6A) */
+html.white .text-slate-300:not(header *),
+html.white .text-slate-300\/90:not(header *),
+html.white .text-slate-400:not(header *),
 html.white .text-\[\#a4b1cd\] {
-  color: #334155 !important;
+  color: #4A4A6A !important;
 }
 
-/* Brand Primary Accent (Deep Cyber Emerald) */
-html.white .text-\[\#9fef00\] {
-  color: #047857 !important;
+/* Placeholder Text, Captions, Muted Hints (#9A9AB0) */
+html.white .text-slate-500:not(header *) {
+  color: #9A9AB0 !important;
 }
 
-html.white .hover\:text-\[\#9fef00\]:hover {
-  color: #065f46 !important;
-}
-
-html.white .group:hover .group-hover\:text-\[\#9fef00\] {
-  color: #047857 !important;
-}
-
+/* Accent / Brand: HTB Green (#9FEF00) Buttons & Badges */
 html.white .bg-\[\#9fef00\],
 html.white a.bg-\[\#9fef00\],
 html.white button.bg-\[\#9fef00\] {
-  background-color: #059669 !important;
-  color: #ffffff !important;
+  background-color: #9FEF00 !important;
+  color: #0D0D1A !important;
+  font-weight: 700 !important;
 }
 
 html.white .bg-\[\#9fef00\] *,
 html.white .bg-\[\#9fef00\].text-\[\#0b121e\],
 html.white .bg-\[\#9fef00\] .text-\[\#0b121e\] {
-  color: #ffffff !important;
+  color: #0D0D1A !important;
 }
 
+/* Button Hover State (#77C400) */
 html.white .hover\:bg-\[\#b4fa1f\]:hover,
-html.white .hover\:bg-\[\#b0ff1a\]:hover {
-  background-color: #047857 !important;
-  color: #ffffff !important;
+html.white .hover\:bg-\[\#b0ff1a\]:hover,
+html.white a.bg-\[\#9fef00\]:hover,
+html.white button.bg-\[\#9fef00\]:hover {
+  background-color: #77C400 !important;
+  color: #0D0D1A !important;
 }
 
-/* Soft Emerald Badges & Tints */
+/* Green Tint Background for Success States / Tags (#E8FFF0) */
 html.white .bg-\[\#9fef00\]\/10,
 html.white .bg-\[\#9fef00\]\/15,
-html.white .bg-\[\#9fef00\]\/20 {
-  background-color: #ecfdf5 !important;
-  border-color: #a7f3d0 !important;
-  color: #047857 !important;
+html.white .bg-\[\#9fef00\]\/20,
+html.white .bg-emerald-950\/70 {
+  background-color: #E8FFF0 !important;
+  border-color: #9FEF00 !important;
+  color: #0D0D1A !important;
+  font-weight: 600 !important;
 }
 
 html.white .bg-\[\#9fef00\]\/10 *,
 html.white .bg-\[\#9fef00\]\/15 *,
 html.white .bg-\[\#9fef00\]\/20 * {
-  color: #047857 !important;
+  color: #0D0D1A !important;
 }
 
+/* HTB Green Borders for Selected Items */
 html.white .border-\[\#9fef00\]\/20,
 html.white .border-\[\#9fef00\]\/30,
 html.white .border-\[\#9fef00\]\/40,
 html.white .border-\[\#9fef00\]\/50,
 html.white .border-\[\#9fef00\]\/60 {
-  border-color: #a7f3d0 !important;
+  border-color: #9FEF00 !important;
 }
 
-/* Hover States on Light Theme */
-html.white .hover\:bg-\[\#14233c\]:hover,
-html.white .hover\:bg-\[\#111d30\]:hover {
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
+/* HTB Green Accent Text & Icons */
+html.white .text-\[\#9fef00\] {
+  color: #0D0D1A !important;
 }
 
-html.white .hover\:text-white:hover {
-  color: #047857 !important;
+html.white header .text-\[\#9fef00\],
+html.white header [class*="text-[#9fef00]"] {
+  color: #9FEF00 !important;
+}
+
+/* Hover States for Cards & Unselected Tabs */
+html.white .hover\:bg-\[\#14233c\]:hover:not(header *),
+html.white .hover\:bg-\[\#111d30\]:hover:not(header *) {
+  background-color: #E8EAF0 !important;
+  color: #0D0D1A !important;
+}
+
+html.white .hover\:text-white:hover:not(header *) {
+  color: #0D0D1A !important;
 }
 
 html.white .hover\:border-\[\#9fef00\]\/50:hover,
 html.white .hover\:border-\[\#9fef00\]\/60:hover {
-  border-color: #059669 !important;
+  border-color: #9FEF00 !important;
 }
 
-/* Cyan / Secondary Accent */
+/* Status: Info / Cyan Badges (#00B4D8) */
 html.white .text-\[\#2de2e6\] {
-  color: #0284c7 !important;
+  color: #00B4D8 !important;
 }
 
 html.white .hover\:text-\[\#2de2e6\]:hover {
-  color: #0369a1 !important;
+  color: #0096B4 !important;
 }
 
 html.white .bg-\[\#2de2e6\] {
-  background-color: #0284c7 !important;
-  color: #ffffff !important;
+  background-color: #00B4D8 !important;
+  color: #FFFFFF !important;
 }
 
 html.white .bg-\[\#2de2e6\] * {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 html.white .bg-\[\#2de2e6\]\/10,
 html.white .bg-\[\#2de2e6\]\/20,
 html.white .bg-\[\#2de2e6\]\/30 {
-  background-color: #f0f9ff !important;
-  border-color: #bae6fd !important;
-  color: #0284c7 !important;
+  background-color: #E6F8FC !important;
+  border-color: #00B4D8 !important;
+  color: #006080 !important;
+  font-weight: 600 !important;
 }
 
 html.white .border-\[\#2de2e6\]\/30,
 html.white .border-\[\#2de2e6\]\/40,
 html.white .border-\[\#2de2e6\]\/50 {
-  border-color: #bae6fd !important;
+  border-color: #00B4D8 !important;
 }
 
-/* Orange / Amber */
+/* Status: Warnings / Medium Risk (#FFA500) */
 html.white .text-\[\#ff8400\] {
-  color: #c2410c !important;
+  color: #FFA500 !important;
 }
 
 html.white .bg-\[\#ff8400\] {
-  background-color: #ea580c !important;
-  color: #ffffff !important;
+  background-color: #FFA500 !important;
+  color: #0D0D1A !important;
 }
 
-/* Red / CVE Alerts */
+html.white .bg-amber-950\/70,
+html.white .bg-amber-950\/90 {
+  background-color: #FFF8E6 !important;
+  border-color: #FFA500 !important;
+  color: #8C5500 !important;
+  font-weight: 600 !important;
+}
+
+/* Status: Errors, Danger, Failed (#FF4D4D) */
 html.white .text-\[\#ff3366\] {
-  color: #dc2626 !important;
+  color: #FF4D4D !important;
 }
 
 html.white .bg-\[\#ff3366\]\/10,
@@ -344,54 +387,116 @@ html.white .bg-\[\#ff3366\]\/20,
 html.white .bg-red-950\/60,
 html.white .bg-red-950\/70,
 html.white .bg-red-950\/90 {
-  background-color: #fef2f2 !important;
-  border-color: #fecaca !important;
-  color: #dc2626 !important;
+  background-color: #FFF0F0 !important;
+  border-color: #FF4D4D !important;
+  color: #D61A1A !important;
+  font-weight: 600 !important;
 }
 
 html.white .border-\[\#ff3366\]\/40,
 html.white .border-\[\#ff3366\]\/50,
 html.white .border-red-900\/40 {
-  border-color: #fca5a5 !important;
-}
-
-/* Difficulty Badges */
-html.white .bg-emerald-950\/70 {
-  background-color: #ecfdf5 !important;
-  border-color: #a7f3d0 !important;
-  color: #047857 !important;
-}
-
-html.white .bg-amber-950\/70,
-html.white .bg-amber-950\/90 {
-  background-color: #fffbeb !important;
-  border-color: #fde68a !important;
-  color: #b45309 !important;
+  border-color: #FFB3B3 !important;
 }
 
 html.white .bg-purple-950\/70 {
-  background-color: #faf5ff !important;
-  border-color: #e9d5ff !important;
-  color: #7e22ce !important;
+  background-color: #F8F0FF !important;
+  border-color: #A855F7 !important;
+  color: #6B21A8 !important;
+  font-weight: 600 !important;
 }
 
-/* Hero Gradient Text (Emerald to Teal to Sapphire) */
+/* Hero Gradient Text in White Theme */
 html.white .from-\[\#9fef00\] {
-  --tw-gradient-from: #047857 !important;
+  --tw-gradient-from: #0D0D1A !important;
 }
 
 html.white .via-\[\#aefc0a\] {
-  --tw-gradient-stops: #047857, #059669, #0284c7 !important;
+  --tw-gradient-stops: #0D0D1A, #4A4A6A, #00B4D8 !important;
 }
 
 html.white .to-\[\#2de2e6\] {
-  --tw-gradient-to: #0284c7 !important;
+  --tw-gradient-to: #00B4D8 !important;
+}
+
+/* Code Blocks stay authentic cyber dark (#1A1A2E) */
+html.white .code-block-wrapper,
+html.white pre:not(.light-pre) {
+  background-color: #1A1A2E !important;
+  border-color: #2A2A44 !important;
+}
+
+html.white .code-block-wrapper pre code {
+  color: #F0F2F5 !important;
+}
+
+html.white .code-block-wrapper div {
+  background-color: #141424 !important;
+  color: #FFFFFF !important;
 }
 
 /* Box Shadows in White Theme */
 html.white [class*="shadow-\[0_0_"],
 html.white [class*="shadow-\[0_4px_20px_rgba(159,239,0"] {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 2px 4px 0 rgba(13, 13, 26, 0.06), 0 1px 2px -1px rgba(13, 13, 26, 0.04) !important;
+}
+
+/* Article Prose in White Theme */
+html.white .article-prose h1,
+html.white .article-prose h2,
+html.white .article-prose h3,
+html.white .article-prose h4 {
+  color: #0D0D1A !important;
+  border-bottom-color: #E2E4EB !important;
+}
+
+html.white .article-prose p,
+html.white .article-prose li,
+html.white .article-prose td {
+  color: #0D0D1A !important;
+}
+
+html.white .article-prose th {
+  background-color: #E8EAF0 !important;
+  color: #0D0D1A !important;
+  border-color: #E2E4EB !important;
+}
+
+html.white .article-prose table {
+  background-color: #FFFFFF !important;
+  border-color: #E2E4EB !important;
+}
+
+html.white .article-prose td {
+  border-color: #E2E4EB !important;
+}
+
+html.white .article-prose tr:hover td {
+  background-color: #E8EAF0 !important;
+}
+
+html.white .article-prose a {
+  color: #0D0D1A !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #9FEF00 !important;
+  text-decoration-thickness: 2px !important;
+}
+
+html.white .article-prose a:hover {
+  color: #77C400 !important;
+}
+
+html.white .article-prose blockquote {
+  border-left-color: #9FEF00 !important;
+  background-color: #E8FFF0 !important;
+  color: #0D0D1A !important;
+}
+
+html.white .article-prose code:not(pre code) {
+  background-color: #E8EAF0 !important;
+  color: #0D0D1A !important;
+  border: 1px solid #E2E4EB !important;
 }
 
 
