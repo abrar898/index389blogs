@@ -34,7 +34,7 @@ export function Footer() {
 
           {/* Core Modules */}
           <div>
-            <h4 className="text-xs font-mono font-bold text-[var(--htb-green)] uppercase tracking-wider mb-3">
+            <h4 className="text-xs font-mono font-bold text-[var(--foreground-bright)] uppercase tracking-wider mb-3">
               Publications
             </h4>
             <ul className="space-y-2 text-xs text-[var(--foreground-muted)] font-mono">
@@ -63,7 +63,7 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="text-xs font-mono font-bold text-[var(--htb-green)] uppercase tracking-wider mb-3">
+            <h4 className="text-xs font-mono font-bold text-[var(--foreground-bright)] uppercase tracking-wider mb-3">
               Resources
             </h4>
             <ul className="space-y-2 text-xs text-[var(--foreground-muted)] font-mono">
@@ -97,7 +97,7 @@ export function Footer() {
 
           {/* Governance & Policies */}
           <div>
-            <h4 className="text-xs font-mono font-bold text-[var(--htb-green)] uppercase tracking-wider mb-3">
+            <h4 className="text-xs font-mono font-bold text-[var(--foreground-bright)] uppercase tracking-wider mb-3">
               Policy & Disclosure
             </h4>
             <ul className="space-y-2 text-xs text-[var(--foreground-muted)] font-mono">

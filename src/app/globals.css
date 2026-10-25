@@ -57,32 +57,39 @@
   --code-text: #e2e8f0;
 }
 
-/* White Theme */
+/* White Theme (Clean, Crisp, Professional Cybersecurity Palette) */
 html.white,
 html:not(.dark).white {
+  color-scheme: light;
+
+  /* Surfaces & Canvas */
   --background: #f8fafc;
   --foreground: #334155;
   --foreground-bright: #0f172a;
   --foreground-muted: #64748b;
 
   --surface: #ffffff;
-  --surface-card: #f1f5f9;
-  --surface-elevated: #e2e8f0;
-  --surface-dropdown: rgba(255, 255, 255, 0.96);
-  --surface-border: #cbd5e1;
-  --surface-border-hover: rgba(16, 185, 129, 0.6);
+  --surface-card: #ffffff;
+  --surface-elevated: #f1f5f9;
+  --surface-dropdown: rgba(255, 255, 255, 0.98);
+  --surface-border: #e2e8f0;
+  --surface-border-hover: rgba(4, 120, 87, 0.45);
 
-  --htb-green: #10b981;
-  --htb-green-hover: #059669;
-  --htb-green-glow: rgba(16, 185, 129, 0.25);
+  /* Deep Cyber Emerald for light mode (5.6:1 AAA contrast on white) */
+  --htb-green: #047857;
+  --htb-green-hover: #065f46;
+  --htb-green-glow: rgba(4, 120, 87, 0.15);
 
+  /* Deep Ocean Sapphire for cyan in light mode */
   --htb-cyan: #0284c7;
-  --htb-cyan-glow: rgba(2, 132, 199, 0.25);
+  --htb-cyan-glow: rgba(2, 132, 199, 0.15);
 
-  --htb-orange: #ea580c;
-  --htb-red: #e11d48;
-  --htb-purple: #9333ea;
+  /* High-contrast functional accents */
+  --htb-orange: #c2410c;
+  --htb-red: #dc2626;
+  --htb-purple: #7e22ce;
 
+  /* Code block styling */
   --code-bg: #0f172a;
   --code-header-bg: #1e293b;
   --code-text: #f8fafc;
@@ -91,28 +98,29 @@ html:not(.dark).white {
 /* System Theme Browser Match when not explicitly set to white */
 @media (prefers-color-scheme: light) {
   html:not(.dark):not(.white) {
+    color-scheme: light;
     --background: #f8fafc;
     --foreground: #334155;
     --foreground-bright: #0f172a;
     --foreground-muted: #64748b;
 
     --surface: #ffffff;
-    --surface-card: #f1f5f9;
-    --surface-elevated: #e2e8f0;
-    --surface-dropdown: rgba(255, 255, 255, 0.96);
-    --surface-border: #cbd5e1;
-    --surface-border-hover: rgba(16, 185, 129, 0.6);
+    --surface-card: #ffffff;
+    --surface-elevated: #f1f5f9;
+    --surface-dropdown: rgba(255, 255, 255, 0.98);
+    --surface-border: #e2e8f0;
+    --surface-border-hover: rgba(4, 120, 87, 0.45);
 
-    --htb-green: #10b981;
-    --htb-green-hover: #059669;
-    --htb-green-glow: rgba(16, 185, 129, 0.25);
+    --htb-green: #047857;
+    --htb-green-hover: #065f46;
+    --htb-green-glow: rgba(4, 120, 87, 0.15);
 
     --htb-cyan: #0284c7;
-    --htb-cyan-glow: rgba(2, 132, 199, 0.25);
+    --htb-cyan-glow: rgba(2, 132, 199, 0.15);
 
-    --htb-orange: #ea580c;
-    --htb-red: #e11d48;
-    --htb-purple: #9333ea;
+    --htb-orange: #c2410c;
+    --htb-red: #dc2626;
+    --htb-purple: #7e22ce;
 
     --code-bg: #0f172a;
     --code-header-bg: #1e293b;
@@ -120,11 +128,12 @@ html:not(.dark).white {
   }
 }
 
-/* White Theme Refined Component Overrides (Fixes black navbar and buttons in white mode) */
+/* White Theme Comprehensive CSS Overrides (Transforms dark-mode hex classes into crisp light theme) */
 html.white {
   color-scheme: light;
 }
 
+/* Surfaces and Cards */
 html.white .bg-\[\#0b121e\],
 html.white .bg-\[\#070b13\],
 html.white .bg-\[\#0c1421\],
@@ -132,54 +141,130 @@ html.white .bg-\[\#090e17\],
 html.white .bg-\[\#090f19\],
 html.white .bg-\[\#0b121e\]\/95,
 html.white .bg-\[\#0b121e\]\/90 {
-  background-color: var(--surface) !important;
+  background-color: #ffffff !important;
 }
 
 html.white .bg-\[\#111d30\],
 html.white .bg-\[\#14233c\],
 html.white .bg-\[\#182844\],
+html.white .bg-\[\#111d30\]\/95,
 html.white .bg-\[\#111d30\]\/90,
+html.white .bg-\[\#111d30\]\/80,
+html.white .bg-\[\#111d30\]\/60,
 html.white .bg-\[\#090f19\]\/80 {
-  background-color: var(--surface-card) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Secondary Container Elements */
+html.white select,
+html.white textarea,
+html.white input {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.white input::placeholder,
+html.white textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.white input:focus,
+html.white textarea:focus,
+html.white select:focus {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15) !important;
+}
+
+/* Borders */
 html.white .border-\[\#1f3352\],
-html.white .border-\[\#2a3a54\] {
-  border-color: var(--surface-border) !important;
+html.white .border-\[\#2a3a54\],
+html.white .border-\[\#1f3352\]\/70 {
+  border-color: #e2e8f0 !important;
 }
 
-html.white .text-slate-100,
+/* Headings in White Theme (Crisp charcoal slate, NOT green or cyan) */
+html.white h1,
+html.white h2,
+html.white h3,
+html.white h4,
+html.white h5,
+html.white h6 {
+  color: #0f172a !important;
+}
+
+/* Text Overrides */
+html.white .text-slate-100 {
+  color: #0f172a !important;
+}
+
 html.white .text-slate-200 {
-  color: var(--foreground-bright) !important;
+  color: #1e293b !important;
 }
 
 html.white .text-slate-300,
+html.white .text-slate-300\/90 {
+  color: #334155 !important;
+}
+
 html.white .text-slate-400 {
-  color: var(--foreground) !important;
+  color: #64748b !important;
 }
 
 html.white .text-slate-500 {
-  color: var(--foreground-muted) !important;
+  color: #94a3b8 !important;
 }
 
-html.white .hover\:bg-\[\#14233c\]:hover,
-html.white .hover\:bg-\[\#111d30\]:hover {
-  background-color: var(--surface-elevated) !important;
+html.white .text-\[\#a4b1cd\] {
+  color: #334155 !important;
 }
 
-html.white .bg-\[\#9fef00\] {
-  background-color: var(--htb-green) !important;
+/* Brand Primary Accent (Deep Cyber Emerald) */
+html.white .text-\[\#9fef00\] {
+  color: #047857 !important;
+}
+
+html.white .hover\:text-\[\#9fef00\]:hover {
+  color: #065f46 !important;
+}
+
+html.white .group:hover .group-hover\:text-\[\#9fef00\] {
+  color: #047857 !important;
+}
+
+html.white .bg-\[\#9fef00\],
+html.white a.bg-\[\#9fef00\],
+html.white button.bg-\[\#9fef00\] {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+}
+
+html.white .bg-\[\#9fef00\] *,
+html.white .bg-\[\#9fef00\].text-\[\#0b121e\],
+html.white .bg-\[\#9fef00\] .text-\[\#0b121e\] {
   color: #ffffff !important;
 }
 
 html.white .hover\:bg-\[\#b4fa1f\]:hover,
 html.white .hover\:bg-\[\#b0ff1a\]:hover {
-  background-color: var(--htb-green-hover) !important;
+  background-color: #047857 !important;
   color: #ffffff !important;
 }
 
-html.white .text-\[\#9fef00\] {
-  color: var(--htb-green) !important;
+/* Soft Emerald Badges & Tints */
+html.white .bg-\[\#9fef00\]\/10,
+html.white .bg-\[\#9fef00\]\/15,
+html.white .bg-\[\#9fef00\]\/20 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #047857 !important;
+}
+
+html.white .bg-\[\#9fef00\]\/10 *,
+html.white .bg-\[\#9fef00\]\/15 *,
+html.white .bg-\[\#9fef00\]\/20 * {
+  color: #047857 !important;
 }
 
 html.white .border-\[\#9fef00\]\/20,
@@ -187,7 +272,126 @@ html.white .border-\[\#9fef00\]\/30,
 html.white .border-\[\#9fef00\]\/40,
 html.white .border-\[\#9fef00\]\/50,
 html.white .border-\[\#9fef00\]\/60 {
-  border-color: var(--surface-border-hover) !important;
+  border-color: #a7f3d0 !important;
+}
+
+/* Hover States on Light Theme */
+html.white .hover\:bg-\[\#14233c\]:hover,
+html.white .hover\:bg-\[\#111d30\]:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+html.white .hover\:text-white:hover {
+  color: #047857 !important;
+}
+
+html.white .hover\:border-\[\#9fef00\]\/50:hover,
+html.white .hover\:border-\[\#9fef00\]\/60:hover {
+  border-color: #059669 !important;
+}
+
+/* Cyan / Secondary Accent */
+html.white .text-\[\#2de2e6\] {
+  color: #0284c7 !important;
+}
+
+html.white .hover\:text-\[\#2de2e6\]:hover {
+  color: #0369a1 !important;
+}
+
+html.white .bg-\[\#2de2e6\] {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+}
+
+html.white .bg-\[\#2de2e6\] * {
+  color: #ffffff !important;
+}
+
+html.white .bg-\[\#2de2e6\]\/10,
+html.white .bg-\[\#2de2e6\]\/20,
+html.white .bg-\[\#2de2e6\]\/30 {
+  background-color: #f0f9ff !important;
+  border-color: #bae6fd !important;
+  color: #0284c7 !important;
+}
+
+html.white .border-\[\#2de2e6\]\/30,
+html.white .border-\[\#2de2e6\]\/40,
+html.white .border-\[\#2de2e6\]\/50 {
+  border-color: #bae6fd !important;
+}
+
+/* Orange / Amber */
+html.white .text-\[\#ff8400\] {
+  color: #c2410c !important;
+}
+
+html.white .bg-\[\#ff8400\] {
+  background-color: #ea580c !important;
+  color: #ffffff !important;
+}
+
+/* Red / CVE Alerts */
+html.white .text-\[\#ff3366\] {
+  color: #dc2626 !important;
+}
+
+html.white .bg-\[\#ff3366\]\/10,
+html.white .bg-\[\#ff3366\]\/15,
+html.white .bg-\[\#ff3366\]\/20,
+html.white .bg-red-950\/60,
+html.white .bg-red-950\/70,
+html.white .bg-red-950\/90 {
+  background-color: #fef2f2 !important;
+  border-color: #fecaca !important;
+  color: #dc2626 !important;
+}
+
+html.white .border-\[\#ff3366\]\/40,
+html.white .border-\[\#ff3366\]\/50,
+html.white .border-red-900\/40 {
+  border-color: #fca5a5 !important;
+}
+
+/* Difficulty Badges */
+html.white .bg-emerald-950\/70 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #047857 !important;
+}
+
+html.white .bg-amber-950\/70,
+html.white .bg-amber-950\/90 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+  color: #b45309 !important;
+}
+
+html.white .bg-purple-950\/70 {
+  background-color: #faf5ff !important;
+  border-color: #e9d5ff !important;
+  color: #7e22ce !important;
+}
+
+/* Hero Gradient Text (Emerald to Teal to Sapphire) */
+html.white .from-\[\#9fef00\] {
+  --tw-gradient-from: #047857 !important;
+}
+
+html.white .via-\[\#aefc0a\] {
+  --tw-gradient-stops: #047857, #059669, #0284c7 !important;
+}
+
+html.white .to-\[\#2de2e6\] {
+  --tw-gradient-to: #0284c7 !important;
+}
+
+/* Box Shadows in White Theme */
+html.white [class*="shadow-\[0_0_"],
+html.white [class*="shadow-\[0_4px_20px_rgba(159,239,0"] {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
 }
 
 
@@ -217,27 +421,16 @@ body {
 
 /* Global Headings */
 h1, h2, h3, h4, h5, h6 {
+  color: var(--foreground-bright);
   font-weight: 700;
   letter-spacing: -0.015em;
 }
 
 h1 {
-  color: var(--foreground-bright);
   font-weight: 800;
 }
 
-h2 {
-  color: var(--htb-green);
-  font-weight: 700;
-}
-
-h3 {
-  color: var(--htb-cyan);
-  font-weight: 700;
-}
-
 h4 {
-  color: var(--foreground-bright);
   font-weight: 600;
 }
 
@@ -558,62 +751,6 @@ p {
   background-color: var(--surface);
 }
 
-/* White theme overrides for hardcoded dark classes */
-html.white .bg-\[\#0b121e\] {
-  background-color: #f8fafc !important;
-}
-
-html.white .bg-\[\#070b13\] {
-  background-color: #f1f5f9 !important;
-}
-
-html.white .bg-\[\#0c1421\] {
-  background-color: #ffffff !important;
-}
-
-html.white .bg-\[\#090e17\] {
-  background-color: #ffffff !important;
-}
-
-html.white .bg-\[\#111d30\] {
-  background-color: #ffffff !important;
-}
-
-html.white .bg-\[\#14233c\] {
-  background-color: #f1f5f9 !important;
-}
-
-html.white .bg-\[\#182844\] {
-  background-color: #e2e8f0 !important;
-}
-
-html.white .border-\[\#1f3352\] {
-  border-color: #e2e8f0 !important;
-}
-
-html.white .text-\[\#a4b1cd\] {
-  color: #334155 !important;
-}
-
-html.white .text-slate-100 {
-  color: #0f172a !important;
-}
-
-html.white .text-slate-200 {
-  color: #1e293b !important;
-}
-
-html.white .text-slate-300 {
-  color: #334155 !important;
-}
-
-html.white .text-slate-400 {
-  color: #64748b !important;
-}
-
-html.white .text-slate-500 {
-  color: #94a3b8 !important;
-}
 
 /* Keep code blocks crisp and readable in dark slate even in white mode */
 html.white .code-block-wrapper {

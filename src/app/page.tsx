@@ -61,23 +61,24 @@ export default async function HomePage() {
   return (
     <div className="space-y-16 pb-20">
       {/* Hero Section */}
-      <section className="relative border-b border-[#1f3352] bg-[#0c1421] py-16 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(159,239,0,0.12),transparent_70%)]"></div>
+      {/* Hero Section */}
+      <section className="relative border-b border-[var(--surface-border)] bg-[var(--surface-card)] py-16 sm:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,var(--htb-green-glow),transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-10">
           <div className="max-w-3xl space-y-6 flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#9fef00]/30 bg-[#9fef00]/10 text-[#9fef00] text-xs font-mono font-bold tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-[#9fef00] animate-pulse"></span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--htb-green)] text-xs font-mono font-bold tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-[var(--htb-green)] animate-pulse"></span>
               CYBERSECURITY RESEARCH & KNOWLEDGE BASE
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-100 tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[var(--foreground-bright)] tracking-tight leading-tight">
               Rigorous Security Research. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9fef00] via-[#aefc0a] to-[#2de2e6]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--htb-green)] via-[var(--htb-green-hover)] to-[var(--htb-cyan)]">
                 Actionable Verification.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-sans">
+            <p className="text-base sm:text-lg text-[var(--foreground)] leading-relaxed max-w-2xl font-sans">
               An independent technical repository delivering CVE vulnerability analysis, red team offensive methodology, TryHackMe & Hack The Box write-ups, and operational cheat sheets.
             </p>
 
@@ -115,7 +116,7 @@ export default async function HomePage() {
 
           {/* Hero Emblem Logo */}
           <div className="relative flex-shrink-0 flex items-center justify-center">
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-[#9fef00]/30 shadow-[0_0_60px_rgba(159,239,0,0.25)] p-2 bg-[#090f19]/80 backdrop-blur-md group hover:border-[#9fef00]/60 transition-all">
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-[var(--surface-border)] shadow-[0_0_40px_var(--htb-green-glow)] p-2 bg-[var(--surface)] backdrop-blur-md group hover:border-[var(--htb-green)] transition-all">
               <div className="w-full h-full rounded-full overflow-hidden relative">
                 <Image
                   src="/logo.png"
@@ -126,7 +127,7 @@ export default async function HomePage() {
                   priority
                 />
               </div>
-              <div className="absolute -inset-1 rounded-full border border-[#9fef00]/20 pointer-events-none animate-pulse"></div>
+              <div className="absolute -inset-1 rounded-full border border-[var(--htb-green)]/20 pointer-events-none animate-pulse"></div>
             </div>
           </div>
         </div>
@@ -139,11 +140,11 @@ export default async function HomePage() {
             <Link
               key={cat.id}
               href={`/categories/${cat.slug}`}
-              className="p-3.5 rounded-lg border border-[#1f3352] bg-[#111d30] hover:bg-[#14233c] hover:border-[#9fef00]/50 transition-all group"
+              className="p-3.5 rounded-lg border border-[var(--surface-border)] bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] hover:border-[var(--htb-green)]/50 transition-all group"
             >
-              <div className="text-xs font-mono text-slate-300 group-hover:text-[#9fef00] transition-colors flex items-center justify-between">
+              <div className="text-xs font-mono text-[var(--foreground)] group-hover:text-[var(--htb-green)] transition-colors flex items-center justify-between">
                 <span>{cat.name}</span>
-                <span className="text-[10px] text-slate-400 font-bold">{cat._count.articles}</span>
+                <span className="text-[10px] text-[var(--foreground-muted)] font-bold">{cat._count.articles}</span>
               </div>
             </Link>
           ))}
@@ -164,13 +165,13 @@ export default async function HomePage() {
 
       {/* Community Trending Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-6 rounded-xl border border-[#1f3352] bg-[#111d30] space-y-4">
-          <div className="flex items-center justify-between border-b border-[#1f3352] pb-3">
-            <h3 className="text-sm font-mono font-bold tracking-wider text-slate-100 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[#9fef00]" />
+        <div className="p-6 rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] space-y-4">
+          <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3">
+            <h3 className="text-sm font-mono font-bold tracking-wider text-[var(--foreground-bright)] flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[var(--htb-green)]" />
               COMMUNITY DISCUSSIONS
             </h3>
-            <Link href="/community" className="text-xs font-mono text-[#9fef00] hover:underline font-semibold">
+            <Link href="/community" className="text-xs font-mono text-[var(--htb-green)] hover:underline font-semibold">
               Join discussion &rarr;
             </Link>
           </div>
@@ -180,13 +181,13 @@ export default async function HomePage() {
               <Link
                 key={d.id}
                 href={`/community/discussions/${d.slug}`}
-                className="p-4 rounded-lg border border-[#1f3352] bg-[#14233c] hover:border-[#9fef00]/50 transition-all block space-y-2"
+                className="p-4 rounded-lg border border-[var(--surface-border)] bg-[var(--surface)] hover:border-[var(--htb-green)]/50 transition-all block space-y-2"
               >
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#111d30] text-[#9fef00] border border-[#9fef00]/30 font-bold">
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[var(--surface-elevated)] text-[var(--htb-green)] border border-[var(--surface-border)] font-bold">
                   {d.category}
                 </span>
-                <h4 className="text-xs font-bold text-slate-100 line-clamp-1 font-mono">{d.title}</h4>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono pt-1">
+                <h4 className="text-xs font-bold text-[var(--foreground-bright)] line-clamp-1 font-mono">{d.title}</h4>
+                <div className="flex items-center justify-between text-[11px] text-[var(--foreground-muted)] font-mono pt-1">
                   <span>By {d.author.name}</span>
                   <span>{d._count.replies} replies</span>
                 </div>
@@ -198,12 +199,12 @@ export default async function HomePage() {
 
       {/* Newsletter Signup */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 rounded-xl border border-[#1f3352] bg-gradient-to-r from-[#111d30] via-[#14233c] to-[#0b121e] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="p-8 rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 max-w-xl">
-            <h3 className="text-xl font-bold text-slate-100 font-mono flex items-center gap-2">
-              <span className="text-[#9fef00]">{">"}</span> SUBSCRIBE TO INDEX 389 DISCLOSURES
+            <h3 className="text-xl font-bold text-[var(--foreground-bright)] font-mono flex items-center gap-2">
+              <span className="text-[var(--htb-green)]">{">"}</span> SUBSCRIBE TO INDEX 389 DISCLOSURES
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <p className="text-xs text-[var(--foreground)] leading-relaxed font-sans">
               Receive zero-day breakdowns, verified exploit analysis, and defense architecture guides directly in your inbox. No spam. One-click unsubscribe.
             </p>
           </div>
@@ -214,11 +215,11 @@ export default async function HomePage() {
               name="email"
               required
               placeholder="operator@domain.local"
-              className="px-4 py-2.5 rounded-lg bg-[#0b121e] border border-[#1f3352] text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-[#9fef00] font-mono w-full sm:w-72"
+              className="px-4 py-2.5 rounded-lg bg-[var(--surface)] border border-[var(--surface-border)] text-sm text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus:border-[var(--htb-green)] font-mono w-full sm:w-72"
             />
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-lg bg-[#9fef00] hover:bg-[#b4fa1f] text-[#0b121e] font-bold text-xs uppercase font-mono transition-colors whitespace-nowrap shadow-[0_0_15px_rgba(159,239,0,0.3)] text-center justify-center flex items-center"
+              className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] hover:opacity-90 text-white dark:text-[#0b121e] font-bold text-xs uppercase font-mono transition-opacity whitespace-nowrap shadow-sm text-center justify-center flex items-center"
             >
               Subscribe
             </button>

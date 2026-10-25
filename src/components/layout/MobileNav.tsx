@@ -86,7 +86,7 @@ export function MobileNav({ user, navLinks }: MobileNavProps) {
                       <Link
                         href="/dashboard/articles/new"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[#9fef00] text-[#0b121e] font-bold text-xs font-mono"
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[var(--htb-green)] text-white dark:text-[#0b121e] font-bold text-xs font-mono shadow-sm"
                       >
                         <PenLine className="w-3.5 h-3.5" />
                         <span>Write</span>
@@ -136,7 +136,7 @@ export function MobileNav({ user, navLinks }: MobileNavProps) {
                   <Link
                     href="/register"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center py-2 px-3 rounded-lg bg-[#9fef00] text-[#0b121e] text-xs font-mono font-bold hover:bg-[#b4fa1f]"
+                    className="flex items-center justify-center py-2 px-3 rounded-lg bg-[var(--htb-green)] text-white dark:text-[#0b121e] text-xs font-mono font-bold hover:opacity-90 shadow-sm"
                   >
                     Register
                   </Link>
