@@ -120,6 +120,77 @@ html:not(.dark).white {
   }
 }
 
+/* White Theme Refined Component Overrides (Fixes black navbar and buttons in white mode) */
+html.white {
+  color-scheme: light;
+}
+
+html.white .bg-\[\#0b121e\],
+html.white .bg-\[\#070b13\],
+html.white .bg-\[\#0c1421\],
+html.white .bg-\[\#090e17\],
+html.white .bg-\[\#090f19\],
+html.white .bg-\[\#0b121e\]\/95,
+html.white .bg-\[\#0b121e\]\/90 {
+  background-color: var(--surface) !important;
+}
+
+html.white .bg-\[\#111d30\],
+html.white .bg-\[\#14233c\],
+html.white .bg-\[\#182844\],
+html.white .bg-\[\#111d30\]\/90,
+html.white .bg-\[\#090f19\]\/80 {
+  background-color: var(--surface-card) !important;
+}
+
+html.white .border-\[\#1f3352\],
+html.white .border-\[\#2a3a54\] {
+  border-color: var(--surface-border) !important;
+}
+
+html.white .text-slate-100,
+html.white .text-slate-200 {
+  color: var(--foreground-bright) !important;
+}
+
+html.white .text-slate-300,
+html.white .text-slate-400 {
+  color: var(--foreground) !important;
+}
+
+html.white .text-slate-500 {
+  color: var(--foreground-muted) !important;
+}
+
+html.white .hover\:bg-\[\#14233c\]:hover,
+html.white .hover\:bg-\[\#111d30\]:hover {
+  background-color: var(--surface-elevated) !important;
+}
+
+html.white .bg-\[\#9fef00\] {
+  background-color: var(--htb-green) !important;
+  color: #ffffff !important;
+}
+
+html.white .hover\:bg-\[\#b4fa1f\]:hover,
+html.white .hover\:bg-\[\#b0ff1a\]:hover {
+  background-color: var(--htb-green-hover) !important;
+  color: #ffffff !important;
+}
+
+html.white .text-\[\#9fef00\] {
+  color: var(--htb-green) !important;
+}
+
+html.white .border-\[\#9fef00\]\/20,
+html.white .border-\[\#9fef00\]\/30,
+html.white .border-\[\#9fef00\]\/40,
+html.white .border-\[\#9fef00\]\/50,
+html.white .border-\[\#9fef00\]\/60 {
+  border-color: var(--surface-border-hover) !important;
+}
+
+
 *, *::before, *::after {
   box-sizing: border-box;
 }

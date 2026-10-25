@@ -83,24 +83,31 @@ export default async function HomePage() {
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
-                href="/articles"
-                className="px-5 py-2.5 rounded-lg bg-[#9fef00] hover:bg-[#b4fa1f] text-[#0b121e] font-bold text-sm transition-all shadow-[0_0_20px_rgba(159,239,0,0.3)] flex items-center gap-2 font-mono"
+                href="/cheatsheets"
+                className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] text-white dark:text-[#0b121e] hover:opacity-90 font-bold text-sm transition-all shadow-md flex items-center gap-2 font-mono"
               >
-                <span>Explore Articles</span>
+                <Terminal className="w-4 h-4" />
+                <span>⚡ Pentest Cheatsheets</span>
+              </Link>
+              <Link
+                href="/articles"
+                className="px-5 py-2.5 rounded-lg bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] border border-[var(--surface-border)] hover:border-[var(--htb-green)]/60 text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
+              >
+                <span>Articles</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/vulnerabilities"
-                className="px-5 py-2.5 rounded-lg bg-[#111d30] hover:bg-[#14233c] border border-[#1f3352] hover:border-[#9fef00]/50 text-slate-200 font-semibold text-sm transition-colors flex items-center gap-2 font-mono"
+                className="px-5 py-2.5 rounded-lg bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] border border-[var(--surface-border)] hover:border-[#ff3366]/50 text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
               >
                 <ShieldAlert className="w-4 h-4 text-[#ff3366]" />
                 <span>CVE Tracker</span>
               </Link>
               <Link
                 href="/knowledge"
-                className="px-5 py-2.5 rounded-lg bg-[#111d30] hover:bg-[#14233c] border border-[#1f3352] hover:border-[#9fef00]/50 text-slate-200 font-semibold text-sm transition-colors flex items-center gap-2 font-mono"
+                className="px-5 py-2.5 rounded-lg bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] border border-[var(--surface-border)] hover:border-[var(--htb-green)]/60 text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
               >
-                <BookOpen className="w-4 h-4 text-[#9fef00]" />
+                <BookOpen className="w-4 h-4 text-[var(--htb-green)]" />
                 <span>Knowledge Base</span>
               </Link>
             </div>

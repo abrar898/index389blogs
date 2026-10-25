@@ -6,6 +6,7 @@ const scripts = [
   "prisma/insert_custom_writeups.ts",
   "prisma/insert_goodwords.ts",
   "scripts/rename-author.ts",
+  "scripts/seed-cheatsheets-to-db.ts",
 ];
 
 async function run() {
