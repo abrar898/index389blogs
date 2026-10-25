@@ -47,8 +47,7 @@ export default async function LoginPage({
                 type="email"
                 name="email"
                 required
-                defaultValue="admin@cybervault.local"
-                placeholder="operator@domain.local"
+                placeholder="operator@index389.com"
                 className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-[#0b121e] border border-[#1f3352] text-xs font-mono text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-[#9fef00]"
               />
             </div>
@@ -62,7 +61,6 @@ export default async function LoginPage({
                 type="password"
                 name="password"
                 required
-                defaultValue="AdminCyberVault2026!"
                 placeholder="••••••••••••••••"
                 className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-[#0b121e] border border-[#1f3352] text-xs font-mono text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-[#9fef00]"
               />
@@ -77,17 +75,6 @@ export default async function LoginPage({
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
-
-        {/* Demo Credentials Helper */}
-        <div className="p-3.5 rounded-lg bg-[#0b121e] border border-[#1f3352] text-[11px] font-mono text-slate-400 space-y-1">
-          <p className="text-slate-300 font-bold uppercase tracking-wider text-[10px]">Pre-seeded Test Credentials:</p>
-          <p>
-            • Admin: <code className="text-[#9fef00]">admin@cybervault.local</code> / <code className="text-slate-300">AdminCyberVault2026!</code>
-          </p>
-          <p>
-            • Author: <code className="text-[#2de2e6]">author@cybervault.local</code> / <code className="text-slate-300">AuthorCyberVault2026!</code>
-          </p>
-        </div>
 
         <div className="text-center text-xs font-mono text-slate-400">
           Don't have an operator profile?{" "}

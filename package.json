@@ -11,6 +11,7 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed_all.ts",
     "author:rename": "tsx scripts/rename-author.ts",
+    "admin:update": "tsx scripts/update-admin-credentials.ts",
     "logo:install": "node scripts/install-logo.js",
     "test": "tsx --test tests/platform.test.ts"
   },
