@@ -432,7 +432,7 @@ export default function CheatsheetsPage() {
                   >
                     <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3">
                       <div className="flex items-center gap-2.5">
-                        <span className="px-2 py-0.5 rounded bg-[var(--htb-green)] text-white dark:text-[#0b121e] font-mono font-bold text-xs">
+                        <span className="px-2 py-0.5 rounded bg-[var(--htb-green)] text-[#0D0D1A] font-mono font-bold text-xs">
                           PORT {service.port}
                         </span>
                         <h4 className="text-base font-bold text-[var(--foreground-bright)] font-mono">

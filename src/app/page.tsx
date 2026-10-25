@@ -62,61 +62,65 @@ export default async function HomePage() {
     <div className="space-y-16 pb-20">
       {/* Hero Section */}
       {/* Hero Section */}
-      <section className="relative border-b border-[var(--surface-border)] bg-[var(--surface-card)] py-16 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,var(--htb-green-glow),transparent_70%)] pointer-events-none"></div>
+      <section className="relative border-b border-[#E2E4EB] dark:border-[var(--surface-border)] bg-[#F0F2F5] dark:bg-[var(--surface-card)] py-16 sm:py-24 overflow-hidden">
+        <div className="absolute inset-0 hidden dark:block bg-[radial-gradient(circle_at_50%_0%,var(--htb-green-glow),transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-10">
           <div className="max-w-3xl space-y-6 flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--htb-green)] text-xs font-mono font-bold tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-[var(--htb-green)] animate-pulse"></span>
+            {/* FIX #1 / Tag Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#E2E4EB] dark:border-[var(--surface-border)] bg-[#E8FFF0] dark:bg-[var(--surface)] text-[#0D0D1A] dark:text-[var(--htb-green)] text-xs font-mono font-bold tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-[#9FEF00] animate-pulse"></span>
               CYBERSECURITY RESEARCH & KNOWLEDGE BASE
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-[var(--foreground-bright)] tracking-tight leading-tight">
+            {/* FIX #2: Hero Heading Color (#0D0D1A on light) & FIX #3: Gradient Text (#3AAA00 -> #0090CC) */}
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#0D0D1A] dark:text-white tracking-tight leading-tight">
               Rigorous Security Research. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--htb-green)] via-[var(--htb-green-hover)] to-[var(--htb-cyan)]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3AAA00] to-[#0090CC] dark:from-[#9FEF00] dark:to-[#00B4D8]">
                 Actionable Verification.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[var(--foreground)] leading-relaxed max-w-2xl font-sans">
+            {/* FIX #4: Body / Subtitle Text (#4A4A6A on light) */}
+            <p className="text-base sm:text-lg text-[#4A4A6A] dark:text-slate-300 leading-relaxed max-w-2xl font-sans">
               An independent technical repository delivering CVE vulnerability analysis, red team offensive methodology, TryHackMe & Hack The Box write-ups, and operational cheat sheets.
             </p>
 
+            {/* FIX #5: Primary button (bg: #1A1A2E color: #9FEF00 on light) & Card buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/cheatsheets"
-                className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] hover:bg-[var(--htb-green-hover)] text-[#0D0D1A] font-bold text-sm transition-all shadow-md flex items-center gap-2 font-mono"
+                className="px-5 py-2.5 rounded-lg bg-[#1A1A2E] text-[#9FEF00] hover:bg-[#25253E] border border-[#1A1A2E] dark:bg-[#9FEF00] dark:hover:bg-[#77C400] dark:text-[#0D0D1A] dark:border-transparent font-bold text-sm transition-all shadow-md flex items-center gap-2 font-mono"
               >
                 <Terminal className="w-4 h-4" />
                 <span>⚡ Pentest Cheatsheets</span>
               </Link>
               <Link
                 href="/articles"
-                className="px-5 py-2.5 rounded-lg bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] border border-[var(--surface-border)] hover:border-[var(--htb-green)]/60 text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
+                className="px-5 py-2.5 rounded-lg bg-[#FFFFFF] dark:bg-[var(--surface-card)] hover:bg-[#F0F2F5] dark:hover:bg-[var(--surface-elevated)] border border-[#E2E4EB] dark:border-[var(--surface-border)] hover:border-[#9FEF00] text-[#0D0D1A] dark:text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
               >
                 <span>Articles</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/vulnerabilities"
-                className="px-5 py-2.5 rounded-lg bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] border border-[var(--surface-border)] hover:border-[#ff3366]/50 text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
+                className="px-5 py-2.5 rounded-lg bg-[#FFFFFF] dark:bg-[var(--surface-card)] hover:bg-[#F0F2F5] dark:hover:bg-[var(--surface-elevated)] border border-[#E2E4EB] dark:border-[var(--surface-border)] hover:border-[#FF4D4D]/50 text-[#0D0D1A] dark:text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
               >
-                <ShieldAlert className="w-4 h-4 text-[#ff3366]" />
+                <ShieldAlert className="w-4 h-4 text-[#FF4D4D]" />
                 <span>CVE Tracker</span>
               </Link>
               <Link
                 href="/knowledge"
-                className="px-5 py-2.5 rounded-lg bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] border border-[var(--surface-border)] hover:border-[var(--htb-green)]/60 text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
+                className="px-5 py-2.5 rounded-lg bg-[#FFFFFF] dark:bg-[var(--surface-card)] hover:bg-[#F0F2F5] dark:hover:bg-[var(--surface-elevated)] border border-[#E2E4EB] dark:border-[var(--surface-border)] hover:border-[#9FEF00] text-[#0D0D1A] dark:text-[var(--foreground-bright)] font-semibold text-sm transition-colors flex items-center gap-2 font-mono shadow-sm"
               >
-                <BookOpen className="w-4 h-4 text-[var(--htb-green)]" />
+                <BookOpen className="w-4 h-4 text-[#3AAA00] dark:text-[#9FEF00]" />
                 <span>Knowledge Base</span>
               </Link>
             </div>
           </div>
 
-          {/* Hero Emblem Logo */}
+          {/* FIX #6: Hero Emblem Logo Card (#FFFFFF on light) */}
           <div className="relative flex-shrink-0 flex items-center justify-center">
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-[var(--surface-border)] shadow-[0_0_40px_var(--htb-green-glow)] p-2 bg-[var(--surface)] backdrop-blur-md group hover:border-[var(--htb-green)] transition-all">
+            <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full border-2 border-[#E2E4EB] dark:border-[var(--surface-border)] shadow-md p-2 bg-[#FFFFFF] dark:bg-[#090f19]/80 backdrop-blur-md group hover:border-[#9FEF00] transition-all">
               <div className="w-full h-full rounded-full overflow-hidden relative">
                 <Image
                   src="/logo.png"
@@ -127,24 +131,24 @@ export default async function HomePage() {
                   priority
                 />
               </div>
-              <div className="absolute -inset-1 rounded-full border border-[var(--htb-green)]/20 pointer-events-none animate-pulse"></div>
+              <div className="absolute -inset-1 rounded-full border border-[#9FEF00]/20 pointer-events-none animate-pulse"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Categories Bar */}
+      {/* FIX #7: Categories Bar (#FFFFFF cards alternating with #F0F2F5 background) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {categories.map((cat) => (
             <Link
               key={cat.id}
               href={`/categories/${cat.slug}`}
-              className="p-3.5 rounded-lg border border-[var(--surface-border)] bg-[var(--surface-card)] hover:bg-[var(--surface-elevated)] hover:border-[var(--htb-green)]/50 transition-all group"
+              className="p-3.5 rounded-lg border border-[#E2E4EB] dark:border-[var(--surface-border)] bg-[#FFFFFF] dark:bg-[var(--surface-card)] hover:bg-[#F0F2F5] dark:hover:bg-[var(--surface-elevated)] hover:border-[#9FEF00] transition-all group shadow-sm"
             >
-              <div className="text-xs font-mono text-[var(--foreground)] group-hover:text-[var(--htb-green)] transition-colors flex items-center justify-between">
+              <div className="text-xs font-mono text-[#0D0D1A] dark:text-[var(--foreground)] group-hover:text-[#3AAA00] dark:group-hover:text-[#9FEF00] transition-colors flex items-center justify-between">
                 <span>{cat.name}</span>
-                <span className="text-[10px] text-[var(--foreground-muted)] font-bold">{cat._count.articles}</span>
+                <span className="text-[10px] text-[#4A4A6A] dark:text-[var(--foreground-muted)] font-bold">{cat._count.articles}</span>
               </div>
             </Link>
           ))}
@@ -163,15 +167,15 @@ export default async function HomePage() {
         kbDocs={kbDocs}
       />
 
-      {/* Community Trending Section */}
+      {/* Community Trending Section (#FFFFFF panel with #F0F2F5 cards) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-6 rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] space-y-4">
-          <div className="flex items-center justify-between border-b border-[var(--surface-border)] pb-3">
-            <h3 className="text-sm font-mono font-bold tracking-wider text-[var(--foreground-bright)] flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[var(--htb-green)]" />
+        <div className="p-6 rounded-xl border border-[#E2E4EB] dark:border-[var(--surface-border)] bg-[#FFFFFF] dark:bg-[var(--surface-card)] space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b border-[#E2E4EB] dark:border-[var(--surface-border)] pb-3">
+            <h3 className="text-sm font-mono font-bold tracking-wider text-[#0D0D1A] dark:text-[var(--foreground-bright)] flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-[#3AAA00] dark:text-[var(--htb-green)]" />
               COMMUNITY DISCUSSIONS
             </h3>
-            <Link href="/community" className="text-xs font-mono text-[var(--htb-green)] hover:underline font-semibold">
+            <Link href="/community" className="text-xs font-mono text-[#3AAA00] dark:text-[var(--htb-green)] hover:underline font-semibold">
               Join discussion &rarr;
             </Link>
           </div>
@@ -181,13 +185,13 @@ export default async function HomePage() {
               <Link
                 key={d.id}
                 href={`/community/discussions/${d.slug}`}
-                className="p-4 rounded-lg border border-[var(--surface-border)] bg-[var(--surface)] hover:border-[var(--htb-green)]/50 transition-all block space-y-2"
+                className="p-4 rounded-lg border border-[#E2E4EB] dark:border-[var(--surface-border)] bg-[#F0F2F5] dark:bg-[var(--surface)] hover:border-[#9FEF00] transition-all block space-y-2 shadow-xs"
               >
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[var(--surface-elevated)] text-[var(--htb-green)] border border-[var(--surface-border)] font-bold">
+                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[#E8FFF0] dark:bg-[var(--surface-elevated)] text-[#0D0D1A] dark:text-[var(--htb-green)] border border-[#9FEF00] dark:border-[var(--surface-border)] font-bold">
                   {d.category}
                 </span>
-                <h4 className="text-xs font-bold text-[var(--foreground-bright)] line-clamp-1 font-mono">{d.title}</h4>
-                <div className="flex items-center justify-between text-[11px] text-[var(--foreground-muted)] font-mono pt-1">
+                <h4 className="text-xs font-bold text-[#0D0D1A] dark:text-[var(--foreground-bright)] line-clamp-1 font-mono">{d.title}</h4>
+                <div className="flex items-center justify-between text-[11px] text-[#4A4A6A] dark:text-[var(--foreground-muted)] font-mono pt-1">
                   <span>By {d.author.name}</span>
                   <span>{d._count.replies} replies</span>
                 </div>
@@ -199,12 +203,12 @@ export default async function HomePage() {
 
       {/* Newsletter Signup */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 rounded-xl border border-[var(--surface-border)] bg-[var(--surface-card)] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="p-8 rounded-xl border border-[#E2E4EB] dark:border-[var(--surface-border)] bg-[#FFFFFF] dark:bg-[var(--surface-card)] flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="space-y-2 max-w-xl">
-            <h3 className="text-xl font-bold text-[var(--foreground-bright)] font-mono flex items-center gap-2">
-              <span className="text-[var(--htb-green)]">{">"}</span> SUBSCRIBE TO INDEX 389 DISCLOSURES
+            <h3 className="text-xl font-bold text-[#0D0D1A] dark:text-[var(--foreground-bright)] font-mono flex items-center gap-2">
+              <span className="text-[#3AAA00] dark:text-[var(--htb-green)]">{">"}</span> SUBSCRIBE TO INDEX 389 DISCLOSURES
             </h3>
-            <p className="text-xs text-[var(--foreground)] leading-relaxed font-sans">
+            <p className="text-xs text-[#4A4A6A] dark:text-[var(--foreground)] leading-relaxed font-sans">
               Receive zero-day breakdowns, verified exploit analysis, and defense architecture guides directly in your inbox. No spam. One-click unsubscribe.
             </p>
           </div>
@@ -215,11 +219,11 @@ export default async function HomePage() {
               name="email"
               required
               placeholder="operator@domain.local"
-              className="px-4 py-2.5 rounded-lg bg-[var(--surface)] border border-[var(--surface-border)] text-sm text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus:border-[var(--htb-green)] font-mono w-full sm:w-72"
+              className="px-4 py-2.5 rounded-lg bg-[#E8EAF0] dark:bg-[var(--surface)] border border-[#E2E4EB] dark:border-[var(--surface-border)] text-sm text-[#0D0D1A] dark:text-[var(--foreground-bright)] placeholder:text-[#9A9AB0] focus:outline-none focus:border-[#9FEF00] font-mono w-full sm:w-72"
             />
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-lg bg-[var(--htb-green)] hover:bg-[var(--htb-green-hover)] text-[#0D0D1A] font-bold text-xs uppercase font-mono transition-colors whitespace-nowrap shadow-sm text-center justify-center flex items-center"
+              className="px-5 py-2.5 rounded-lg bg-[#1A1A2E] text-[#9FEF00] hover:bg-[#25253E] dark:bg-[var(--htb-green)] dark:hover:bg-[var(--htb-green-hover)] dark:text-[#0D0D1A] font-bold text-xs uppercase font-mono transition-colors whitespace-nowrap shadow-sm text-center justify-center flex items-center border border-[#1A1A2E] dark:border-transparent"
             >
               Subscribe
             </button>
