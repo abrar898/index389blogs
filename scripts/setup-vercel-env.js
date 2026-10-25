@@ -24,6 +24,10 @@ const envs = [
   {
     key: "NEXT_PUBLIC_APP_URL",
     value: "https://blogs-index389.vercel.app"
+  },
+  {
+    key: "PRIVATE_ARTICLE_CODE",
+    value: "IDX#389!OpSec_Vault9x"
   }
 ];
 

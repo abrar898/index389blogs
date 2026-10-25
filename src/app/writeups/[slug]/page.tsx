@@ -62,14 +62,8 @@ export default async function WriteUpDetailPage({
     const cookieStore = await cookies();
     const enteredPasscode = cookieStore.get(`access_code_${slug}`)?.value?.trim();
     const validCodes = [
-      "HTB",
-      "htb",
-      "cybervault",
-      "admin",
-      "layover",
-      "flag",
-      process.env.PRIVATE_ARTICLE_CODE?.toLowerCase(),
-    ].filter(Boolean);
+      process.env.PRIVATE_ARTICLE_CODE || "IDX#389!OpSec_Vault9x",
+    ].map((c) => c.toLowerCase());
 
     const isCodeValid =
       enteredPasscode && validCodes.includes(enteredPasscode.toLowerCase());

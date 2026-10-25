@@ -89,14 +89,8 @@ export default async function ArticleDetailPage({
   // 3. Otherwise, render the interactive PrivateAccessGate passcode input box!
   if (article.visibility === "PRIVATE" && !isPrivilegedUser) {
     const validCodes = [
-      "HTB",
-      "htb",
-      "cybervault",
-      "admin",
-      "layover",
-      "flag",
-      process.env.PRIVATE_ARTICLE_CODE?.toLowerCase(),
-    ].filter(Boolean);
+      process.env.PRIVATE_ARTICLE_CODE || "IDX#389!OpSec_Vault9x",
+    ].map((c) => c.toLowerCase());
 
     const isCodeValid =
       enteredPasscode && validCodes.includes(enteredPasscode.toLowerCase());
