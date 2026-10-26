@@ -98,29 +98,35 @@ export function MastercardCheckoutForm({
     setTimeout(() => setCopiedField(null), 2500);
   };
 
-  // Format Card Number
-  const cleanDigits = useMemo(() => cardNumber.replace(/\D/g, "").slice(0, 16), [cardNumber]);
+  // Format Card / Bank Number (Allows full length IBANs and account numbers up to 34 characters)
+  const cleanDigits = useMemo(() => {
+    return cardNumber.replace(/[^a-zA-Z0-9]/g, "").toUpperCase().slice(0, 34);
+  }, [cardNumber]);
 
   const formattedCardNumber = useMemo(() => {
-    return cleanDigits.replace(/(\d{4})(?=\d)/g, "$1 ").trim();
+    return cleanDigits.replace(/(.{4})(?=.)/g, "$1 ").trim();
   }, [cleanDigits]);
 
-  // Card brand detection (Mastercard 51-55 or 2221-2720)
+  // Card / Bank Brand detection
   const cardBrandInfo = useMemo(() => {
     if (cleanDigits.length < 2) return null;
-    const p2 = parseInt(cleanDigits.slice(0, 2), 10);
-    const p4 = cleanDigits.length >= 4 ? parseInt(cleanDigits.slice(0, 4), 10) : null;
-
-    if (p2 >= 51 && p2 <= 55) {
-      return { isMastercard: true, label: "Mastercard (SadaPay Physical/Virtual)" };
+    if (cleanDigits.startsWith("PK")) {
+      return { isMastercard: true, label: "SadaPay IBAN" };
     }
-    if (p4 !== null && p4 >= 2221 && p4 <= 2720) {
-      return { isMastercard: true, label: "Mastercard (SadaPay Debit)" };
+    if (cleanDigits.startsWith("000") || cleanDigits.startsWith("03")) {
+      return { isMastercard: true, label: "SadaPay Bank Number" };
     }
-    if (cleanDigits.startsWith("4")) {
-      return { isMastercard: false, label: "Visa (Mastercard Only Accepted)" };
+    if (
+      cleanDigits.startsWith("51") ||
+      cleanDigits.startsWith("52") ||
+      cleanDigits.startsWith("53") ||
+      cleanDigits.startsWith("54") ||
+      cleanDigits.startsWith("55") ||
+      cleanDigits.startsWith("22")
+    ) {
+      return { isMastercard: true, label: "SadaPay Mastercard" };
     }
-    return { isMastercard: true, label: "Mastercard" };
+    return { isMastercard: true, label: "SadaPay / Mastercard" };
   }, [cleanDigits]);
 
   // Trigger Phone 3DS Approval Modal
@@ -128,8 +134,8 @@ export function MastercardCheckoutForm({
     e.preventDefault();
     setErrorMessage(null);
 
-    if (cleanDigits.length !== 16) {
-      setErrorMessage("Please enter your 16-digit SadaPay Mastercard number.");
+    if (cleanDigits.length < 8) {
+      setErrorMessage("Please enter your complete SadaPay number or IBAN.");
       return;
     }
 
@@ -677,10 +683,10 @@ export function MastercardCheckoutForm({
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
-                      SadaPay Mastercard Number (16 Digits)
+                      SadaPay Number (Card Number, Bank Account, or IBAN)
                     </label>
                     <span className="text-[10px] font-mono text-emerald-400 font-bold">
-                      {cardBrandInfo ? cardBrandInfo.label : "Mastercard"}
+                      {cardBrandInfo ? cardBrandInfo.label : "SadaPay"}
                     </span>
                   </div>
                   <div className="relative">
@@ -688,9 +694,9 @@ export function MastercardCheckoutForm({
                       type="text"
                       required
                       value={formattedCardNumber}
-                      onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, "").slice(0, 16))}
-                      maxLength={19}
-                      placeholder="5100 •••• •••• ••••"
+                      onChange={(e) => setCardNumber(e.target.value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 34))}
+                      maxLength={42}
+                      placeholder="e.g. 0000 0034 3402 1355 or PK12 SADA..."
                       className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] tracking-wider focus:outline-none focus:border-emerald-400"
                     />
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center -space-x-2 pointer-events-none">

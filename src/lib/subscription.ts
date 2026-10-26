@@ -36,78 +36,71 @@ export function validateMastercard(rawCardNumber: string): {
   isMastercard: boolean;
   cleanNumber: string;
   last4: string;
+  cardBrand?: string;
   error?: string;
 } {
-  const cleanNumber = rawCardNumber.replace(/[\s-]/g, "");
+  const cleanNumber = rawCardNumber.replace(/[\s-]/g, "").toUpperCase();
 
-  if (!/^\d+$/.test(cleanNumber)) {
-    return {
-      isValid: false,
-      isMastercard: false,
-      cleanNumber,
-      last4: "",
-      error: "Card number must contain only numbers.",
-    };
-  }
-
-  if (cleanNumber.length !== 16) {
+  if (cleanNumber.length < 8) {
     return {
       isValid: false,
       isMastercard: false,
       cleanNumber,
       last4: cleanNumber.slice(-4),
-      error: "Mastercard numbers must be exactly 16 digits.",
+      error: "Please enter a valid SadaPay Card Number or IBAN.",
     };
   }
 
-  // Mastercard BIN ranges:
-  // - 51 to 55
-  // - 2221 to 2720 (modern 2-series range, commonly used by SadaPay & virtual debit cards)
-  const prefix2 = parseInt(cleanNumber.slice(0, 2), 10);
-  const prefix4 = parseInt(cleanNumber.slice(0, 4), 10);
-
-  const is5Series = prefix2 >= 51 && prefix2 <= 55;
-  const is2Series = prefix4 >= 2221 && prefix4 <= 2720;
-  const isMastercard = is5Series || is2Series;
-
-  if (!isMastercard) {
+  // 1. SadaPay IBAN (e.g. PK12SADA0000003434021355)
+  if (cleanNumber.startsWith("PK")) {
     return {
-      isValid: false,
-      isMastercard: false,
-      cleanNumber,
-      last4: cleanNumber.slice(-4),
-      error: "Only Mastercard is accepted (e.g. SadaPay or standard Mastercard).",
-    };
-  }
-
-  // Luhn Algorithm check
-  let sum = 0;
-  let alternate = false;
-  for (let i = cleanNumber.length - 1; i >= 0; i--) {
-    let digit = parseInt(cleanNumber.charAt(i), 10);
-    if (alternate) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
-    }
-    sum += digit;
-    alternate = !alternate;
-  }
-
-  if (sum % 10 !== 0) {
-    return {
-      isValid: false,
+      isValid: true,
       isMastercard: true,
       cleanNumber,
       last4: cleanNumber.slice(-4),
-      error: "Invalid card number checksum. Please verify card details.",
+      cardBrand: "SadaPay IBAN",
+    };
+  }
+
+  // 2. SadaPay Bank Account Number with leading zeroes (e.g. 0000003434021355)
+  if (cleanNumber.startsWith("000") || cleanNumber.startsWith("03")) {
+    return {
+      isValid: true,
+      isMastercard: true,
+      cleanNumber,
+      last4: cleanNumber.slice(-4),
+      cardBrand: "SadaPay Bank Number",
+    };
+  }
+
+  // 3. Standard 16-digit Mastercard or Card Number
+  if (/^\d{16}$/.test(cleanNumber)) {
+    return {
+      isValid: true,
+      isMastercard: true,
+      cleanNumber,
+      last4: cleanNumber.slice(-4),
+      cardBrand: "SadaPay Mastercard",
+    };
+  }
+
+  // 4. Any account number or IBAN between 10 and 34 characters
+  if (cleanNumber.length >= 10 && cleanNumber.length <= 34) {
+    return {
+      isValid: true,
+      isMastercard: true,
+      cleanNumber,
+      last4: cleanNumber.slice(-4),
+      cardBrand: "SadaPay Account",
     };
   }
 
   return {
-    isValid: true,
-    isMastercard: true,
+    isValid: false,
+    isMastercard: false,
     cleanNumber,
     last4: cleanNumber.slice(-4),
+    error: "Invalid number. Please enter a valid SadaPay Card Number or IBAN.",
   };
 }
 
