@@ -1,9 +1,12 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { getCurrentUser } from "@/lib/auth/session";
 import { isUserSubscribed } from "@/lib/subscription";
 import { MastercardCheckoutForm } from "@/components/subscription/MastercardCheckoutForm";
 import { Shield, Lock, CreditCard, Sparkles, Check, HelpCircle } from "lucide-react";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Pro Operator Pass | Index 389",
@@ -45,19 +48,27 @@ export default async function SubscribePage() {
       </div>
 
       {/* Main Checkout Experience */}
-      <MastercardCheckoutForm
-        currentUser={
-          currentUser
-            ? {
-                id: currentUser.id,
-                name: currentUser.name,
-                email: currentUser.email,
-                role: currentUser.role,
-              }
-            : null
+      <Suspense
+        fallback={
+          <div className="p-12 text-center font-mono text-xs text-[var(--foreground-muted)]">
+            Loading Mastercard checkout...
+          </div>
         }
-        initialSubscribed={initialSubscribed}
-      />
+      >
+        <MastercardCheckoutForm
+          currentUser={
+            currentUser
+              ? {
+                  id: currentUser.id,
+                  name: currentUser.name,
+                  email: currentUser.email,
+                  role: currentUser.role,
+                }
+              : null
+          }
+          initialSubscribed={initialSubscribed}
+        />
+      </Suspense>
 
       {/* FAQ Section */}
       <div className="max-w-4xl mx-auto pt-8 border-t border-[var(--surface-border)] space-y-6">
