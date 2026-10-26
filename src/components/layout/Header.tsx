@@ -15,26 +15,29 @@ import {
   Folder,
   Terminal,
   Users,
+  FileText,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { MobileNav } from "./MobileNav";
 
 function renderNavIcon(iconName: string) {
   switch (iconName) {
-    case "book":
-      return <BookOpen className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
-    case "check":
+    case "articles":
+      return <FileText className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "research":
       return <CheckSquare className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
-    case "folder":
+    case "vulnerabilities":
       return <Folder className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
-    case "terminal":
-      return <Terminal className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
-    case "shield":
+    case "writeups":
       return <Shield className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
-    case "zap":
-      return <Zap className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
-    case "users":
+    case "knowledge":
+      return <BookOpen className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "community":
       return <Users className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "pricing":
+      return <Zap className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "cheatsheets":
+      return <Terminal className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
     default:
       return <Folder className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
   }
@@ -54,13 +57,14 @@ export async function Header() {
   }
 
   const navLinks = [
-    { label: "REPOSITORY", href: "/articles", iconName: "book" },
-    { label: "METHODOLOGY", href: "/research", iconName: "check" },
-    { label: "TAXONOMY", href: "/vulnerabilities", iconName: "folder" },
-    { label: "CHEATSHEETS", href: "/cheatsheets", iconName: "terminal" },
-    { label: "WRITE-UPS", href: "/writeups", iconName: "shield" },
-    { label: "PRICING", href: "/subscribe", iconName: "zap" },
-    { label: "COMMUNITY", href: "/community", iconName: "users" },
+    { label: "ARTICLES", href: "/articles", iconName: "articles" },
+    { label: "RESEARCH", href: "/research", iconName: "research" },
+    { label: "VULNERABILITIES", href: "/vulnerabilities", iconName: "vulnerabilities" },
+    { label: "WRITE-UPS", href: "/writeups", iconName: "writeups" },
+    { label: "KNOWLEDGE-BASE", href: "/knowledge", iconName: "knowledge" },
+    { label: "COMMUNITY", href: "/community", iconName: "community" },
+    { label: "PRICING", href: "/subscribe", iconName: "pricing" },
+    { label: "CHEATSHEETS", href: "/cheatsheets", iconName: "cheatsheets" },
   ];
 
   return (

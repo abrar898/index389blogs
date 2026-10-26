@@ -17,6 +17,7 @@ import {
   Terminal,
   Zap,
   Users,
+  FileText,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -37,20 +38,22 @@ interface MobileNavProps {
 
 function renderMobileNavIcon(iconName?: string) {
   switch (iconName) {
-    case "book":
-      return <BookOpen className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
-    case "check":
+    case "articles":
+      return <FileText className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "research":
       return <CheckSquare className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
-    case "folder":
+    case "vulnerabilities":
       return <Folder className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
-    case "terminal":
-      return <Terminal className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
-    case "shield":
+    case "writeups":
       return <Shield className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
-    case "zap":
-      return <Zap className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
-    case "users":
+    case "knowledge":
+      return <BookOpen className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "community":
       return <Users className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "pricing":
+      return <Zap className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "cheatsheets":
+      return <Terminal className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
     default:
       return null;
   }
