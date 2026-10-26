@@ -2,7 +2,20 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCurrentUser } from "@/lib/auth/session";
 import { isUserSubscribed } from "@/lib/subscription";
-import { Shield, Search, PenLine, User, LogOut, LayoutDashboard, Zap } from "lucide-react";
+import {
+  Shield,
+  Search,
+  PenLine,
+  User,
+  LogOut,
+  LayoutDashboard,
+  Zap,
+  BookOpen,
+  CheckSquare,
+  Folder,
+  Terminal,
+  Users,
+} from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { MobileNav } from "./MobileNav";
 
@@ -11,22 +24,22 @@ export async function Header() {
   const isSubscribed = await isUserSubscribed(user?.id);
 
   const navLinks = [
-    { label: "Cheatsheets", href: "/cheatsheets" },
-    { label: "Articles", href: "/articles" },
-    { label: "Research", href: "/research" },
-    { label: "Vulnerabilities", href: "/vulnerabilities" },
-    { label: "Write-ups", href: "/writeups" },
-    { label: "Pricing", href: "/subscribe" },
-    { label: "Community", href: "/community" },
+    { label: "REPOSITORY", href: "/articles", icon: BookOpen },
+    { label: "METHODOLOGY", href: "/research", icon: CheckSquare },
+    { label: "TAXONOMY", href: "/vulnerabilities", icon: Folder },
+    { label: "CHEATSHEETS", href: "/cheatsheets", icon: Terminal },
+    { label: "WRITE-UPS", href: "/writeups", icon: Shield },
+    { label: "PRICING", href: "/subscribe", icon: Zap },
+    { label: "COMMUNITY", href: "/community", icon: Users },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[var(--surface-border)] bg-[var(--surface-dropdown)] backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-50 w-full border-b border-[#1f3352] bg-[#0b121e]/95 backdrop-blur-md transition-colors shadow-[0_1px_15px_rgba(0,0,0,0.5)]">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-[var(--surface-border)] bg-[var(--surface-card)] flex items-center justify-center group-hover:border-[var(--htb-green)] group-hover:shadow-[0_0_15px_var(--htb-green-glow)] transition-all flex-shrink-0">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-[#1f3352] bg-[#14233c] flex items-center justify-center group-hover:border-[var(--htb-green)] group-hover:shadow-[0_0_15px_var(--htb-green-glow)] transition-all flex-shrink-0">
               <Image
                 src="/logo.png"
                 alt="Index 389 Logo"
@@ -37,43 +50,51 @@ export async function Header() {
               />
             </div>
             <div>
-              <span className="font-mono font-bold text-sm sm:text-base lg:text-lg tracking-wider text-[var(--foreground-bright)] flex items-center gap-1">
+              <span className="font-mono font-bold text-sm sm:text-base lg:text-lg tracking-wider text-white flex items-center gap-1">
                 INDEX <span className="text-[var(--htb-green)]">389</span>
               </span>
-              <span className="hidden sm:block text-[9px] sm:text-[10px] font-mono tracking-widest text-[var(--foreground-muted)] uppercase -mt-0.5 sm:-mt-1">
+              <span className="hidden sm:block text-[9px] sm:text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-0.5 sm:-mt-1">
                 SEC_RESEARCH & INTEL
               </span>
             </div>
           </Link>
 
-          {/* Desktop Nav (Only on wide screens xl:flex to prevent wrapping/crowding at 100% view) */}
+          {/* Desktop Nav: Vibrant HTB Neon Green Icons + Uppercase Monospace Labels */}
           <nav className="hidden xl:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-2.5 py-1.5 rounded-md text-xs font-medium text-[var(--foreground)] hover:text-[var(--htb-green)] hover:bg-[var(--surface-card)] transition-colors font-mono whitespace-nowrap"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap group"
+                >
+                  <Icon className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />
+                  <span>{link.label}</span>
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
-        {/* Medium and Large screen navigation dropdown or links */}
+        {/* Medium and Large screen navigation */}
         <div className="hidden lg:flex xl:hidden items-center gap-1">
-          {navLinks.slice(0, 4).map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="px-2 py-1 rounded-md text-xs font-medium text-[var(--foreground)] hover:text-[var(--htb-green)] hover:bg-[var(--surface-card)] transition-colors font-mono whitespace-nowrap"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.slice(0, 4).map((link) => {
+            const Icon = link.icon;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap group"
+              >
+                <Icon className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />
+                <span>{link.label}</span>
+              </Link>
+            );
+          })}
           <Link
             href="/cheatsheets"
-            className="px-2 py-1 rounded-md text-xs font-medium text-[var(--foreground)] hover:text-[var(--htb-green)] hover:bg-[var(--surface-card)] transition-colors font-mono whitespace-nowrap"
+            className="px-2 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap"
           >
             More...
           </Link>
@@ -85,11 +106,11 @@ export async function Header() {
           <Link
             href="/search"
             aria-label="Search repository records"
-            className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs text-[var(--foreground)] hover:border-[var(--htb-green)]/60 transition-all font-mono"
+            className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-[#14233c]/80 border border-[#1f3352] text-xs text-slate-200 hover:text-white hover:border-[var(--htb-green)]/60 transition-all font-mono"
           >
             <Search className="w-3.5 h-3.5 text-[var(--htb-green)]" />
-            <span className="hidden xl:inline text-xs">Search records...</span>
-            <kbd className="hidden xl:inline-block px-1.5 py-0.2 rounded bg-[var(--surface-elevated)] text-[10px] text-[var(--foreground-muted)] border border-[var(--surface-border)]">
+            <span className="hidden xl:inline text-xs text-slate-300">Search records...</span>
+            <kbd className="hidden xl:inline-block px-1.5 py-0.2 rounded bg-[#0b121e] text-[10px] text-slate-400 border border-[#1f3352]">
               /
             </kbd>
           </Link>
@@ -126,7 +147,7 @@ export async function Header() {
               {user.role === "ADMIN" && (
                 <Link
                   href="/admin"
-                  className="px-2 py-1.5 rounded-md bg-[var(--surface-card)] border border-[var(--surface-border)] hover:border-[var(--htb-green)]/40 text-[var(--foreground)] text-xs font-medium flex items-center gap-1.5 font-mono"
+                  className="px-2 py-1.5 rounded-md bg-[#14233c] border border-[#1f3352] hover:border-[var(--htb-green)]/40 text-slate-200 hover:text-white text-xs font-medium flex items-center gap-1.5 font-mono"
                   title="Admin Console"
                 >
                   <LayoutDashboard className="w-3.5 h-3.5 text-[var(--htb-green)]" />
@@ -136,16 +157,16 @@ export async function Header() {
 
               <Link
                 href="/profile"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-[var(--surface-card)] border border-[var(--surface-border)] hover:border-[var(--htb-green)]/40 text-[var(--foreground)] text-xs font-medium font-mono"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-[#14233c] border border-[#1f3352] hover:border-[var(--htb-green)]/40 text-slate-200 hover:text-white text-xs font-medium font-mono"
               >
                 <User className="w-3.5 h-3.5 text-[var(--htb-green)]" />
-                <span className="max-w-[100px] xl:max-w-[130px] truncate text-xs">{user.name}</span>
+                <span className="max-w-[100px] xl:max-w-[130px] truncate text-xs text-slate-200">{user.name}</span>
                 {isSubscribed ? (
                   <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono bg-[#e8fff0] dark:bg-[#9fef00]/15 text-[#3b6b00] dark:text-[#9fef00] border border-[var(--htb-green)] uppercase font-bold">
                     ⚡ PRO
                   </span>
                 ) : (
-                  <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-mono bg-[var(--surface-elevated)] text-[var(--htb-green)] border border-[var(--surface-border)] uppercase font-bold">
+                  <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-mono bg-[#0b121e] text-[var(--htb-green)] border border-[#1f3352] uppercase font-bold">
                     {user.role}
                   </span>
                 )}
@@ -155,7 +176,7 @@ export async function Header() {
                 <button
                   type="submit"
                   title="Sign out"
-                  className="p-1.5 rounded-md text-[var(--foreground-muted)] hover:text-[#ff3366] hover:bg-[var(--surface-card)] transition-colors"
+                  className="p-1.5 rounded-md text-slate-400 hover:text-[#ff3366] hover:bg-[#14233c] transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -165,13 +186,13 @@ export async function Header() {
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="px-3 py-1.5 rounded-md text-xs font-medium text-[var(--foreground)] hover:text-[var(--htb-green)] hover:bg-[var(--surface-card)] transition-colors font-mono"
+                className="px-3 py-1.5 rounded-md text-xs font-bold text-slate-200 hover:text-[var(--htb-green)] hover:bg-[#14233c] transition-colors font-mono uppercase tracking-wider"
               >
                 Sign In
               </Link>
               <Link
                 href="/register"
-                className="px-3 py-1.5 rounded-md text-xs font-bold bg-[var(--htb-green)] text-white dark:text-[#0b121e] hover:opacity-90 transition-all font-mono shadow-sm"
+                className="px-3 py-1.5 rounded-md text-xs font-bold bg-[var(--htb-green)] text-[#0b121e] hover:opacity-90 transition-all font-mono shadow-sm uppercase tracking-wider"
               >
                 Register
               </Link>

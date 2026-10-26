@@ -168,11 +168,11 @@ html.light body {
 /* 2. Navigation & Header (Signature "HTB Cyber" Contrast) */
 html.white header,
 html.light header {
-  background-color: rgba(13, 19, 33, 0.97) !important;
-  border-bottom: 1px solid rgba(159, 239, 0, 0.25) !important;
+  background-color: #0b121e !important;
+  border-bottom: 1px solid rgba(159, 239, 0, 0.3) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 1px 0 0 rgba(159, 239, 0, 0.25) !important;
+  box-shadow: 0 1px 15px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.white header .text-\[var\(--foreground-bright\)\],
@@ -187,22 +187,41 @@ html.light header span.font-bold span {
   color: #9FEF00 !important;
 }
 
+/* Nav links in header - vibrant neon green with hover glow */
 html.white header nav a,
-html.light header nav a {
-  color: #E2E4EB !important;
+html.light header nav a,
+html.white header .hidden.lg\:flex a,
+html.light header .hidden.lg\:flex a {
+  color: #9FEF00 !important;
 }
 
 html.white header nav a:hover,
-html.light header nav a:hover {
+html.light header nav a:hover,
+html.white header .hidden.lg\:flex a:hover,
+html.light header .hidden.lg\:flex a:hover {
+  color: #FFFFFF !important;
+  background-color: rgba(159, 239, 0, 0.15) !important;
+}
+
+html.white header nav a svg,
+html.light header nav a svg,
+html.white header .hidden.lg\:flex a svg,
+html.light header .hidden.lg\:flex a svg {
   color: #9FEF00 !important;
-  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.white header nav a:hover svg,
+html.light header nav a:hover svg,
+html.white header .hidden.lg\:flex a:hover svg,
+html.light header .hidden.lg\:flex a:hover svg {
+  color: #FFFFFF !important;
 }
 
 /* Header Search Bar */
 html.white header a[aria-label="Search repository records"],
 html.light header a[aria-label="Search repository records"] {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background-color: rgba(20, 35, 60, 0.8) !important;
+  border: 1px solid #1f3352 !important;
   color: #FFFFFF !important;
 }
 
@@ -216,7 +235,7 @@ html.light header a[aria-label="Search repository records"]:focus {
 
 html.white header a[aria-label="Search repository records"] span,
 html.light header a[aria-label="Search repository records"] span {
-  color: #94A3B8 !important;
+  color: #cbd5e1 !important;
 }
 
 html.white header a[aria-label="Search repository records"] svg,
@@ -226,46 +245,48 @@ html.light header a[aria-label="Search repository records"] svg {
 
 html.white header a[aria-label="Search repository records"] kbd,
 html.light header a[aria-label="Search repository records"] kbd {
-  background-color: rgba(255, 255, 255, 0.12) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #FFFFFF !important;
+  background-color: #0b121e !important;
+  border: 1px solid #1f3352 !important;
+  color: #94a3b8 !important;
 }
 
-/* Translucent Header Pill Theme Switcher */
+/* Translucent Header Buttons */
 html.white header button[aria-label="Toggle white theme"],
 html.light header button[aria-label="Toggle white theme"],
 html.white header button[aria-label="Toggle navigation menu"],
 html.light header button[aria-label="Toggle navigation menu"] {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #FFFFFF !important;
+  background-color: #14233c !important;
+  border: 1px solid #1f3352 !important;
+  color: #9FEF00 !important;
 }
 
 html.white header button[aria-label="Toggle white theme"]:hover,
 html.light header button[aria-label="Toggle white theme"]:hover,
 html.white header button[aria-label="Toggle navigation menu"]:hover,
 html.light header button[aria-label="Toggle navigation menu"]:hover {
-  border-color: rgba(159, 239, 0, 0.6) !important;
+  border-color: #9FEF00 !important;
 }
 
 /* Mobile dropdown menu */
 html.white .fixed.inset-x-0.top-16,
 html.light .fixed.inset-x-0.top-16 {
-  background-color: rgba(13, 19, 33, 0.98) !important;
-  border-bottom: 1px solid rgba(159, 239, 0, 0.25) !important;
+  background-color: rgba(11, 18, 30, 0.98) !important;
+  border-bottom: 1px solid rgba(159, 239, 0, 0.3) !important;
 }
 
 html.white .fixed.inset-x-0.top-16 a,
 html.light .fixed.inset-x-0.top-16 a {
-  color: #E2E4EB !important;
-  background-color: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #9FEF00 !important;
 }
 
 html.white .fixed.inset-x-0.top-16 a:hover,
 html.light .fixed.inset-x-0.top-16 a:hover {
+  color: #FFFFFF !important;
+}
+
+html.white .fixed.inset-x-0.top-16 svg,
+html.light .fixed.inset-x-0.top-16 svg {
   color: #9FEF00 !important;
-  border-color: #9FEF00 !important;
 }
 
 /* 3. Footer (Matching Cyber Dark #0D1321) */

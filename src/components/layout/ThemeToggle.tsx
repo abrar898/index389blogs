@@ -26,12 +26,12 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       title={isWhite ? "Switch to Dark theme" : "Switch to White theme"}
       aria-label="Toggle white theme"
-      className="relative flex items-center justify-center w-8 h-8 rounded-lg border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:text-[#9fef00] hover:border-[#9fef00]/60 transition-all shadow-sm"
+      className="relative flex items-center justify-center w-8 h-8 rounded-lg border border-[#1f3352] bg-[#14233c] text-slate-200 hover:text-[var(--htb-green)] hover:border-[var(--htb-green)]/60 transition-all shadow-sm"
     >
       {isWhite ? (
-        <Moon className="w-4 h-4 text-amber-600 transition-transform hover:scale-110" />
+        <Moon className="w-4 h-4 text-amber-400 transition-transform hover:scale-110" />
       ) : (
-        <Sun className="w-4 h-4 text-[#9fef00] transition-transform hover:scale-110" />
+        <Sun className="w-4 h-4 text-[var(--htb-green)] transition-transform hover:scale-110" />
       )}
     </button>
   );
