@@ -34,6 +34,16 @@ model User {
   notifications Notification[]
   uploadedAssets UploadedAsset[]
   cveRecords    CVERecord[]
+
+  // Subscription & VIP Operator Membership
+  subscriptionTier      String    @default("FREE") // "FREE", "PRO_MONTHLY", "PRO_YEARLY"
+  subscriptionStatus    String    @default("INACTIVE") // "ACTIVE", "CANCELED", "EXPIRED", "INACTIVE"
+  subscriptionPlan      String?   // "MONTHLY", "YEARLY"
+  subscribedAt          DateTime?
+  subscriptionExpiresAt DateTime?
+  cardBrand             String?   // "Mastercard"
+  cardLast4             String?
+  payments              SubscriptionPayment[]
 }
 
 model UserProfile {
@@ -323,4 +333,21 @@ model SiteSetting {
   value       String
   description String?
   updatedAt   DateTime @updatedAt
+}
+
+model SubscriptionPayment {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Float
+  currency      String   @default("USD")
+  plan          String   // "MONTHLY" | "YEARLY"
+  status        String   @default("COMPLETED") // "COMPLETED" | "REFUNDED" | "FAILED"
+  paymentMethod String   @default("MASTERCARD") // "MASTERCARD"
+  transactionId String   @unique
+  cardLast4     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
 }

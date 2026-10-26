@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth/session";
 import { parseMarkdown } from "@/lib/markdown/renderer";
 import { canEditArticle } from "@/lib/permissions/rbac";
+import { isUserSubscribed } from "@/lib/subscription";
 import { PrivateAccessGate } from "@/components/articles/PrivateAccessGate";
 import { BookmarkButton } from "@/components/articles/BookmarkButton";
 import {
@@ -78,16 +79,19 @@ export default async function ArticleDetailPage({
       currentUser.role === "EDITOR" ||
       (currentUser.role === "AUTHOR" && currentUser.id === article.authorId));
 
+  const isSubscriber = await isUserSubscribed(currentUser?.id);
+  const hasAccess = isPrivilegedUser || isSubscriber;
+
   // If unpublished draft/review and not privileged, block
   if (article.status !== "PUBLISHED" && !isPrivilegedUser) {
     notFound();
   }
 
   // If private article:
-  // 1. Privileged users (ADMIN, EDITOR, AUTHOR of article) can see immediately
+  // 1. Privileged users (ADMIN, EDITOR, AUTHOR of article) and active Pro subscribers see immediately
   // 2. Regular users or guests can view if they entered an accepted passcode
-  // 3. Otherwise, render the interactive PrivateAccessGate passcode input box!
-  if (article.visibility === "PRIVATE" && !isPrivilegedUser) {
+  // 3. Otherwise, render the interactive PrivateAccessGate passcode & Pro subscription card!
+  if (article.visibility === "PRIVATE" && !hasAccess) {
     const validCodes = [
       process.env.PRIVATE_ARTICLE_CODE || "IDX#389!OpSec_Vault9x",
     ].map((c) => c.toLowerCase());

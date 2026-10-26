@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getCurrentUser } from "@/lib/auth/session";
-import { Shield, Search, PenLine, User, LogOut, LayoutDashboard } from "lucide-react";
+import { isUserSubscribed } from "@/lib/subscription";
+import { Shield, Search, PenLine, User, LogOut, LayoutDashboard, Zap } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { MobileNav } from "./MobileNav";
 
 export async function Header() {
   const user = await getCurrentUser();
+  const isSubscribed = await isUserSubscribed(user?.id);
 
   const navLinks = [
     { label: "Cheatsheets", href: "/cheatsheets" },
@@ -14,7 +16,7 @@ export async function Header() {
     { label: "Research", href: "/research" },
     { label: "Vulnerabilities", href: "/vulnerabilities" },
     { label: "Write-ups", href: "/writeups" },
-    { label: "Knowledge Base", href: "/knowledge" },
+    { label: "Pricing", href: "/subscribe" },
     { label: "Community", href: "/community" },
   ];
 
@@ -95,6 +97,18 @@ export async function Header() {
           {/* Theme Toggle Button */}
           <ThemeToggle />
 
+          {/* Upgrade to Pro button if not subscribed */}
+          {!isSubscribed && (
+            <Link
+              href="/subscribe"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md border border-[var(--htb-green)]/50 bg-[var(--htb-green)]/10 text-[var(--htb-green)] hover:bg-[var(--htb-green)] hover:text-[#0b121e] text-xs font-mono font-bold transition-all shadow-sm whitespace-nowrap"
+            >
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              <span className="hidden xl:inline">Upgrade to Pro</span>
+              <span className="xl:hidden">Pro</span>
+            </Link>
+          )}
+
           {/* Write / Admin action */}
           {user && ["ADMIN", "EDITOR", "AUTHOR"].includes(user.role) && (
             <Link
@@ -126,9 +140,15 @@ export async function Header() {
               >
                 <User className="w-3.5 h-3.5 text-[var(--htb-green)]" />
                 <span className="max-w-[100px] xl:max-w-[130px] truncate text-xs">{user.name}</span>
-                <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-mono bg-[var(--surface-elevated)] text-[var(--htb-green)] border border-[var(--surface-border)] uppercase font-bold">
-                  {user.role}
-                </span>
+                {isSubscribed ? (
+                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono bg-[#e8fff0] dark:bg-[#9fef00]/15 text-[#3b6b00] dark:text-[#9fef00] border border-[var(--htb-green)] uppercase font-bold">
+                    ⚡ PRO
+                  </span>
+                ) : (
+                  <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-mono bg-[var(--surface-elevated)] text-[var(--htb-green)] border border-[var(--surface-border)] uppercase font-bold">
+                    {user.role}
+                  </span>
+                )}
               </Link>
 
               <form action="/api/auth/logout" method="POST">
@@ -161,7 +181,7 @@ export async function Header() {
 
         {/* Mobile & Tablet Navigation Drawer (< lg screens) */}
         <div className="flex lg:hidden items-center gap-2">
-          <MobileNav user={user} navLinks={navLinks} />
+          <MobileNav user={user} isSubscribed={isSubscribed} navLinks={navLinks} />
         </div>
       </div>
     </header>

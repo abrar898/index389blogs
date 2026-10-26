@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { parseMarkdown } from "@/lib/markdown/renderer";
 import { Flag, ArrowLeft, Terminal, Shield, Eye, EyeOff, Printer, FileDown } from "lucide-react";
 import { PrivateAccessGate } from "@/components/articles/PrivateAccessGate";
+import { isUserSubscribed } from "@/lib/subscription";
 import { WriteUpLikeButton } from "@/components/writeups/WriteUpLikeButton";
 import { BookmarkButton } from "@/components/articles/BookmarkButton";
 
@@ -58,7 +59,10 @@ export default async function WriteUpDetailPage({
       currentUser.role === "EDITOR" ||
       (currentUser.role === "AUTHOR" && currentUser.id === writeup.authorId));
 
-  if (isPrivate && !isPrivilegedUser) {
+  const isSubscriber = await isUserSubscribed(currentUser?.id);
+  const hasAccess = isPrivilegedUser || isSubscriber;
+
+  if (isPrivate && !hasAccess) {
     const cookieStore = await cookies();
     const enteredPasscode = cookieStore.get(`access_code_${slug}`)?.value?.trim();
     const validCodes = [

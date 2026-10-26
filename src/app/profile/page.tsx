@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth/session";
-import { User, Shield, BookOpen, Flag, FileText, Globe, GitBranch, LogOut, ArrowRight } from "lucide-react";
+import { getUserSubscriptionDetails } from "@/lib/subscription";
+import { User, Shield, BookOpen, Flag, FileText, Globe, GitBranch, LogOut, ArrowRight, CreditCard, Sparkles, Zap } from "lucide-react";
 
 export const metadata = {
   title: "Operator Profile & Dashboard — CyberVault",
@@ -14,6 +15,8 @@ export default async function ProfilePage() {
   if (!currentUser) {
     redirect("/login?redirectTo=/profile");
   }
+
+  const subDetails = await getUserSubscriptionDetails(currentUser.id);
 
   const user = await db.user.findUnique({
     where: { id: currentUser.id },
@@ -73,6 +76,58 @@ export default async function ProfilePage() {
               Admin Console
             </Link>
           )}
+        </div>
+      </div>
+
+      {/* Pro Operator Subscription Status Banner */}
+      <div className="p-6 rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] shadow-lg">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono font-bold text-[var(--foreground-bright)] uppercase tracking-wider flex items-center gap-1.5">
+                <CreditCard className="w-4 h-4 text-[var(--htb-green)]" />
+                <span>Subscription & Pro Access</span>
+              </span>
+              {subDetails.isSubscribed ? (
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#e8fff0] dark:bg-[#9fef00]/15 text-[#3b6b00] dark:text-[#9fef00] border border-[var(--htb-green)] uppercase">
+                  ⚡ ACTIVE PRO OPERATOR
+                </span>
+              ) : (
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--surface-elevated)] text-[var(--foreground-muted)] border border-[var(--surface-border)] uppercase">
+                  FREE TIER
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-[var(--foreground-muted)] font-sans">
+              {subDetails.isSubscribed
+                ? `Active ${subDetails.plan === "YEARLY" ? "Yearly" : "Monthly"} Pass via ${subDetails.cardBrand || "Mastercard"} (•••• ${subDetails.cardLast4 || "Card"}). You have unrestricted access to all private writeups.`
+                : "You currently have a Free account. Upgrade to Pro with Mastercard to unlock all restricted lab walkthroughs and zero-day research."}
+            </p>
+            {subDetails.isSubscribed && subDetails.expiresAt && (
+              <div className="text-[11px] font-mono text-[var(--foreground-muted)] pt-1">
+                Expires: <strong className="text-[var(--foreground-bright)]">{subDetails.expiresAt.toLocaleDateString()}</strong> ({subDetails.daysRemaining} days remaining)
+              </div>
+            )}
+          </div>
+
+          <div>
+            {subDetails.isSubscribed ? (
+              <Link
+                href="/writeups"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--htb-green)] text-white dark:text-[#0b121e] text-xs font-mono font-bold uppercase tracking-wider hover:brightness-110 transition-all shadow-md"
+              >
+                <span>Read Private Writeups &rarr;</span>
+              </Link>
+            ) : (
+              <Link
+                href="/subscribe"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[var(--htb-green)] to-[#77c400] text-white dark:text-[#0b121e] text-xs font-mono font-bold uppercase tracking-wider hover:brightness-110 transition-all shadow-[0_0_15px_rgba(159,239,0,0.3)] whitespace-nowrap"
+              >
+                <Zap className="w-3.5 h-3.5 fill-current" />
+                <span>Unlock Pro with Mastercard ($9/mo)</span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 

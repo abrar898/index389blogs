@@ -62,6 +62,29 @@ export default async function WriteupsPage({
         </p>
       </div>
 
+      {/* Pro Operator Banner */}
+      <div className="rounded-xl border border-[#9fef00]/30 bg-gradient-to-r from-[#0d1c2b] via-[#0f2438] to-[#0d1c2b] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#9fef00] text-[#0b121e] uppercase">
+              ⚡ Pro Operator
+            </span>
+            <span className="text-xs font-mono font-semibold text-slate-200">
+              Unlock All Restricted Lab & CTF Writeups Instantly
+            </span>
+          </div>
+          <p className="text-xs text-slate-400 font-sans">
+            Pay securely with <strong className="text-white">Mastercard</strong> (SadaPay, NayaPay or bank debit). Immediate access to all private payloads & reports.
+          </p>
+        </div>
+        <Link
+          href="/subscribe"
+          className="px-4 py-2 rounded-lg bg-[var(--htb-green)] text-white dark:text-[#0b121e] font-bold text-xs font-mono uppercase tracking-wider hover:brightness-110 transition-all shadow-[0_0_15px_rgba(159,239,0,0.3)] whitespace-nowrap"
+        >
+          Subscribe with Mastercard &rarr;
+        </Link>
+      </div>
+
       {/* Filter Tabs */}
       <div className="flex flex-wrap gap-4 items-center justify-between p-4 rounded-xl border border-[#1f3352] bg-[#111d30] text-xs font-mono shadow-lg">
         {/* Platform filter */}

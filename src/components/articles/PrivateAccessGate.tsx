@@ -123,6 +123,39 @@ export function PrivateAccessGate({
             </button>
           </form>
 
+          {/* Pro Operator VIP Mastercard Subscription Option */}
+          <div className="relative overflow-hidden rounded-xl border border-[#9fef00]/30 bg-gradient-to-r from-[#0d1c2b] via-[#0f2538] to-[#0d1c2b] p-5 shadow-lg">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#9fef00] text-[#0b121e] uppercase">
+                    Pro Operator
+                  </span>
+                  <span className="text-xs font-mono font-semibold text-slate-200">
+                    Instant Access to All Private Writeups
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 font-sans">
+                  No passcode needed. Subscribe with your <strong className="text-white">Mastercard</strong> (SadaPay, NayaPay, or bank debit) to unlock all restricted research, exploits & DOCX/PDF downloads immediately.
+                </p>
+                <div className="flex items-center gap-3 pt-1 text-[11px] font-mono text-slate-400">
+                  <span className="text-[#9fef00] font-bold">$9/mo</span>
+                  <span>or</span>
+                  <span className="text-[#9fef00] font-bold">$89/yr (Save 18%)</span>
+                  <span>•</span>
+                  <span className="text-slate-300">Mastercard Only</span>
+                </div>
+              </div>
+
+              <Link
+                href={`/subscribe?returnUrl=/articles/${slug}`}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#9fef00] to-[#77c400] hover:brightness-110 text-[#0b121e] font-bold text-xs font-mono uppercase tracking-wider text-center transition-all shadow-[0_0_20px_rgba(159,239,0,0.4)] whitespace-nowrap flex items-center justify-center gap-2"
+              >
+                <span>Unlock with Mastercard &rarr;</span>
+              </Link>
+            </div>
+          </div>
+
           {/* Admin / login helper note */}
           <div className="pt-4 border-t border-[#1f3352] flex flex-wrap items-center justify-between text-xs font-mono text-slate-400 gap-2">
             <span>

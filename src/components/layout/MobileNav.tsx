@@ -12,13 +12,14 @@ interface MobileNavProps {
     email: string;
     role: string;
   } | null;
+  isSubscribed?: boolean;
   navLinks: {
     label: string;
     href: string;
   }[];
 }
 
-export function MobileNav({ user, navLinks }: MobileNavProps) {
+export function MobileNav({ user, isSubscribed, navLinks }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -76,9 +77,15 @@ export function MobileNav({ user, navLinks }: MobileNavProps) {
                         {user.name}
                       </span>
                     </div>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#14233c] text-[#9fef00] border border-[#9fef00]/30 uppercase font-bold">
-                      {user.role}
-                    </span>
+                    {isSubscribed ? (
+                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#e8fff0] dark:bg-[#9fef00]/15 text-[#3b6b00] dark:text-[#9fef00] border border-[var(--htb-green)] uppercase font-bold">
+                        ⚡ PRO
+                      </span>
+                    ) : (
+                      <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-[#14233c] text-[#9fef00] border border-[#9fef00]/30 uppercase font-bold">
+                        {user.role}
+                      </span>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">

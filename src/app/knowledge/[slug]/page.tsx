@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth/session";
 import { parseMarkdown } from "@/lib/markdown/renderer";
+import { isUserSubscribed } from "@/lib/subscription";
 import { BookOpen, ArrowLeft, Lock, Globe } from "lucide-react";
 
 export async function generateMetadata({
@@ -38,9 +39,11 @@ export default async function KnowledgeDetailPage({
 
   // Enforce private note isolation
   if (doc.visibility === "PRIVATE") {
+    const isSubscriber = await isUserSubscribed(currentUser?.id);
     const hasAccess =
-      currentUser &&
-      (currentUser.role === "ADMIN" || currentUser.id === doc.authorId);
+      (currentUser &&
+        (currentUser.role === "ADMIN" || currentUser.id === doc.authorId)) ||
+      isSubscriber;
 
     if (!hasAccess) {
       notFound();
