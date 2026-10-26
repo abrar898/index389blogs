@@ -121,12 +121,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Calculate subscription terms
-    const amount = plan === "YEARLY" ? 89.0 : 9.0;
+    const chargedAmount = body.amount ? Number(body.amount) : (plan === "YEARLY" ? 500.0 : 50.0);
+    const chargedCurrency = body.currency || "PKR";
     const durationDays = plan === "YEARLY" ? 365 : 30;
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + durationDays);
 
-    const transactionId = `TXN_MC_${Date.now()}_${Math.random()
+    const transactionId = `TXN_SADA_${Date.now()}_${Math.random()
       .toString(36)
       .substring(2, 8)
       .toUpperCase()}`;
@@ -141,13 +142,12 @@ export async function POST(req: NextRequest) {
           subscriptionPlan: plan,
           subscribedAt: new Date(),
           subscriptionExpiresAt: expiresAt,
-          cardBrand: "Mastercard",
+          cardBrand: "SadaPay Mastercard",
           cardLast4: cardValidation.last4,
         } as any,
       });
     } catch (dbErr) {
       console.error("DB update error on user subscription:", dbErr);
-      // Fallback: If DB columns don't exist yet, we still record payment if possible
     }
 
     // Create Payment Record
@@ -155,11 +155,11 @@ export async function POST(req: NextRequest) {
       await (db as any).subscriptionPayment.create({
         data: {
           userId: targetUserId,
-          amount,
-          currency: "USD",
+          amount: chargedAmount,
+          currency: chargedCurrency,
           plan,
           status: "COMPLETED",
-          paymentMethod: "MASTERCARD",
+          paymentMethod: "SADAPAY_MASTERCARD",
           transactionId,
           cardLast4: cardValidation.last4,
         },
@@ -176,8 +176,9 @@ export async function POST(req: NextRequest) {
       entityId: targetUserId,
       details: {
         plan,
-        amount,
-        paymentMethod: "MASTERCARD",
+        amount: chargedAmount,
+        currency: chargedCurrency,
+        paymentMethod: "SADAPAY_MASTERCARD",
         cardLast4: cardValidation.last4,
         transactionId,
       },
@@ -186,14 +187,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       plan,
-      amount,
-      currency: "USD",
+      amount: chargedAmount,
+      currency: chargedCurrency,
       transactionId,
       cardLast4: cardValidation.last4,
-      cardBrand: "Mastercard",
+      cardBrand: "SadaPay Mastercard",
       expiresAt: expiresAt.toISOString(),
       message:
-        "Mastercard payment processed successfully! Your Pro Operator pass is active, and all private writeups & research are instantly unlocked.",
+        "SadaPay Mastercard payment processed successfully! Your Pro Operator pass is active, and all private writeups & research are instantly unlocked.",
     });
   } catch (error: any) {
     console.error("Mastercard payment processing exception:", error);

@@ -2,16 +2,16 @@ import { db } from "@/lib/db";
 
 export const SADAPAY_DETAILS = {
   accountTitle: "Muhammad Abrar Ahmad",
-  accountNumber: "03434021355",
   iban: "PK12SADA0000003434021355",
   bankName: "SadaPay",
   pricesPKR: {
-    MONTHLY: 2500,
-    YEARLY: 24000,
+    TEST: 50,
+    MONTHLY: 50, // Test mode: 50 PKR
+    YEARLY: 500,
   },
   pricesUSD: {
-    MONTHLY: 9,
-    YEARLY: 89,
+    MONTHLY: 0.20,
+    YEARLY: 2.0,
   },
 };
 

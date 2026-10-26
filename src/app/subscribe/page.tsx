@@ -42,7 +42,7 @@ export default async function SubscribePage() {
             <div className="w-4 h-4 rounded-full bg-[#eb001b]"></div>
           </div>
           <span>
-            <strong className="text-[var(--htb-green)]">SadaPay Transfer (Rs. 2,500 PKR)</strong> & <strong className="text-[var(--foreground-bright)]">Mastercard</strong> Supported — Direct Local & Global Payments
+            <strong className="text-[var(--htb-green)]">SadaPay Mastercard & Bank Transfer (Rs. 50 PKR Test)</strong> — Instant Mobile In-App Approval
           </span>
         </div>
       </div>
