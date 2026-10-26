@@ -14,7 +14,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-8 h-8 rounded-lg border border-[#333355] bg-[#25253E] opacity-50" />
+      <div className="w-8 h-8 rounded-lg border border-[var(--surface-border)] bg-[var(--surface)] opacity-50" />
     );
   }
 
@@ -26,12 +26,12 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       title={isWhite ? "Switch to Dark theme" : "Switch to White theme"}
       aria-label="Toggle white theme"
-      className="relative flex items-center justify-center w-8 h-8 rounded-lg border border-[#333355] bg-[#25253E] text-white hover:text-[#9FEF00] hover:border-[#9FEF00]/60 transition-all shadow-sm"
+      className="relative flex items-center justify-center w-8 h-8 rounded-lg border border-[var(--surface-border)] bg-[var(--surface)] text-[var(--foreground)] hover:text-[#9fef00] hover:border-[#9fef00]/60 transition-all shadow-sm"
     >
       {isWhite ? (
-        <Moon className="w-4 h-4 text-[#FFA500] transition-transform hover:scale-110" />
+        <Moon className="w-4 h-4 text-amber-600 transition-transform hover:scale-110" />
       ) : (
-        <Sun className="w-4 h-4 text-[#9FEF00] transition-transform hover:scale-110" />
+        <Sun className="w-4 h-4 text-[#9fef00] transition-transform hover:scale-110" />
       )}
     </button>
   );

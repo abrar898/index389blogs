@@ -66,22 +66,22 @@ export function LabKnowledgeSection({
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Unified Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E4EB] dark:border-[#1f3352] pb-3 gap-3 mb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#1f3352] pb-3 gap-3 mb-5">
         <div className="flex flex-wrap items-center gap-3">
-          <h2 className="text-base sm:text-lg font-bold font-mono tracking-wider text-[#0D0D1A] dark:text-slate-100 flex items-center gap-2">
-            <Flag className="w-4 h-4 text-[#3AAA00] dark:text-[#9fef00] animate-pulse" />
+          <h2 className="text-base sm:text-lg font-bold font-mono tracking-wider text-slate-100 flex items-center gap-2">
+            <Flag className="w-4 h-4 text-[#9fef00] animate-pulse" />
             LAB OPERATIONS & TACTICAL KB
           </h2>
 
           {/* Filter Tabs */}
-          <div className="flex items-center gap-1 bg-[#E8EAF0] dark:bg-[#0b121e] p-1 rounded-lg border border-[#E2E4EB] dark:border-[#1f3352]">
+          <div className="flex items-center gap-1 bg-[#0b121e] p-1 rounded-lg border border-[#1f3352]">
             <button
               type="button"
               onClick={() => setActiveTab("ALL")}
               className={`px-2.5 py-1 rounded text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
                 activeTab === "ALL"
-                  ? "bg-[#FFFFFF] text-[#0D0D1A] border border-[#9FEF00] shadow-sm dark:bg-[#14233c] dark:text-[#9fef00] dark:border-[#9fef00]/40"
-                  : "text-[#4A4A6A] hover:text-[#0D0D1A] hover:bg-[#FFFFFF]/60 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-[#14233c]/60"
+                  ? "bg-[#14233c] text-[#9fef00] border border-[#9fef00]/40 shadow-[0_0_12px_rgba(159,239,0,0.15)]"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-[#14233c]/60"
               }`}
             >
               <Layers className="w-3 h-3" />
@@ -94,8 +94,8 @@ export function LabKnowledgeSection({
               onClick={() => setActiveTab("WRITEUPS")}
               className={`px-2.5 py-1 rounded text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
                 activeTab === "WRITEUPS"
-                  ? "bg-[#FFFFFF] text-[#0D0D1A] border border-[#9FEF00] shadow-sm dark:bg-[#14233c] dark:text-[#9fef00] dark:border-[#9fef00]/40"
-                  : "text-[#4A4A6A] hover:text-[#0D0D1A] hover:bg-[#FFFFFF]/60 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-[#14233c]/60"
+                  ? "bg-[#14233c] text-[#9fef00] border border-[#9fef00]/40 shadow-[0_0_12px_rgba(159,239,0,0.15)]"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-[#14233c]/60"
               }`}
             >
               <Terminal className="w-3 h-3" />
@@ -108,8 +108,8 @@ export function LabKnowledgeSection({
               onClick={() => setActiveTab("KB")}
               className={`px-2.5 py-1 rounded text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
                 activeTab === "KB"
-                  ? "bg-[#FFFFFF] text-[#0090CC] border border-[#00B4D8]/50 shadow-sm dark:bg-[#14233c] dark:text-[#2de2e6] dark:border-[#2de2e6]/40"
-                  : "text-[#4A4A6A] hover:text-[#0D0D1A] hover:bg-[#FFFFFF]/60 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-[#14233c]/60"
+                  ? "bg-[#14233c] text-[#2de2e6] border border-[#2de2e6]/40 shadow-[0_0_12px_rgba(45,226,230,0.15)]"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-[#14233c]/60"
               }`}
             >
               <BookOpen className="w-3 h-3" />
@@ -124,14 +124,14 @@ export function LabKnowledgeSection({
           {activeTab === "KB" ? (
             <Link
               href="/knowledge"
-              className="text-xs font-mono text-[#0090CC] dark:text-[#2de2e6] hover:underline flex items-center gap-1 font-semibold"
+              className="text-xs font-mono text-[#2de2e6] hover:underline flex items-center gap-1 font-semibold"
             >
               Open KB &rarr;
             </Link>
           ) : (
             <Link
               href="/writeups"
-              className="text-xs font-mono text-[#3AAA00] dark:text-[#9fef00] hover:underline flex items-center gap-1 font-semibold"
+              className="text-xs font-mono text-[#9fef00] hover:underline flex items-center gap-1 font-semibold"
             >
               Browse all labs &rarr;
             </Link>
@@ -146,12 +146,12 @@ export function LabKnowledgeSection({
           recentWriteups.map((w) => (
             <div
               key={w.id}
-              className="group relative p-4 rounded-xl border border-[#E2E4EB] dark:border-[#1f3352] bg-[#FFFFFF] dark:bg-[#111d30]/90 hover:bg-[#F0F2F5] dark:hover:bg-[#14233c] hover:border-[#9FEF00] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
+              className="group relative p-4 rounded-xl border border-[#1f3352] bg-[#111d30]/90 hover:bg-[#14233c] hover:border-[#9fef00]/60 hover:shadow-[0_4px_20px_rgba(159,239,0,0.12)] transition-all duration-200 flex flex-col justify-between"
             >
               <div>
                 {/* Meta header */}
                 <div className="flex flex-wrap items-center gap-1.5 mb-2">
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-[#E8FFF0] dark:bg-[#0b121e] border border-[#9FEF00]/50 dark:border-[#9fef00]/30 text-[#0D0D1A] dark:text-[#9fef00] font-bold">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-[#0b121e] border border-[#9fef00]/30 text-[#9fef00] font-bold">
                     {w.platform}
                   </span>
                   <span
@@ -161,37 +161,37 @@ export function LabKnowledgeSection({
                   >
                     {w.difficulty}
                   </span>
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-[#E8EAF0] dark:bg-[#14233c] text-[#4A4A6A] dark:text-slate-300 border border-[#E2E4EB] dark:border-[#1f3352]">
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-[#14233c] text-slate-300 border border-[#1f3352]">
                     {w.os}
                   </span>
                   {w.machineName && (
-                    <span className="text-[10px] text-[#9A9AB0] dark:text-slate-500 font-mono ml-auto">
+                    <span className="text-[10px] text-slate-500 font-mono ml-auto">
                       box: {w.machineName}
                     </span>
                   )}
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm sm:text-base font-bold text-[#0D0D1A] dark:text-slate-100 group-hover:text-[#3AAA00] dark:group-hover:text-[#9fef00] transition-colors mb-1.5 font-mono leading-snug line-clamp-1">
+                <h3 className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-[#9fef00] transition-colors mb-1.5 font-mono leading-snug line-clamp-1">
                   <Link href={`/writeups/${w.slug}`}>{w.title}</Link>
                 </h3>
 
                 {/* Overview */}
-                <p className="text-xs text-[#4A4A6A] dark:text-slate-300/90 leading-relaxed line-clamp-2 font-sans mb-3">
+                <p className="text-xs text-slate-300/90 leading-relaxed line-clamp-2 font-sans mb-3">
                   {w.overview}
                 </p>
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-2.5 border-t border-[#E2E4EB] dark:border-[#1f3352]/70 text-xs">
-                <span className="font-mono text-[10px] text-[#4A4A6A] dark:text-slate-400 flex items-center gap-1">
-                  <Cpu className="w-3 h-3 text-[#3AAA00] dark:text-[#9fef00]" />
+              <div className="flex items-center justify-between pt-2.5 border-t border-[#1f3352]/70 text-xs">
+                <span className="font-mono text-[10px] text-slate-400 flex items-center gap-1">
+                  <Cpu className="w-3 h-3 text-[#9fef00]" />
                   <span>Interactive Machine</span>
                 </span>
 
                 <Link
                   href={`/writeups/${w.slug}`}
-                  className="text-[#3AAA00] dark:text-[#9fef00] hover:text-[#77C400] dark:hover:text-[#b4fa1f] font-mono text-xs flex items-center gap-1 font-bold transition-all group-hover:translate-x-0.5"
+                  className="text-[#9fef00] hover:text-[#b4fa1f] font-mono text-xs flex items-center gap-1 font-bold transition-all group-hover:translate-x-0.5"
                 >
                   Walkthrough &rarr;
                 </Link>
@@ -204,40 +204,40 @@ export function LabKnowledgeSection({
           kbDocs.map((doc) => (
             <div
               key={doc.id}
-              className="group relative p-4 rounded-xl border border-[#E2E4EB] dark:border-[#2de2e6]/30 bg-[#FFFFFF] dark:bg-[#111d30]/90 hover:bg-[#F0F2F5] dark:hover:bg-[#14233c] hover:border-[#00B4D8] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
+              className="group relative p-4 rounded-xl border border-[#2de2e6]/30 bg-[#111d30]/90 hover:bg-[#14233c] hover:border-[#2de2e6]/60 hover:shadow-[0_4px_20px_rgba(45,226,230,0.12)] transition-all duration-200 flex flex-col justify-between"
             >
               <div>
                 {/* Meta header */}
                 <div className="flex items-center justify-between gap-1.5 mb-2">
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-[#E8F8FC] dark:bg-[#14233c] border border-[#00B4D8]/30 dark:border-[#2de2e6]/40 text-[#0090CC] dark:text-[#2de2e6] font-bold">
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-[#14233c] border border-[#2de2e6]/40 text-[#2de2e6] font-bold">
                     <BookOpen className="w-2.5 h-2.5" /> CHEAT SHEET
                   </span>
-                  <span className="text-[10px] font-mono text-[#0090CC] dark:text-[#2de2e6] bg-[#E8EAF0] dark:bg-[#0b121e] px-1.5 py-0.5 rounded border border-[#E2E4EB] dark:border-[#2de2e6]/20">
+                  <span className="text-[10px] font-mono text-[#2de2e6] bg-[#0b121e] px-1.5 py-0.5 rounded border border-[#2de2e6]/20">
                     {doc.folder}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm sm:text-base font-bold text-[#0D0D1A] dark:text-slate-100 group-hover:text-[#0090CC] dark:group-hover:text-[#2de2e6] transition-colors mb-1.5 font-mono leading-snug line-clamp-2">
+                <h3 className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-[#2de2e6] transition-colors mb-1.5 font-mono leading-snug line-clamp-2">
                   <Link href={`/knowledge/${doc.slug}`}>{doc.title}</Link>
                 </h3>
 
                 {/* Category note / summary */}
-                <p className="text-xs text-[#4A4A6A] dark:text-slate-300/90 leading-relaxed line-clamp-2 font-sans mb-3">
+                <p className="text-xs text-slate-300/90 leading-relaxed line-clamp-2 font-sans mb-3">
                   Tactical reference, attack vectors, privilege escalation formulas, and verification commands for {doc.folder} environments.
                 </p>
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between pt-2.5 border-t border-[#E2E4EB] dark:border-[#1f3352]/70 text-xs">
-                <span className="font-mono text-[10px] text-[#4A4A6A] dark:text-slate-400 flex items-center gap-1">
-                  <Bookmark className="w-3 h-3 text-[#0090CC] dark:text-[#2de2e6]" />
+              <div className="flex items-center justify-between pt-2.5 border-t border-[#1f3352]/70 text-xs">
+                <span className="font-mono text-[10px] text-slate-400 flex items-center gap-1">
+                  <Bookmark className="w-3 h-3 text-[#2de2e6]" />
                   <span>{doc.category || "Notes"}</span>
                 </span>
 
                 <Link
                   href={`/knowledge/${doc.slug}`}
-                  className="text-[#0090CC] dark:text-[#2de2e6] hover:text-[#00B4D8] dark:hover:text-[#5ef0f3] font-mono text-xs flex items-center gap-1 font-bold transition-all group-hover:translate-x-0.5"
+                  className="text-[#2de2e6] hover:text-[#5ef0f3] font-mono text-xs flex items-center gap-1 font-bold transition-all group-hover:translate-x-0.5"
                 >
                   Open doc &rarr;
                 </Link>
