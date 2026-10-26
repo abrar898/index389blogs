@@ -46,9 +46,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
       if (active === "white") {
         root.classList.remove("dark");
-        root.classList.add("white");
+        root.classList.add("white", "light");
       } else {
-        root.classList.remove("white");
+        root.classList.remove("white", "light");
         root.classList.add("dark");
       }
     };

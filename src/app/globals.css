@@ -59,18 +59,20 @@
 
 /* ==========================================================================
    White Theme (Official Curated Cybersecurity Specification)
-   Applied ONLY when class .white is active on <html>.
+   Applied ONLY when class .white or .light is active on <html>.
    Dark Theme remains 100% untouched.
    ========================================================================== */
 html.white,
-html:not(.dark).white {
+html.light,
+html:not(.dark).white,
+html:not(.dark).light {
   color-scheme: light;
 
   /* 1. Canvas & Surface Backgrounds */
   --background: #F0F2F5; /* Soft Technical Slate */
   --surface: #FFFFFF;    /* Pure Solid White */
   --surface-card: #FFFFFF;
-  --surface-elevated: #E5E8EF; /* Cool Section Tint */
+  --surface-elevated: #E5E8EF; /* Elevated RBAC Band */
   --surface-dropdown: rgba(13, 19, 33, 0.97); /* Header remains sleek cyber dark #0D1321 */
   --surface-border: #E2E4EB; /* Slate Border */
   --surface-border-hover: #9FEF00; /* Iconic HTB Green */
@@ -99,8 +101,8 @@ html:not(.dark).white {
 
   /* 5. Status Badges & Indicators */
   --htb-cyan: #0088A8;
-  --htb-cyan-glow: rgba(0, 180, 216, 0.15);
-  --htb-orange: #B45309;
+  --htb-cyan-glow: rgba(0, 180, 216, 0.14);
+  --htb-orange: #FFA500;
   --htb-red: #FF4D4D;
   --htb-purple: #7E22CE;
 
@@ -110,9 +112,9 @@ html:not(.dark).white {
   --code-text: #F8FAFC;
 }
 
-/* System Theme Browser Match when not explicitly set to white */
+/* System Theme Browser Match when not explicitly set to dark */
 @media (prefers-color-scheme: light) {
-  html:not(.dark):not(.white) {
+  html:not(.dark):not(.white):not(.light) {
     color-scheme: light;
     --background: #F0F2F5;
     --surface: #FFFFFF;
@@ -139,8 +141,8 @@ html:not(.dark).white {
     --htb-green-tint: #E8FFF0;
 
     --htb-cyan: #0088A8;
-    --htb-cyan-glow: rgba(0, 180, 216, 0.15);
-    --htb-orange: #B45309;
+    --htb-cyan-glow: rgba(0, 180, 216, 0.14);
+    --htb-orange: #FFA500;
     --htb-red: #FF4D4D;
     --htb-purple: #7E22CE;
 
@@ -151,157 +153,225 @@ html:not(.dark).white {
 }
 
 /* ==========================================================================
-   White Theme Detailed Component Rules
+   White / Light Theme Detailed Component Rules
    ========================================================================== */
 
-/* 1. Body & Canvas Background */
-html.white body {
+/* 1. Body Canvas Background */
+html.white,
+html.light,
+html.white body,
+html.light body {
   background-color: #F0F2F5 !important;
   color: #0D0D1A !important;
 }
 
 /* 2. Navigation & Header (Signature "HTB Cyber" Contrast) */
-html.white header {
+html.white header,
+html.light header {
   background-color: rgba(13, 19, 33, 0.97) !important;
   border-bottom: 1px solid rgba(159, 239, 0, 0.25) !important;
   backdrop-filter: blur(12px) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 1px 0 0 rgba(159, 239, 0, 0.25) !important;
 }
 
 html.white header .text-\[var\(--foreground-bright\)\],
-html.white header span.font-bold {
+html.light header .text-\[var\(--foreground-bright\)\],
+html.white header span.font-bold,
+html.light header span.font-bold {
   color: #FFFFFF !important;
 }
 
-html.white header span.font-bold span {
+html.white header span.font-bold span,
+html.light header span.font-bold span {
   color: #9FEF00 !important;
 }
 
-html.white header nav a {
+html.white header nav a,
+html.light header nav a {
   color: #E2E4EB !important;
 }
 
-html.white header nav a:hover {
+html.white header nav a:hover,
+html.light header nav a:hover {
   color: #9FEF00 !important;
   background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-html.white header a[aria-label="Search repository records"] {
+/* Header Search Bar */
+html.white header a[aria-label="Search repository records"],
+html.light header a[aria-label="Search repository records"] {
   background-color: rgba(255, 255, 255, 0.08) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   color: #FFFFFF !important;
 }
 
-html.white header a[aria-label="Search repository records"]:hover {
+html.white header a[aria-label="Search repository records"]:hover,
+html.light header a[aria-label="Search repository records"]:hover,
+html.white header a[aria-label="Search repository records"]:focus,
+html.light header a[aria-label="Search repository records"]:focus {
   border-color: #9FEF00 !important;
+  box-shadow: 0 0 0 1px #9FEF00 !important;
 }
 
-html.white header a[aria-label="Search repository records"] span {
+html.white header a[aria-label="Search repository records"] span,
+html.light header a[aria-label="Search repository records"] span {
   color: #94A3B8 !important;
 }
 
-html.white header a[aria-label="Search repository records"] svg {
+html.white header a[aria-label="Search repository records"] svg,
+html.light header a[aria-label="Search repository records"] svg {
   color: #9FEF00 !important;
 }
 
-html.white header a[aria-label="Search repository records"] kbd {
+html.white header a[aria-label="Search repository records"] kbd,
+html.light header a[aria-label="Search repository records"] kbd {
   background-color: rgba(255, 255, 255, 0.12) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   color: #FFFFFF !important;
 }
 
+/* Translucent Header Pill Theme Switcher */
 html.white header button[aria-label="Toggle white theme"],
-html.white header button[aria-label="Toggle navigation menu"] {
+html.light header button[aria-label="Toggle white theme"],
+html.white header button[aria-label="Toggle navigation menu"],
+html.light header button[aria-label="Toggle navigation menu"] {
   background-color: rgba(255, 255, 255, 0.08) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   color: #FFFFFF !important;
 }
 
 html.white header button[aria-label="Toggle white theme"]:hover,
-html.white header button[aria-label="Toggle navigation menu"]:hover {
+html.light header button[aria-label="Toggle white theme"]:hover,
+html.white header button[aria-label="Toggle navigation menu"]:hover,
+html.light header button[aria-label="Toggle navigation menu"]:hover {
   border-color: rgba(159, 239, 0, 0.6) !important;
 }
 
 /* Mobile dropdown menu */
-html.white .fixed.inset-x-0.top-16 {
+html.white .fixed.inset-x-0.top-16,
+html.light .fixed.inset-x-0.top-16 {
   background-color: rgba(13, 19, 33, 0.98) !important;
   border-bottom: 1px solid rgba(159, 239, 0, 0.25) !important;
 }
 
-html.white .fixed.inset-x-0.top-16 a {
+html.white .fixed.inset-x-0.top-16 a,
+html.light .fixed.inset-x-0.top-16 a {
   color: #E2E4EB !important;
   background-color: rgba(255, 255, 255, 0.06) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
-html.white .fixed.inset-x-0.top-16 a:hover {
+html.white .fixed.inset-x-0.top-16 a:hover,
+html.light .fixed.inset-x-0.top-16 a:hover {
   color: #9FEF00 !important;
   border-color: #9FEF00 !important;
 }
 
 /* 3. Footer (Matching Cyber Dark #0D1321) */
-html.white footer {
+html.white footer,
+html.light footer {
   background-color: #0D1321 !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: #E2E4EB !important;
 }
 
 html.white footer .text-\[var\(--foreground-bright\)\],
+html.light footer .text-\[var\(--foreground-bright\)\],
 html.white footer span.font-bold,
-html.white footer h4 {
+html.light footer span.font-bold,
+html.white footer h4,
+html.light footer h4 {
   color: #FFFFFF !important;
 }
 
 html.white footer p,
-html.white footer a {
+html.light footer p,
+html.white footer a,
+html.light footer a {
   color: #94A3B8 !important;
 }
 
-html.white footer a:hover {
+html.white footer a:hover,
+html.light footer a:hover {
   color: #9FEF00 !important;
 }
 
-/* 4. Canvas & Surface Backgrounds (#FFFFFF cards with #E2E4EB borders) */
+/* 4. Canvas & Surface Backgrounds (#FFFFFF cards & panels with #E2E4EB borders) */
 html.white article,
+html.light article,
+html.white .glass-panel,
+html.light .glass-panel,
+html.white .card-surface,
+html.light .card-surface,
 html.white .bg-\[\#111d30\],
+html.light .bg-\[\#111d30\],
 html.white .bg-\[\#111d30\]\/95,
+html.light .bg-\[\#111d30\]\/95,
 html.white .bg-\[\#111d30\]\/90,
+html.light .bg-\[\#111d30\]\/90,
 html.white .bg-\[\#111d30\]\/80,
+html.light .bg-\[\#111d30\]\/80,
 html.white .bg-\[\#111d30\]\/60,
+html.light .bg-\[\#111d30\]\/60,
 html.white .bg-\[\#14233c\],
+html.light .bg-\[\#14233c\],
 html.white .bg-\[\#182844\],
+html.light .bg-\[\#182844\],
 html.white .bg-\[\#090f19\],
+html.light .bg-\[\#090f19\],
 html.white .bg-\[\#090f19\]\/80,
+html.light .bg-\[\#090f19\]\/80,
 html.white section.bg-\[var\(--surface-card\)\],
-html.white .rounded-xl.border:not(header *):not(footer *):not(pre *):not(code *) {
+html.light section.bg-\[var\(--surface-card\)\],
+html.white .rounded-xl.border:not(header *):not(footer *):not(pre *):not(code *),
+html.light .rounded-xl.border:not(header *):not(footer *):not(pre *):not(code *) {
   background-color: #FFFFFF !important;
   border-color: #E2E4EB !important;
 }
 
 html.white article:hover,
-html.white .hover\:bg-\[\#14233c\]:hover {
+html.light article:hover,
+html.white .hover\:bg-\[\#14233c\]:hover,
+html.light .hover\:bg-\[\#14233c\]:hover {
   background-color: #FFFFFF !important;
   border-color: #9FEF00 !important;
   box-shadow: 0 4px 20px rgba(159, 239, 0, 0.12) !important;
 }
 
+/* Elevated RBAC Section Band (#E5E8EF with #DDE0E8 borders) */
+html.white .rbac-band,
+html.light .rbac-band,
+html.white .bg-elevated-section,
+html.light .bg-elevated-section {
+  background-color: #E5E8EF !important;
+  border-color: #DDE0E8 !important;
+}
+
 /* Secondary Container Elements & Tag pills */
 html.white .bg-\[\#0b121e\]:not(header *):not(footer *):not(pre *):not(code *),
+html.light .bg-\[\#0b121e\]:not(header *):not(footer *):not(pre *):not(code *),
 html.white .bg-\[\#070b13\]:not(header *):not(footer *):not(pre *):not(code *),
-html.white .bg-\[\#0c1421\]:not(header *):not(footer *):not(pre *):not(code *) {
+html.light .bg-\[\#070b13\]:not(header *):not(footer *):not(pre *):not(code *),
+html.white .bg-\[\#0c1421\]:not(header *):not(footer *):not(pre *):not(code *),
+html.light .bg-\[\#0c1421\]:not(header *):not(footer *):not(pre *):not(code *) {
   background-color: #F0F2F5 !important;
   border-color: #E2E4EB !important;
 }
 
 /* Category grid cards */
 html.white .grid a.bg-\[var\(--surface-card\)\],
-html.white .grid a.rounded-lg.border {
+html.light .grid a.bg-\[var\(--surface-card\)\],
+html.white .grid a.rounded-lg.border,
+html.light .grid a.rounded-lg.border {
   background-color: #FFFFFF !important;
   border-color: #E2E4EB !important;
 }
 
 html.white .grid a.bg-\[var\(--surface-card\)\]:hover,
-html.white .grid a.rounded-lg.border:hover {
+html.light .grid a.bg-\[var\(--surface-card\)\]:hover,
+html.white .grid a.rounded-lg.border:hover,
+html.light .grid a.rounded-lg.border:hover {
   background-color: #FFFFFF !important;
   border-color: #9FEF00 !important;
   box-shadow: 0 2px 12px rgba(159, 239, 0, 0.1) !important;
@@ -309,70 +379,102 @@ html.white .grid a.rounded-lg.border:hover {
 
 /* Card and sidebar green labels in white theme use Deep HTB Green (#3B6B00) for AAA contrast */
 html.white article .text-\[\#9fef00\],
+html.light article .text-\[\#9fef00\],
 html.white .rounded-xl .text-\[\#9fef00\],
-html.white .space-y-6 .text-\[\#9fef00\] {
+html.light .rounded-xl .text-\[\#9fef00\],
+html.white .space-y-6 .text-\[\#9fef00\],
+html.light .space-y-6 .text-\[\#9fef00\] {
   color: #3B6B00 !important;
 }
 
 /* 5. Typography & Headings (High-Contrast Editorial Text) */
 html.white h1,
+html.light h1,
 html.white h2,
+html.light h2,
 html.white h3,
+html.light h3,
 html.white h4,
-html.white .text-slate-100:not(header *):not(footer *):not(pre *):not(code *) {
+html.light h4,
+html.white .text-slate-100:not(header *):not(footer *):not(pre *):not(code *),
+html.light .text-slate-100:not(header *):not(footer *):not(pre *):not(code *) {
   color: #0D0D1A !important;
+  font-weight: 700;
 }
 
 html.white p:not(header *):not(footer *):not(pre *):not(code *),
+html.light p:not(header *):not(footer *):not(pre *):not(code *),
 html.white .text-slate-300:not(header *):not(footer *):not(pre *):not(code *),
+html.light .text-slate-300:not(header *):not(footer *):not(pre *):not(code *),
 html.white .text-slate-200:not(header *):not(footer *):not(pre *):not(code *),
-html.white .text-\[\#a4b1cd\]:not(header *):not(footer *) {
+html.light .text-slate-200:not(header *):not(footer *):not(pre *):not(code *),
+html.white .text-\[\#a4b1cd\]:not(header *):not(footer *),
+html.light .text-\[\#a4b1cd\]:not(header *):not(footer *) {
   color: #0D0D1A !important;
 }
 
 html.white h5,
+html.light h5,
 html.white h6,
+html.light h6,
 html.white label,
-html.white .text-slate-400:not(header *):not(footer *):not(pre *):not(code *) {
+html.light label,
+html.white .text-slate-400:not(header *):not(footer *):not(pre *):not(code *),
+html.light .text-slate-400:not(header *):not(footer *):not(pre *):not(code *) {
   color: #4A4A6A !important;
 }
 
-html.white .text-slate-500:not(header *):not(footer *):not(pre *):not(code *) {
+html.white .text-slate-500:not(header *):not(footer *):not(pre *):not(code *),
+html.light .text-slate-500:not(header *):not(footer *):not(pre *):not(code *) {
   color: #9A9AB0 !important;
 }
 
 html.white article h2 a,
-html.white article h3 a {
+html.light article h2 a,
+html.white article h3 a,
+html.light article h3 a {
   color: #0D0D1A !important;
 }
 
 html.white article:hover h2 a,
-html.white article:hover h3 a {
+html.light article:hover h2 a,
+html.white article:hover h3 a,
+html.light article:hover h3 a {
   color: #3B6B00 !important;
 }
 
-/* Hero Title Accent Gradient (Electric Cyber Gradient) */
-html.white .bg-gradient-to-r {
-  background-image: linear-gradient(135deg, #0088A8, #10B981, #0088A8) !important;
+/* Hero Title Accent Gradient (High-contrast linear-gradient(135deg, #0088A8 0%, #10B981 50%, #0088A8 100%)) */
+html.white .bg-gradient-to-r,
+html.light .bg-gradient-to-r {
+  background-image: linear-gradient(135deg, #0088A8 0%, #10B981 50%, #0088A8 100%) !important;
 }
 
-/* Top Ambient Glow (Cyber Radial Mesh) */
-html.white section .bg-\[radial-gradient\(circle_at_50\%_0\%_var\(--htb-green-glow\)_transparent_70\%\)\] {
-  background-image: radial-gradient(circle at 50% 0%, rgba(0, 180, 216, 0.12), rgba(159, 239, 0, 0.08), transparent 70%) !important;
+/* Top Ambient Glow (Cyan rgba(0, 180, 216, 0.14) & emerald rgba(159, 239, 0, 0.09) radial mesh) */
+html.white section .bg-\[radial-gradient\(circle_at_50\%_0\%_var\(--htb-green-glow\)_transparent_70\%\)\],
+html.light section .bg-\[radial-gradient\(circle_at_50\%_0\%_var\(--htb-green-glow\)_transparent_70\%\)\] {
+  background-image: radial-gradient(circle at 50% 0%, rgba(0, 180, 216, 0.14), rgba(159, 239, 0, 0.09), transparent 70%) !important;
 }
 
 /* 6. Borders, Dividers & Focus States */
 html.white .border-\[\#1f3352\],
+html.light .border-\[\#1f3352\],
 html.white .border-\[\#1f3352\]\/70,
+html.light .border-\[\#1f3352\]\/70,
 html.white .border-\[\#1f3352\]\/50,
+html.light .border-\[\#1f3352\]\/50,
 html.white .border-\[\#2a3a54\],
-html.white hr {
+html.light .border-\[\#2a3a54\],
+html.white hr,
+html.light hr {
   border-color: #E2E4EB !important;
 }
 
 html.white input:focus,
+html.light input:focus,
 html.white textarea:focus,
-html.white select:focus {
+html.light textarea:focus,
+html.white select:focus,
+html.light select:focus {
   border-color: #9FEF00 !important;
   outline: none !important;
   box-shadow: 0 0 0 1.5px #9FEF00 !important;
@@ -381,46 +483,62 @@ html.white select:focus {
 /* 7. Buttons & Interactive Controls */
 /* Primary CTA Button: Iconic HTB Green #9FEF00, Text #0D0D1A, Hover #77C400 */
 html.white a.bg-\[var\(--htb-green\)\],
+html.light a.bg-\[var\(--htb-green\)\],
 html.white button.bg-\[var\(--htb-green\)\],
+html.light button.bg-\[var\(--htb-green\)\],
 html.white a.bg-\[\#9fef00\],
+html.light a.bg-\[\#9fef00\],
 html.white button.bg-\[\#9fef00\],
-html.white .btn-primary {
+html.light button.bg-\[\#9fef00\],
+html.white .btn-primary,
+html.light .btn-primary {
   background-color: #9FEF00 !important;
   color: #0D0D1A !important;
   font-weight: 700 !important;
 }
 
 html.white a.bg-\[var\(--htb-green\)\]:hover,
+html.light a.bg-\[var\(--htb-green\)\]:hover,
 html.white button.bg-\[var\(--htb-green\)\]:hover,
+html.light button.bg-\[var\(--htb-green\)\]:hover,
 html.white a.bg-\[\#9fef00\]:hover,
+html.light a.bg-\[\#9fef00\]:hover,
 html.white button.bg-\[\#9fef00\]:hover,
-html.white .btn-primary:hover {
+html.light button.bg-\[\#9fef00\]:hover,
+html.white .btn-primary:hover,
+html.light .btn-primary:hover {
   background-color: #77C400 !important;
   color: #0D0D1A !important;
 }
 
 /* Secondary Button: Crisp White Card #FFFFFF, Border #E2E4EB, Text #0D0D1A */
 html.white a.hover\:bg-\[var\(--surface-elevated\)\],
-html.white .btn-secondary {
+html.light a.hover\:bg-\[var\(--surface-elevated\)\],
+html.white .btn-secondary,
+html.light .btn-secondary {
   background-color: #FFFFFF !important;
   border: 1px solid #E2E4EB !important;
   color: #0D0D1A !important;
 }
 
 html.white a.hover\:bg-\[var\(--surface-elevated\)\]:hover,
-html.white .btn-secondary:hover {
+html.light a.hover\:bg-\[var\(--surface-elevated\)\]:hover,
+html.white .btn-secondary:hover,
+html.light .btn-secondary:hover {
   border-color: #9FEF00 !important;
   color: #0D0D1A !important;
 }
 
 /* Filter tab controls */
-html.white .bg-\[\#14233c\].text-\[\#9fef00\] {
+html.white .bg-\[\#14233c\].text-\[\#9fef00\],
+html.light .bg-\[\#14233c\].text-\[\#9fef00\] {
   background-color: #0D1321 !important;
   color: #9FEF00 !important;
   border-color: rgba(159, 239, 0, 0.4) !important;
 }
 
-html.white .bg-\[\#14233c\].text-\[\#ff3366\] {
+html.white .bg-\[\#14233c\].text-\[\#ff3366\],
+html.light .bg-\[\#14233c\].text-\[\#ff3366\] {
   background-color: #0D1321 !important;
   color: #FF4D4D !important;
   border-color: rgba(255, 77, 77, 0.4) !important;
@@ -429,7 +547,9 @@ html.white .bg-\[\#14233c\].text-\[\#ff3366\] {
 /* 8. Status Indicators & Cyber Badges */
 /* Success / Verified: #E8FFF0, border rgba(159, 239, 0, 0.4), text #3B6B00 */
 html.white .bg-emerald-950\/70,
-html.white .badge-success {
+html.light .bg-emerald-950\/70,
+html.white .badge-success,
+html.light .badge-success {
   background-color: #E8FFF0 !important;
   border: 1px solid rgba(159, 239, 0, 0.4) !important;
   color: #3B6B00 !important;
@@ -437,70 +557,94 @@ html.white .badge-success {
 
 /* Info / Target Recon: #E6F8FC, border #A3E5F3, text #0088A8 */
 html.white .border-\[\#2de2e6\]\/30,
+html.light .border-\[\#2de2e6\]\/30,
 html.white .border-\[\#2de2e6\]\/40,
-html.white .border-\[\#2de2e6\]\/50 {
+html.light .border-\[\#2de2e6\]\/40,
+html.white .border-\[\#2de2e6\]\/50,
+html.light .border-\[\#2de2e6\]\/50 {
   border-color: #A3E5F3 !important;
 }
 
-html.white .text-\[\#2de2e6\] {
+html.white .text-\[\#2de2e6\],
+html.light .text-\[\#2de2e6\] {
   color: #0088A8 !important;
 }
 
 html.white .bg-\[\#14233c\].text-\[\#2de2e6\],
-html.white .bg-\[\#0b121e\].text-\[\#2de2e6\] {
+html.light .bg-\[\#14233c\].text-\[\#2de2e6\],
+html.white .bg-\[\#0b121e\].text-\[\#2de2e6\],
+html.light .bg-\[\#0b121e\].text-\[\#2de2e6\] {
   background-color: #E6F8FC !important;
   border: 1px solid #A3E5F3 !important;
   color: #0088A8 !important;
 }
 
-/* Warning / Medium Risk: #FFF8EC, border #FFE0B2, text #B45309 */
+/* Warning: #FFA500 */
 html.white .bg-amber-950\/70,
+html.light .bg-amber-950\/70,
 html.white .bg-amber-950\/90,
-html.white .bg-amber-500\/15 {
+html.light .bg-amber-950\/90,
+html.white .bg-amber-500\/15,
+html.light .bg-amber-500\/15,
+html.white .badge-warning,
+html.light .badge-warning {
   background-color: #FFF8EC !important;
-  border: 1px solid #FFE0B2 !important;
-  color: #B45309 !important;
+  border: 1px solid #FFA500 !important;
+  color: #FFA500 !important;
 }
 
 /* Critical / Danger: #FFF0F0, border #FFCDCD, text #FF4D4D */
 html.white .bg-red-950\/60,
+html.light .bg-red-950\/60,
 html.white .bg-red-950\/70,
-html.white .bg-red-950\/90 {
+html.light .bg-red-950\/70,
+html.white .bg-red-950\/90,
+html.light .bg-red-950\/90 {
   background-color: #FFF0F0 !important;
   border: 1px solid #FFCDCD !important;
   color: #FF4D4D !important;
 }
 
-html.white .text-\[\#ff3366\] {
+html.white .text-\[\#ff3366\],
+html.light .text-\[\#ff3366\] {
   color: #FF4D4D !important;
 }
 
 html.white .border-\[\#ff3366\]\/40,
+html.light .border-\[\#ff3366\]\/40,
 html.white .border-\[\#ff3366\]\/50,
-html.white .border-red-900\/40 {
+html.light .border-\[\#ff3366\]\/50,
+html.white .border-red-900\/40,
+html.light .border-red-900\/40 {
   border-color: #FFCDCD !important;
 }
 
 /* 9. Technical Markdown, Code & Terminal Blocks */
 /* Terminal: #060B13, border #CBD5E1 */
 html.white .terminal-component,
-html.white .terminal-window {
+html.light .terminal-component,
+html.white .terminal-window,
+html.light .terminal-window {
   background-color: #060B13 !important;
   border: 1px solid #CBD5E1 !important;
 }
 
 /* Embedded Code Blocks: #08101E, border #CBD5E1 */
 html.white .code-block-wrapper,
-html.white pre:not(.inline) {
+html.light .code-block-wrapper,
+html.white pre:not(.inline),
+html.light pre:not(.inline) {
   background-color: #08101E !important;
   border: 1px solid #CBD5E1 !important;
 }
 
-html.white .code-block-wrapper pre code {
+html.white .code-block-wrapper pre code,
+html.light .code-block-wrapper pre code {
   color: #F8FAFC !important;
 }
 
-html.white .code-block-wrapper div {
+html.white .code-block-wrapper div,
+html.light .code-block-wrapper div {
   background-color: #060B13 !important;
   color: #E2E4EB !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -508,7 +652,9 @@ html.white .code-block-wrapper div {
 
 /* Inline Code: #E8EAF0, border #E2E4EB, text #3B6B00 */
 html.white :not(pre) > code,
-html.white .article-prose code:not(pre code) {
+html.light :not(pre) > code,
+html.white .article-prose code:not(pre code),
+html.light .article-prose code:not(pre code) {
   background-color: #E8EAF0 !important;
   border: 1px solid #E2E4EB !important;
   color: #3B6B00 !important;
@@ -519,7 +665,9 @@ html.white .article-prose code:not(pre code) {
 
 /* Technical Blockquotes: #E8FFF0, 3px solid #9FEF00, text #0D0D1A */
 html.white blockquote,
-html.white .article-prose blockquote {
+html.light blockquote,
+html.white .article-prose blockquote,
+html.light .article-prose blockquote {
   background-color: #E8FFF0 !important;
   border-left: 3px solid #9FEF00 !important;
   color: #0D0D1A !important;
@@ -528,7 +676,9 @@ html.white .article-prose blockquote {
 
 /* Table Headers: #E8EAF0, border #E2E4EB, text #0D0D1A */
 html.white table th,
-html.white .article-prose th {
+html.light table th,
+html.white .article-prose th,
+html.light .article-prose th {
   background-color: #E8EAF0 !important;
   border: 1px solid #E2E4EB !important;
   color: #0D0D1A !important;
@@ -537,39 +687,52 @@ html.white .article-prose th {
   letter-spacing: 0.05em !important;
 }
 
-/* Table Rows: alternating #FFFFFF / #F8F9FA, hover #E8FFF0 */
+/* Table Rows: alternating #FFFFFF / #F8F9FA, hover #E8EAF0 */
 html.white table td,
-html.white .article-prose td {
+html.light table td,
+html.white .article-prose td,
+html.light .article-prose td {
   border: 1px solid #E2E4EB !important;
   color: #0D0D1A !important;
 }
 
 html.white table tr:nth-child(even) td,
-html.white .article-prose table tr:nth-child(even) td {
+html.light table tr:nth-child(even) td,
+html.white .article-prose table tr:nth-child(even) td,
+html.light .article-prose table tr:nth-child(even) td {
   background-color: #F8F9FA !important;
 }
 
 html.white table tr:nth-child(odd) td,
-html.white .article-prose table tr:nth-child(odd) td {
+html.light table tr:nth-child(odd) td,
+html.white .article-prose table tr:nth-child(odd) td,
+html.light .article-prose table tr:nth-child(odd) td {
   background-color: #FFFFFF !important;
 }
 
 html.white table tr:hover td,
-html.white .article-prose table tr:hover td {
-  background-color: #E8FFF0 !important;
+html.light table tr:hover td,
+html.white .article-prose table tr:hover td,
+html.light .article-prose table tr:hover td {
+  background-color: #E8EAF0 !important;
 }
 
 /* 10. Forms & Input Fields */
 html.white input:not(header input),
+html.light input:not(header input),
 html.white textarea,
-html.white select {
+html.light textarea,
+html.white select,
+html.light select {
   background-color: #FFFFFF !important;
   border: 1px solid #E2E4EB !important;
   color: #0D0D1A !important;
 }
 
 html.white input::placeholder,
-html.white textarea::placeholder {
+html.light input::placeholder,
+html.white textarea::placeholder,
+html.light textarea::placeholder {
   color: #9A9AB0 !important;
 }
 

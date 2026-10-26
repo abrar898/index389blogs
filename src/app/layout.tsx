@@ -69,7 +69,7 @@ export default function RootLayout({
                   var theme = localStorage.getItem('cybervault_theme');
                   var supportDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                   if (theme === 'white' || (!theme && !supportDark)) {
-                    document.documentElement.classList.add('white');
+                    document.documentElement.classList.add('white', 'light');
                   } else {
                     document.documentElement.classList.add('dark');
                   }
