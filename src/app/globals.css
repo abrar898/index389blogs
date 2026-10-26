@@ -57,341 +57,520 @@
   --code-text: #e2e8f0;
 }
 
-/* White Theme (Clean, Crisp, Professional Cybersecurity Palette) */
+/* ==========================================================================
+   White Theme (Official Curated Cybersecurity Specification)
+   Applied ONLY when class .white is active on <html>.
+   Dark Theme remains 100% untouched.
+   ========================================================================== */
 html.white,
 html:not(.dark).white {
   color-scheme: light;
 
-  /* Surfaces & Canvas */
-  --background: #f8fafc;
-  --foreground: #334155;
-  --foreground-bright: #0f172a;
-  --foreground-muted: #64748b;
+  /* 1. Canvas & Surface Backgrounds */
+  --background: #F0F2F5; /* Soft Technical Slate */
+  --surface: #FFFFFF;    /* Pure Solid White */
+  --surface-card: #FFFFFF;
+  --surface-elevated: #E5E8EF; /* Cool Section Tint */
+  --surface-dropdown: rgba(13, 19, 33, 0.97); /* Header remains sleek cyber dark #0D1321 */
+  --surface-border: #E2E4EB; /* Slate Border */
+  --surface-border-hover: #9FEF00; /* Iconic HTB Green */
 
-  --surface: #ffffff;
-  --surface-card: #ffffff;
-  --surface-elevated: #f1f5f9;
-  --surface-dropdown: rgba(255, 255, 255, 0.98);
-  --surface-border: #e2e8f0;
-  --surface-border-hover: rgba(4, 120, 87, 0.45);
+  /* 2. Typography & Headings */
+  --foreground: #0D0D1A;         /* Jet Technical Black body text */
+  --foreground-bright: #0D0D1A;  /* Deep Obsidian Navy headings */
+  --foreground-secondary: #4A4A6A; /* Slate Charcoal subheadings */
+  --foreground-muted: #9A9AB0;   /* Soft Silver Slate metadata */
 
-  /* Deep Cyber Emerald for light mode (5.6:1 AAA contrast on white) */
-  --htb-green: #047857;
-  --htb-green-hover: #065f46;
-  --htb-green-glow: rgba(4, 120, 87, 0.15);
+  /* 3. Header & Navbar (HTB Cyber Contrast) */
+  --navbar-bg: rgba(13, 19, 33, 0.97);
+  --navbar-border: rgba(159, 239, 0, 0.25);
+  --navbar-text: #FFFFFF;
+  --navbar-link: #E2E4EB;
+  --navbar-link-hover: #9FEF00;
+  --navbar-search-bg: rgba(255, 255, 255, 0.08);
+  --navbar-search-text: #FFFFFF;
+  --navbar-search-placeholder: #94A3B8;
 
-  /* Deep Ocean Sapphire for cyan in light mode */
-  --htb-cyan: #0284c7;
-  --htb-cyan-glow: rgba(2, 132, 199, 0.15);
+  /* 4. Brand & Accent Controls */
+  --htb-green: #9FEF00;
+  --htb-green-hover: #77C400;
+  --htb-green-glow: rgba(159, 239, 0, 0.25);
+  --htb-green-tint: #E8FFF0;
 
-  /* High-contrast functional accents */
-  --htb-orange: #c2410c;
-  --htb-red: #dc2626;
-  --htb-purple: #7e22ce;
+  /* 5. Status Badges & Indicators */
+  --htb-cyan: #0088A8;
+  --htb-cyan-glow: rgba(0, 180, 216, 0.15);
+  --htb-orange: #B45309;
+  --htb-red: #FF4D4D;
+  --htb-purple: #7E22CE;
 
-  /* Code block styling */
-  --code-bg: #0f172a;
-  --code-header-bg: #1e293b;
-  --code-text: #f8fafc;
+  /* 6. Code & Terminal Blocks */
+  --code-bg: #08101E;
+  --code-header-bg: #060B13;
+  --code-text: #F8FAFC;
 }
 
 /* System Theme Browser Match when not explicitly set to white */
 @media (prefers-color-scheme: light) {
   html:not(.dark):not(.white) {
     color-scheme: light;
-    --background: #f8fafc;
-    --foreground: #334155;
-    --foreground-bright: #0f172a;
-    --foreground-muted: #64748b;
+    --background: #F0F2F5;
+    --surface: #FFFFFF;
+    --surface-card: #FFFFFF;
+    --surface-elevated: #E5E8EF;
+    --surface-dropdown: rgba(13, 19, 33, 0.97);
+    --surface-border: #E2E4EB;
+    --surface-border-hover: #9FEF00;
 
-    --surface: #ffffff;
-    --surface-card: #ffffff;
-    --surface-elevated: #f1f5f9;
-    --surface-dropdown: rgba(255, 255, 255, 0.98);
-    --surface-border: #e2e8f0;
-    --surface-border-hover: rgba(4, 120, 87, 0.45);
+    --foreground: #0D0D1A;
+    --foreground-bright: #0D0D1A;
+    --foreground-secondary: #4A4A6A;
+    --foreground-muted: #9A9AB0;
 
-    --htb-green: #047857;
-    --htb-green-hover: #065f46;
-    --htb-green-glow: rgba(4, 120, 87, 0.15);
+    --navbar-bg: rgba(13, 19, 33, 0.97);
+    --navbar-border: rgba(159, 239, 0, 0.25);
+    --navbar-text: #FFFFFF;
+    --navbar-link: #E2E4EB;
+    --navbar-link-hover: #9FEF00;
 
-    --htb-cyan: #0284c7;
-    --htb-cyan-glow: rgba(2, 132, 199, 0.15);
+    --htb-green: #9FEF00;
+    --htb-green-hover: #77C400;
+    --htb-green-glow: rgba(159, 239, 0, 0.25);
+    --htb-green-tint: #E8FFF0;
 
-    --htb-orange: #c2410c;
-    --htb-red: #dc2626;
-    --htb-purple: #7e22ce;
+    --htb-cyan: #0088A8;
+    --htb-cyan-glow: rgba(0, 180, 216, 0.15);
+    --htb-orange: #B45309;
+    --htb-red: #FF4D4D;
+    --htb-purple: #7E22CE;
 
-    --code-bg: #0f172a;
-    --code-header-bg: #1e293b;
-    --code-text: #f8fafc;
+    --code-bg: #08101E;
+    --code-header-bg: #060B13;
+    --code-text: #F8FAFC;
   }
 }
 
-/* White Theme Comprehensive CSS Overrides (Transforms dark-mode hex classes into crisp light theme) */
-html.white {
-  color-scheme: light;
+/* ==========================================================================
+   White Theme Detailed Component Rules
+   ========================================================================== */
+
+/* 1. Body & Canvas Background */
+html.white body {
+  background-color: #F0F2F5 !important;
+  color: #0D0D1A !important;
 }
 
-/* Surfaces and Cards */
-html.white .bg-\[\#0b121e\],
-html.white .bg-\[\#070b13\],
-html.white .bg-\[\#0c1421\],
-html.white .bg-\[\#090e17\],
-html.white .bg-\[\#090f19\],
-html.white .bg-\[\#0b121e\]\/95,
-html.white .bg-\[\#0b121e\]\/90 {
-  background-color: #ffffff !important;
+/* 2. Navigation & Header (Signature "HTB Cyber" Contrast) */
+html.white header {
+  background-color: rgba(13, 19, 33, 0.97) !important;
+  border-bottom: 1px solid rgba(159, 239, 0, 0.25) !important;
+  backdrop-filter: blur(12px) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18) !important;
 }
 
+html.white header .text-\[var\(--foreground-bright\)\],
+html.white header span.font-bold {
+  color: #FFFFFF !important;
+}
+
+html.white header span.font-bold span {
+  color: #9FEF00 !important;
+}
+
+html.white header nav a {
+  color: #E2E4EB !important;
+}
+
+html.white header nav a:hover {
+  color: #9FEF00 !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.white header a[aria-label="Search repository records"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+}
+
+html.white header a[aria-label="Search repository records"]:hover {
+  border-color: #9FEF00 !important;
+}
+
+html.white header a[aria-label="Search repository records"] span {
+  color: #94A3B8 !important;
+}
+
+html.white header a[aria-label="Search repository records"] svg {
+  color: #9FEF00 !important;
+}
+
+html.white header a[aria-label="Search repository records"] kbd {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+}
+
+html.white header button[aria-label="Toggle white theme"],
+html.white header button[aria-label="Toggle navigation menu"] {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #FFFFFF !important;
+}
+
+html.white header button[aria-label="Toggle white theme"]:hover,
+html.white header button[aria-label="Toggle navigation menu"]:hover {
+  border-color: rgba(159, 239, 0, 0.6) !important;
+}
+
+/* Mobile dropdown menu */
+html.white .fixed.inset-x-0.top-16 {
+  background-color: rgba(13, 19, 33, 0.98) !important;
+  border-bottom: 1px solid rgba(159, 239, 0, 0.25) !important;
+}
+
+html.white .fixed.inset-x-0.top-16 a {
+  color: #E2E4EB !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+html.white .fixed.inset-x-0.top-16 a:hover {
+  color: #9FEF00 !important;
+  border-color: #9FEF00 !important;
+}
+
+/* 3. Footer (Matching Cyber Dark #0D1321) */
+html.white footer {
+  background-color: #0D1321 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #E2E4EB !important;
+}
+
+html.white footer .text-\[var\(--foreground-bright\)\],
+html.white footer span.font-bold,
+html.white footer h4 {
+  color: #FFFFFF !important;
+}
+
+html.white footer p,
+html.white footer a {
+  color: #94A3B8 !important;
+}
+
+html.white footer a:hover {
+  color: #9FEF00 !important;
+}
+
+/* 4. Canvas & Surface Backgrounds (#FFFFFF cards with #E2E4EB borders) */
+html.white article,
 html.white .bg-\[\#111d30\],
-html.white .bg-\[\#14233c\],
-html.white .bg-\[\#182844\],
 html.white .bg-\[\#111d30\]\/95,
 html.white .bg-\[\#111d30\]\/90,
 html.white .bg-\[\#111d30\]\/80,
 html.white .bg-\[\#111d30\]\/60,
-html.white .bg-\[\#090f19\]\/80 {
-  background-color: #ffffff !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+html.white .bg-\[\#14233c\],
+html.white .bg-\[\#182844\],
+html.white .bg-\[\#090f19\],
+html.white .bg-\[\#090f19\]\/80,
+html.white section.bg-\[var\(--surface-card\)\],
+html.white .rounded-xl.border:not(header *):not(footer *):not(pre *):not(code *) {
+  background-color: #FFFFFF !important;
+  border-color: #E2E4EB !important;
 }
 
-/* Secondary Container Elements */
-html.white select,
-html.white textarea,
-html.white input {
-  background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  color: #0f172a !important;
+html.white article:hover,
+html.white .hover\:bg-\[\#14233c\]:hover {
+  background-color: #FFFFFF !important;
+  border-color: #9FEF00 !important;
+  box-shadow: 0 4px 20px rgba(159, 239, 0, 0.12) !important;
 }
 
-html.white input::placeholder,
-html.white textarea::placeholder {
-  color: #94a3b8 !important;
+/* Secondary Container Elements & Tag pills */
+html.white .bg-\[\#0b121e\]:not(header *):not(footer *):not(pre *):not(code *),
+html.white .bg-\[\#070b13\]:not(header *):not(footer *):not(pre *):not(code *),
+html.white .bg-\[\#0c1421\]:not(header *):not(footer *):not(pre *):not(code *) {
+  background-color: #F0F2F5 !important;
+  border-color: #E2E4EB !important;
+}
+
+/* Category grid cards */
+html.white .grid a.bg-\[var\(--surface-card\)\],
+html.white .grid a.rounded-lg.border {
+  background-color: #FFFFFF !important;
+  border-color: #E2E4EB !important;
+}
+
+html.white .grid a.bg-\[var\(--surface-card\)\]:hover,
+html.white .grid a.rounded-lg.border:hover {
+  background-color: #FFFFFF !important;
+  border-color: #9FEF00 !important;
+  box-shadow: 0 2px 12px rgba(159, 239, 0, 0.1) !important;
+}
+
+/* Card and sidebar green labels in white theme use Deep HTB Green (#3B6B00) for AAA contrast */
+html.white article .text-\[\#9fef00\],
+html.white .rounded-xl .text-\[\#9fef00\],
+html.white .space-y-6 .text-\[\#9fef00\] {
+  color: #3B6B00 !important;
+}
+
+/* 5. Typography & Headings (High-Contrast Editorial Text) */
+html.white h1,
+html.white h2,
+html.white h3,
+html.white h4,
+html.white .text-slate-100:not(header *):not(footer *):not(pre *):not(code *) {
+  color: #0D0D1A !important;
+}
+
+html.white p:not(header *):not(footer *):not(pre *):not(code *),
+html.white .text-slate-300:not(header *):not(footer *):not(pre *):not(code *),
+html.white .text-slate-200:not(header *):not(footer *):not(pre *):not(code *),
+html.white .text-\[\#a4b1cd\]:not(header *):not(footer *) {
+  color: #0D0D1A !important;
+}
+
+html.white h5,
+html.white h6,
+html.white label,
+html.white .text-slate-400:not(header *):not(footer *):not(pre *):not(code *) {
+  color: #4A4A6A !important;
+}
+
+html.white .text-slate-500:not(header *):not(footer *):not(pre *):not(code *) {
+  color: #9A9AB0 !important;
+}
+
+html.white article h2 a,
+html.white article h3 a {
+  color: #0D0D1A !important;
+}
+
+html.white article:hover h2 a,
+html.white article:hover h3 a {
+  color: #3B6B00 !important;
+}
+
+/* Hero Title Accent Gradient (Electric Cyber Gradient) */
+html.white .bg-gradient-to-r {
+  background-image: linear-gradient(135deg, #0088A8, #10B981, #0088A8) !important;
+}
+
+/* Top Ambient Glow (Cyber Radial Mesh) */
+html.white section .bg-\[radial-gradient\(circle_at_50\%_0\%_var\(--htb-green-glow\)_transparent_70\%\)\] {
+  background-image: radial-gradient(circle at 50% 0%, rgba(0, 180, 216, 0.12), rgba(159, 239, 0, 0.08), transparent 70%) !important;
+}
+
+/* 6. Borders, Dividers & Focus States */
+html.white .border-\[\#1f3352\],
+html.white .border-\[\#1f3352\]\/70,
+html.white .border-\[\#1f3352\]\/50,
+html.white .border-\[\#2a3a54\],
+html.white hr {
+  border-color: #E2E4EB !important;
 }
 
 html.white input:focus,
 html.white textarea:focus,
 html.white select:focus {
-  border-color: #059669 !important;
-  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15) !important;
+  border-color: #9FEF00 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 1.5px #9FEF00 !important;
 }
 
-/* Borders */
-html.white .border-\[\#1f3352\],
-html.white .border-\[\#2a3a54\],
-html.white .border-\[\#1f3352\]\/70 {
-  border-color: #e2e8f0 !important;
-}
-
-/* Headings in White Theme (Crisp charcoal slate, NOT green or cyan) */
-html.white h1,
-html.white h2,
-html.white h3,
-html.white h4,
-html.white h5,
-html.white h6 {
-  color: #0f172a !important;
-}
-
-/* Text Overrides */
-html.white .text-slate-100 {
-  color: #0f172a !important;
-}
-
-html.white .text-slate-200 {
-  color: #1e293b !important;
-}
-
-html.white .text-slate-300,
-html.white .text-slate-300\/90 {
-  color: #334155 !important;
-}
-
-html.white .text-slate-400 {
-  color: #64748b !important;
-}
-
-html.white .text-slate-500 {
-  color: #94a3b8 !important;
-}
-
-html.white .text-\[\#a4b1cd\] {
-  color: #334155 !important;
-}
-
-/* Brand Primary Accent (Deep Cyber Emerald) */
-html.white .text-\[\#9fef00\] {
-  color: #047857 !important;
-}
-
-html.white .hover\:text-\[\#9fef00\]:hover {
-  color: #065f46 !important;
-}
-
-html.white .group:hover .group-hover\:text-\[\#9fef00\] {
-  color: #047857 !important;
-}
-
-html.white .bg-\[\#9fef00\],
+/* 7. Buttons & Interactive Controls */
+/* Primary CTA Button: Iconic HTB Green #9FEF00, Text #0D0D1A, Hover #77C400 */
+html.white a.bg-\[var\(--htb-green\)\],
+html.white button.bg-\[var\(--htb-green\)\],
 html.white a.bg-\[\#9fef00\],
-html.white button.bg-\[\#9fef00\] {
-  background-color: #059669 !important;
-  color: #ffffff !important;
+html.white button.bg-\[\#9fef00\],
+html.white .btn-primary {
+  background-color: #9FEF00 !important;
+  color: #0D0D1A !important;
+  font-weight: 700 !important;
 }
 
-html.white .bg-\[\#9fef00\] *,
-html.white .bg-\[\#9fef00\].text-\[\#0b121e\],
-html.white .bg-\[\#9fef00\] .text-\[\#0b121e\] {
-  color: #ffffff !important;
+html.white a.bg-\[var\(--htb-green\)\]:hover,
+html.white button.bg-\[var\(--htb-green\)\]:hover,
+html.white a.bg-\[\#9fef00\]:hover,
+html.white button.bg-\[\#9fef00\]:hover,
+html.white .btn-primary:hover {
+  background-color: #77C400 !important;
+  color: #0D0D1A !important;
 }
 
-html.white .hover\:bg-\[\#b4fa1f\]:hover,
-html.white .hover\:bg-\[\#b0ff1a\]:hover {
-  background-color: #047857 !important;
-  color: #ffffff !important;
+/* Secondary Button: Crisp White Card #FFFFFF, Border #E2E4EB, Text #0D0D1A */
+html.white a.hover\:bg-\[var\(--surface-elevated\)\],
+html.white .btn-secondary {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E4EB !important;
+  color: #0D0D1A !important;
 }
 
-/* Soft Emerald Badges & Tints */
-html.white .bg-\[\#9fef00\]\/10,
-html.white .bg-\[\#9fef00\]\/15,
-html.white .bg-\[\#9fef00\]\/20 {
-  background-color: #ecfdf5 !important;
-  border-color: #a7f3d0 !important;
-  color: #047857 !important;
+html.white a.hover\:bg-\[var\(--surface-elevated\)\]:hover,
+html.white .btn-secondary:hover {
+  border-color: #9FEF00 !important;
+  color: #0D0D1A !important;
 }
 
-html.white .bg-\[\#9fef00\]\/10 *,
-html.white .bg-\[\#9fef00\]\/15 *,
-html.white .bg-\[\#9fef00\]\/20 * {
-  color: #047857 !important;
+/* Filter tab controls */
+html.white .bg-\[\#14233c\].text-\[\#9fef00\] {
+  background-color: #0D1321 !important;
+  color: #9FEF00 !important;
+  border-color: rgba(159, 239, 0, 0.4) !important;
 }
 
-html.white .border-\[\#9fef00\]\/20,
-html.white .border-\[\#9fef00\]\/30,
-html.white .border-\[\#9fef00\]\/40,
-html.white .border-\[\#9fef00\]\/50,
-html.white .border-\[\#9fef00\]\/60 {
-  border-color: #a7f3d0 !important;
+html.white .bg-\[\#14233c\].text-\[\#ff3366\] {
+  background-color: #0D1321 !important;
+  color: #FF4D4D !important;
+  border-color: rgba(255, 77, 77, 0.4) !important;
 }
 
-/* Hover States on Light Theme */
-html.white .hover\:bg-\[\#14233c\]:hover,
-html.white .hover\:bg-\[\#111d30\]:hover {
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
+/* 8. Status Indicators & Cyber Badges */
+/* Success / Verified: #E8FFF0, border rgba(159, 239, 0, 0.4), text #3B6B00 */
+html.white .bg-emerald-950\/70,
+html.white .badge-success {
+  background-color: #E8FFF0 !important;
+  border: 1px solid rgba(159, 239, 0, 0.4) !important;
+  color: #3B6B00 !important;
 }
 
-html.white .hover\:text-white:hover {
-  color: #047857 !important;
-}
-
-html.white .hover\:border-\[\#9fef00\]\/50:hover,
-html.white .hover\:border-\[\#9fef00\]\/60:hover {
-  border-color: #059669 !important;
-}
-
-/* Cyan / Secondary Accent */
-html.white .text-\[\#2de2e6\] {
-  color: #0284c7 !important;
-}
-
-html.white .hover\:text-\[\#2de2e6\]:hover {
-  color: #0369a1 !important;
-}
-
-html.white .bg-\[\#2de2e6\] {
-  background-color: #0284c7 !important;
-  color: #ffffff !important;
-}
-
-html.white .bg-\[\#2de2e6\] * {
-  color: #ffffff !important;
-}
-
-html.white .bg-\[\#2de2e6\]\/10,
-html.white .bg-\[\#2de2e6\]\/20,
-html.white .bg-\[\#2de2e6\]\/30 {
-  background-color: #f0f9ff !important;
-  border-color: #bae6fd !important;
-  color: #0284c7 !important;
-}
-
+/* Info / Target Recon: #E6F8FC, border #A3E5F3, text #0088A8 */
 html.white .border-\[\#2de2e6\]\/30,
 html.white .border-\[\#2de2e6\]\/40,
 html.white .border-\[\#2de2e6\]\/50 {
-  border-color: #bae6fd !important;
+  border-color: #A3E5F3 !important;
 }
 
-/* Orange / Amber */
-html.white .text-\[\#ff8400\] {
-  color: #c2410c !important;
+html.white .text-\[\#2de2e6\] {
+  color: #0088A8 !important;
 }
 
-html.white .bg-\[\#ff8400\] {
-  background-color: #ea580c !important;
-  color: #ffffff !important;
+html.white .bg-\[\#14233c\].text-\[\#2de2e6\],
+html.white .bg-\[\#0b121e\].text-\[\#2de2e6\] {
+  background-color: #E6F8FC !important;
+  border: 1px solid #A3E5F3 !important;
+  color: #0088A8 !important;
 }
 
-/* Red / CVE Alerts */
-html.white .text-\[\#ff3366\] {
-  color: #dc2626 !important;
+/* Warning / Medium Risk: #FFF8EC, border #FFE0B2, text #B45309 */
+html.white .bg-amber-950\/70,
+html.white .bg-amber-950\/90,
+html.white .bg-amber-500\/15 {
+  background-color: #FFF8EC !important;
+  border: 1px solid #FFE0B2 !important;
+  color: #B45309 !important;
 }
 
-html.white .bg-\[\#ff3366\]\/10,
-html.white .bg-\[\#ff3366\]\/15,
-html.white .bg-\[\#ff3366\]\/20,
+/* Critical / Danger: #FFF0F0, border #FFCDCD, text #FF4D4D */
 html.white .bg-red-950\/60,
 html.white .bg-red-950\/70,
 html.white .bg-red-950\/90 {
-  background-color: #fef2f2 !important;
-  border-color: #fecaca !important;
-  color: #dc2626 !important;
+  background-color: #FFF0F0 !important;
+  border: 1px solid #FFCDCD !important;
+  color: #FF4D4D !important;
+}
+
+html.white .text-\[\#ff3366\] {
+  color: #FF4D4D !important;
 }
 
 html.white .border-\[\#ff3366\]\/40,
 html.white .border-\[\#ff3366\]\/50,
 html.white .border-red-900\/40 {
-  border-color: #fca5a5 !important;
+  border-color: #FFCDCD !important;
 }
 
-/* Difficulty Badges */
-html.white .bg-emerald-950\/70 {
-  background-color: #ecfdf5 !important;
-  border-color: #a7f3d0 !important;
-  color: #047857 !important;
+/* 9. Technical Markdown, Code & Terminal Blocks */
+/* Terminal: #060B13, border #CBD5E1 */
+html.white .terminal-component,
+html.white .terminal-window {
+  background-color: #060B13 !important;
+  border: 1px solid #CBD5E1 !important;
 }
 
-html.white .bg-amber-950\/70,
-html.white .bg-amber-950\/90 {
-  background-color: #fffbeb !important;
-  border-color: #fde68a !important;
-  color: #b45309 !important;
+/* Embedded Code Blocks: #08101E, border #CBD5E1 */
+html.white .code-block-wrapper,
+html.white pre:not(.inline) {
+  background-color: #08101E !important;
+  border: 1px solid #CBD5E1 !important;
 }
 
-html.white .bg-purple-950\/70 {
-  background-color: #faf5ff !important;
-  border-color: #e9d5ff !important;
-  color: #7e22ce !important;
+html.white .code-block-wrapper pre code {
+  color: #F8FAFC !important;
 }
 
-/* Hero Gradient Text (Emerald to Teal to Sapphire) */
-html.white .from-\[\#9fef00\] {
-  --tw-gradient-from: #047857 !important;
+html.white .code-block-wrapper div {
+  background-color: #060B13 !important;
+  color: #E2E4EB !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-html.white .via-\[\#aefc0a\] {
-  --tw-gradient-stops: #047857, #059669, #0284c7 !important;
+/* Inline Code: #E8EAF0, border #E2E4EB, text #3B6B00 */
+html.white :not(pre) > code,
+html.white .article-prose code:not(pre code) {
+  background-color: #E8EAF0 !important;
+  border: 1px solid #E2E4EB !important;
+  color: #3B6B00 !important;
+  padding: 0.15rem 0.45rem !important;
+  border-radius: 0.25rem !important;
+  font-weight: 600 !important;
 }
 
-html.white .to-\[\#2de2e6\] {
-  --tw-gradient-to: #0284c7 !important;
+/* Technical Blockquotes: #E8FFF0, 3px solid #9FEF00, text #0D0D1A */
+html.white blockquote,
+html.white .article-prose blockquote {
+  background-color: #E8FFF0 !important;
+  border-left: 3px solid #9FEF00 !important;
+  color: #0D0D1A !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
 }
 
-/* Box Shadows in White Theme */
-html.white [class*="shadow-\[0_0_"],
-html.white [class*="shadow-\[0_4px_20px_rgba(159,239,0"] {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+/* Table Headers: #E8EAF0, border #E2E4EB, text #0D0D1A */
+html.white table th,
+html.white .article-prose th {
+  background-color: #E8EAF0 !important;
+  border: 1px solid #E2E4EB !important;
+  color: #0D0D1A !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Table Rows: alternating #FFFFFF / #F8F9FA, hover #E8FFF0 */
+html.white table td,
+html.white .article-prose td {
+  border: 1px solid #E2E4EB !important;
+  color: #0D0D1A !important;
+}
+
+html.white table tr:nth-child(even) td,
+html.white .article-prose table tr:nth-child(even) td {
+  background-color: #F8F9FA !important;
+}
+
+html.white table tr:nth-child(odd) td,
+html.white .article-prose table tr:nth-child(odd) td {
+  background-color: #FFFFFF !important;
+}
+
+html.white table tr:hover td,
+html.white .article-prose table tr:hover td {
+  background-color: #E8FFF0 !important;
+}
+
+/* 10. Forms & Input Fields */
+html.white input:not(header input),
+html.white textarea,
+html.white select {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E4EB !important;
+  color: #0D0D1A !important;
+}
+
+html.white input::placeholder,
+html.white textarea::placeholder {
+  color: #9A9AB0 !important;
 }
 
 
@@ -754,17 +933,17 @@ p {
 
 /* Keep code blocks crisp and readable in dark slate even in white mode */
 html.white .code-block-wrapper {
-  background-color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  background-color: #08101E !important;
+  border-color: #CBD5E1 !important;
 }
 
 html.white .code-block-wrapper pre code {
-  color: #f8fafc !important;
+  color: #F8FAFC !important;
 }
 
 html.white .code-block-wrapper div {
-  background-color: #1e293b !important;
-  color: #e2e8f0 !important;
+  background-color: #060B13 !important;
+  color: #E2E4EB !important;
 }
 
 /* Print Optimization */
