@@ -37,12 +37,12 @@ export default async function SubscribePage() {
 
         {/* SadaPay / Mastercard notice */}
         <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground)] shadow-sm">
-          <div className="flex items-center -space-x-1.5 flex-shrink-0">
+          <div className="flex items-center -space-x-1 flex-shrink-0">
+            <span className="w-4 h-4 rounded-full bg-[#ff7051] flex items-center justify-center text-[9px] text-white font-bold">S</span>
             <div className="w-4 h-4 rounded-full bg-[#eb001b]"></div>
-            <div className="w-4 h-4 rounded-full bg-[#f79e1b] opacity-90"></div>
           </div>
           <span>
-            Mastercard Only — <strong className="text-[var(--foreground-bright)]">SadaPay</strong>, <strong className="text-[var(--foreground-bright)]">NayaPay</strong> & International Mastercards Supported
+            <strong className="text-[var(--htb-green)]">SadaPay Transfer (Rs. 2,500 PKR)</strong> & <strong className="text-[var(--foreground-bright)]">Mastercard</strong> Supported — Direct Local & Global Payments
           </span>
         </div>
       </div>

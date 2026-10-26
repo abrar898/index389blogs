@@ -343,9 +343,12 @@ model SubscriptionPayment {
   currency      String   @default("USD")
   plan          String   // "MONTHLY" | "YEARLY"
   status        String   @default("COMPLETED") // "COMPLETED" | "REFUNDED" | "FAILED"
-  paymentMethod String   @default("MASTERCARD") // "MASTERCARD"
+  paymentMethod String   @default("MASTERCARD") // "MASTERCARD" | "SADAPAY_DIRECT"
   transactionId String   @unique
   cardLast4     String?
+  senderPhone   String?
+  senderName    String?
+  receiptUrl    String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

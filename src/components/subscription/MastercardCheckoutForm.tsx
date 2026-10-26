@@ -12,8 +12,13 @@ import {
   AlertCircle,
   Zap,
   Check,
+  Copy,
+  Smartphone,
+  Wallet,
+  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
+import { SADAPAY_DETAILS } from "@/lib/subscription";
 
 interface MastercardCheckoutFormProps {
   currentUser: {
@@ -33,28 +38,46 @@ export function MastercardCheckoutForm({
   const searchParams = useSearchParams();
   const returnUrl = searchParams?.get("returnUrl") || "/writeups";
 
+  // Mode: "SADAPAY_DIRECT" (Send to SadaPay account) or "MASTERCARD" (Card form)
+  const [paymentMode, setPaymentMode] = useState<"SADAPAY_DIRECT" | "MASTERCARD">("SADAPAY_DIRECT");
   const [plan, setPlan] = useState<"MONTHLY" | "YEARLY">("MONTHLY");
+
+  // SadaPay Direct Fields
+  const [trxId, setTrxId] = useState("");
+  const [senderPhone, setSenderPhone] = useState("");
+  const [senderName, setSenderName] = useState(currentUser?.name || "");
+
+  // Mastercard Fields
   const [cardNumber, setCardNumber] = useState("");
   const [cardholderName, setCardholderName] = useState(currentUser?.name || "");
   const [expiryMonth, setExpiryMonth] = useState("");
   const [expiryYear, setExpiryYear] = useState("");
   const [cvc, setCvc] = useState("");
 
-  // Guest fields (only when not logged in)
+  // Guest Fields (when not logged in)
   const [guestName, setGuestName] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
   const [guestPassword, setGuestPassword] = useState("");
 
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successData, setSuccessData] = useState<{
     transactionId: string;
     amount: number;
+    currency: string;
     plan: string;
     expiresAt: string;
+    method: string;
   } | null>(null);
 
-  // Clean and format card number
+  const copyToClipboard = (text: string, fieldName: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(fieldName);
+    setTimeout(() => setCopiedField(null), 2500);
+  };
+
+  // Format Card Number
   const cleanDigits = useMemo(() => cardNumber.replace(/\D/g, "").slice(0, 16), [cardNumber]);
 
   const formattedCardNumber = useMemo(() => {
@@ -84,22 +107,76 @@ export function MastercardCheckoutForm({
     setCardNumber(raw);
   };
 
-  const handleExpiryMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
-    setExpiryMonth(raw);
+  // Submit SadaPay Direct Transfer
+  const handleSadaPaySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    if (!trxId.trim() || trxId.trim().length < 4) {
+      setErrorMessage("Please enter the Transaction ID / Reference Number from your SadaPay transfer receipt.");
+      return;
+    }
+
+    if (!senderPhone.trim()) {
+      setErrorMessage("Please enter your sender mobile or account number.");
+      return;
+    }
+
+    if (!currentUser && (!guestEmail || !guestPassword || !guestName)) {
+      setErrorMessage("Please fill out your account details to register your Pro subscription.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const payload: any = {
+        plan,
+        transactionId: trxId.trim(),
+        senderPhone: senderPhone.trim(),
+        senderName: senderName.trim() || guestName.trim(),
+      };
+
+      if (!currentUser) {
+        payload.email = guestEmail.trim();
+        payload.name = guestName.trim();
+        payload.password = guestPassword;
+      }
+
+      const res = await fetch("/api/subscription/sadapay-transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to submit SadaPay transfer verification.");
+      }
+
+      setSuccessData({
+        transactionId: data.transactionId,
+        amount: data.amount,
+        currency: "PKR",
+        plan: data.plan,
+        expiresAt: data.expiresAt,
+        method: "SadaPay Direct Transfer",
+      });
+
+      setTimeout(() => {
+        router.push(returnUrl);
+        router.refresh();
+      }, 3500);
+    } catch (err: any) {
+      setErrorMessage(err.message || "An unexpected error occurred.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleExpiryYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 2);
-    setExpiryYear(raw);
-  };
-
-  const handleCvcChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, 3);
-    setCvc(raw);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Submit Mastercard
+  const handleMastercardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
 
@@ -109,9 +186,7 @@ export function MastercardCheckoutForm({
     }
 
     if (!cardBrandInfo?.isMastercard) {
-      setErrorMessage(
-        "Payment is exclusively for Mastercard (e.g. SadaPay, NayaPay, or bank debit/credit Mastercard)."
-      );
+      setErrorMessage("Payment is exclusively for Mastercard (e.g. SadaPay or bank debit/credit Mastercard).");
       return;
     }
 
@@ -168,11 +243,12 @@ export function MastercardCheckoutForm({
       setSuccessData({
         transactionId: data.transactionId,
         amount: data.amount,
+        currency: "USD",
         plan: data.plan,
         expiresAt: data.expiresAt,
+        method: "Mastercard Online",
       });
 
-      // After 3 seconds, redirect to the target writeup or returnUrl
       setTimeout(() => {
         router.push(returnUrl);
         router.refresh();
@@ -223,10 +299,10 @@ export function MastercardCheckoutForm({
             ⚡ Pro Access Granted
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold font-mono text-[var(--foreground-bright)]">
-            Payment Completed!
+            Transfer Confirmed!
           </h2>
           <p className="text-sm text-[var(--foreground-muted)] font-sans">
-            Your Mastercard has been successfully charged. All private writeups, deep-dive exploits, and full-resolution payload architectures are now unlocked.
+            Your transfer has been verified and your account is upgraded to <strong>PRO OPERATOR</strong>. All private writeups, deep-dive exploits, and full payload repositories are unlocked.
           </p>
         </div>
 
@@ -236,14 +312,14 @@ export function MastercardCheckoutForm({
             <span className="text-[var(--htb-green)] font-semibold">{successData.transactionId}</span>
           </div>
           <div className="flex justify-between text-[var(--foreground-muted)]">
-            <span>Charged Amount:</span>
-            <span className="text-[var(--foreground-bright)] font-bold">
-              ${successData.amount.toFixed(2)} USD
-            </span>
+            <span>Payment Method:</span>
+            <span className="text-amber-500 font-bold">{successData.method}</span>
           </div>
           <div className="flex justify-between text-[var(--foreground-muted)]">
-            <span>Payment Method:</span>
-            <span className="text-amber-500 font-bold">Mastercard (Processed)</span>
+            <span>Amount:</span>
+            <span className="text-[var(--foreground-bright)] font-bold">
+              {successData.currency === "PKR" ? `Rs. ${successData.amount.toLocaleString()} PKR` : `$${successData.amount.toFixed(2)} USD`}
+            </span>
           </div>
           <div className="flex justify-between text-[var(--foreground-muted)]">
             <span>Tier:</span>
@@ -270,10 +346,38 @@ export function MastercardCheckoutForm({
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      {/* Plan selection & Cyber Mastercard preview (Left 5 Cols) */}
+      {/* Left Column: Plan Picker, Payment Mode Switcher & Account Details / Card Visual (5 Cols) */}
       <div className="lg:col-span-5 space-y-6">
-        {/* Tier switcher */}
-        <div className="p-1.5 rounded-xl bg-[var(--surface-elevated)] border border-[var(--surface-border)] flex gap-1">
+        {/* Payment Method Switcher Tabs */}
+        <div className="p-1 rounded-xl bg-[var(--surface-elevated)] border border-[var(--surface-border)] grid grid-cols-2 gap-1">
+          <button
+            type="button"
+            onClick={() => setPaymentMode("SADAPAY_DIRECT")}
+            className={`py-2.5 px-3 rounded-lg text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 ${
+              paymentMode === "SADAPAY_DIRECT"
+                ? "bg-[var(--htb-green)] text-white dark:text-[#0b121e] shadow-md"
+                : "text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+            }`}
+          >
+            <Smartphone className="w-4 h-4" />
+            <span>SadaPay Transfer</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setPaymentMode("MASTERCARD")}
+            className={`py-2.5 px-3 rounded-lg text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 ${
+              paymentMode === "MASTERCARD"
+                ? "bg-[var(--htb-green)] text-white dark:text-[#0b121e] shadow-md"
+                : "text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            <span>Mastercard</span>
+          </button>
+        </div>
+
+        {/* Plan Duration Switcher */}
+        <div className="p-1.5 rounded-xl bg-[var(--surface-card)] border border-[var(--surface-border)] flex gap-1">
           <button
             type="button"
             onClick={() => setPlan("MONTHLY")}
@@ -283,7 +387,7 @@ export function MastercardCheckoutForm({
                 : "text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
             }`}
           >
-            Monthly Pass ($9/mo)
+            {paymentMode === "SADAPAY_DIRECT" ? "Monthly (Rs. 2,500)" : "Monthly ($9/mo)"}
           </button>
           <button
             type="button"
@@ -294,79 +398,185 @@ export function MastercardCheckoutForm({
                 : "text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
             }`}
           >
-            Yearly Pass ($89/yr)
+            {paymentMode === "SADAPAY_DIRECT" ? "Yearly (Rs. 24,000)" : "Yearly ($89/yr)"}
             <span className="absolute -top-2 -right-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-[#ff3366] text-white uppercase shadow-sm">
-              Save 18%
+              Save 20%
             </span>
           </button>
         </div>
 
-        {/* Live Cyber Mastercard Card Visual */}
-        <div className="relative w-full aspect-[1.586/1] rounded-2xl p-6 sm:p-7 text-white shadow-2xl overflow-hidden border border-white/20 bg-gradient-to-br from-[#141b2d] via-[#1f2d48] to-[#0c101c] select-none">
-          {/* Neon cyber grid background texture */}
-          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#9fef00_1px,transparent_1px)] [background-size:16px_16px]"></div>
-          <div className="absolute -top-12 -right-12 w-40 h-40 bg-[var(--htb-green)]/20 rounded-full blur-2xl"></div>
+        {/* Dynamic Display based on Mode */}
+        {paymentMode === "SADAPAY_DIRECT" ? (
+          /* Official SadaPay Receiver Info Card */
+          <div className="rounded-2xl border-2 border-emerald-500/50 bg-gradient-to-br from-[#0c1825] via-[#102334] to-[#0a1420] p-6 text-white shadow-2xl relative overflow-hidden space-y-5">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-          {/* Card Top: Chip and Brand */}
-          <div className="relative flex items-center justify-between z-10">
-            {/* Realistic Chip & Contactless */}
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-8 rounded-md bg-gradient-to-tr from-amber-300 via-amber-200 to-amber-400 border border-amber-500/50 relative overflow-hidden shadow-sm">
-                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-amber-600/60"></div>
-                <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-amber-600/60"></div>
-                <div className="absolute inset-2 border border-amber-600/50 rounded-sm"></div>
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-[#ff7051] flex items-center justify-center font-bold text-white shadow-md">
+                  <Wallet className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="block text-xs font-mono font-bold text-white tracking-wider">
+                    SADAPAY VERIFIED RECEIVER
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3" /> Direct Deposit Active
+                  </span>
+                </div>
               </div>
-              {/* Contactless symbol */}
-              <span className="text-white/60 font-mono text-sm tracking-widest">&#128246;</span>
-            </div>
-
-            {/* Official Mastercard Interlocking Circles Logo */}
-            <div className="flex items-center">
-              <div className="relative flex items-center -space-x-3.5">
-                <div className="w-9 h-9 rounded-full bg-[#eb001b] shadow-md"></div>
-                <div className="w-9 h-9 rounded-full bg-[#f79e1b] opacity-90 shadow-md"></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Live Card Number */}
-          <div className="relative mt-8 z-10">
-            <span className="block text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-              Mastercard Card Number
-            </span>
-            <div className="font-mono text-lg sm:text-xl font-bold tracking-[0.2em] text-white drop-shadow-md">
-              {formattedCardNumber || "•••• •••• •••• ••••"}
-            </div>
-          </div>
-
-          {/* Card Bottom: Holder Name, Expiry & SadaPay badge */}
-          <div className="relative mt-6 flex items-end justify-between z-10">
-            <div className="space-y-0.5">
-              <span className="block text-[9px] font-mono tracking-widest text-slate-400 uppercase">
-                Cardholder Name
-              </span>
-              <span className="block font-mono text-xs sm:text-sm font-semibold tracking-wider text-slate-100 uppercase truncate max-w-[170px]">
-                {cardholderName || (currentUser ? currentUser.name : "YOUR NAME")}
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                PAKISTAN
               </span>
             </div>
 
-            <div className="flex items-end gap-4">
-              <div className="space-y-0.5 text-right">
+            {/* Account Title */}
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
+                Account Title (Beneficiary Name)
+              </span>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
+                <span className="font-mono text-sm sm:text-base font-bold text-white tracking-wide">
+                  {SADAPAY_DETAILS.accountTitle}
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold">
+                  SadaPay App
+                </span>
+              </div>
+            </div>
+
+            {/* Mobile / Account Number with Copy */}
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
+                SadaPay Mobile / Account Number
+              </span>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
+                <span className="font-mono text-base font-extrabold text-emerald-400 tracking-wider">
+                  {SADAPAY_DETAILS.accountNumber}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(SADAPAY_DETAILS.accountNumber, "accountNumber")}
+                  className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-emerald-500 hover:text-black text-xs font-mono font-bold transition-all flex items-center gap-1"
+                >
+                  {copiedField === "accountNumber" ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* IBAN with Copy */}
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
+                SadaPay IBAN (For Raast & All Banks)
+              </span>
+              <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between gap-2">
+                <span className="font-mono text-xs font-bold text-slate-200 tracking-wider truncate">
+                  {SADAPAY_DETAILS.iban}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(SADAPAY_DETAILS.iban, "iban")}
+                  className="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-emerald-500 hover:text-black text-xs font-mono font-bold transition-all flex items-center gap-1 flex-shrink-0"
+                >
+                  {copiedField === "iban" ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs font-sans text-emerald-200 space-y-1">
+              <div className="font-bold flex items-center gap-1.5 text-white">
+                <span>Total Due:</span>
+                <span className="text-emerald-400 font-mono text-sm">
+                  {plan === "YEARLY"
+                    ? `Rs. ${SADAPAY_DETAILS.pricesPKR.YEARLY.toLocaleString()} PKR`
+                    : `Rs. ${SADAPAY_DETAILS.pricesPKR.MONTHLY.toLocaleString()} PKR`}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-300">
+                Send from any Pakistani bank (SadaPay, NayaPay, Meezan, Easypaisa, JazzCash, etc.) to the details above.
+              </p>
+            </div>
+          </div>
+        ) : (
+          /* Live Cyber Mastercard Card Visual */
+          <div className="relative w-full aspect-[1.586/1] rounded-2xl p-6 sm:p-7 text-white shadow-2xl overflow-hidden border border-white/20 bg-gradient-to-br from-[#141b2d] via-[#1f2d48] to-[#0c101c] select-none">
+            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#9fef00_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div className="absolute -top-12 -right-12 w-40 h-40 bg-[var(--htb-green)]/20 rounded-full blur-2xl"></div>
+
+            <div className="relative flex items-center justify-between z-10">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-8 rounded-md bg-gradient-to-tr from-amber-300 via-amber-200 to-amber-400 border border-amber-500/50 relative overflow-hidden shadow-sm">
+                  <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-amber-600/60"></div>
+                  <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[1px] bg-amber-600/60"></div>
+                  <div className="absolute inset-2 border border-amber-600/50 rounded-sm"></div>
+                </div>
+                <span className="text-white/60 font-mono text-sm tracking-widest">&#128246;</span>
+              </div>
+
+              <div className="flex items-center">
+                <div className="relative flex items-center -space-x-3.5">
+                  <div className="w-9 h-9 rounded-full bg-[#eb001b] shadow-md"></div>
+                  <div className="w-9 h-9 rounded-full bg-[#f79e1b] opacity-90 shadow-md"></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative mt-8 z-10">
+              <span className="block text-[10px] font-mono tracking-widest text-slate-400 uppercase">
+                Mastercard Card Number
+              </span>
+              <div className="font-mono text-lg sm:text-xl font-bold tracking-[0.2em] text-white drop-shadow-md">
+                {formattedCardNumber || "•••• •••• •••• ••••"}
+              </div>
+            </div>
+
+            <div className="relative mt-6 flex items-end justify-between z-10">
+              <div className="space-y-0.5">
                 <span className="block text-[9px] font-mono tracking-widest text-slate-400 uppercase">
-                  Expires
+                  Cardholder Name
                 </span>
-                <span className="block font-mono text-xs sm:text-sm font-semibold tracking-wider text-slate-100">
-                  {expiryMonth || "MM"} / {expiryYear || "YY"}
+                <span className="block font-mono text-xs sm:text-sm font-semibold tracking-wider text-slate-100 uppercase truncate max-w-[170px]">
+                  {cardholderName || (currentUser ? currentUser.name : "YOUR NAME")}
                 </span>
               </div>
+
+              <div className="flex items-end gap-4">
+                <div className="space-y-0.5 text-right">
+                  <span className="block text-[9px] font-mono tracking-widest text-slate-400 uppercase">
+                    Expires
+                  </span>
+                  <span className="block font-mono text-xs sm:text-sm font-semibold tracking-wider text-slate-100">
+                    {expiryMonth || "MM"} / {expiryYear || "YY"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute bottom-2 right-4 text-[9px] font-mono text-slate-400 font-bold tracking-widest">
+              {cardBrandInfo ? cardBrandInfo.label : "MASTERCARD SECURE"}
             </div>
           </div>
-
-          {/* Mastercard badge bottom pill */}
-          <div className="absolute bottom-2 right-4 text-[9px] font-mono text-slate-400 font-bold tracking-widest">
-            {cardBrandInfo ? cardBrandInfo.label : "MASTERCARD SECURE"}
-          </div>
-        </div>
+        )}
 
         {/* Benefits checklist */}
         <div className="p-5 rounded-xl bg-[var(--surface-card)] border border-[var(--surface-border)] space-y-3">
@@ -395,207 +605,366 @@ export function MastercardCheckoutForm({
         </div>
       </div>
 
-      {/* Mastercard Checkout Form (Right 7 Cols) */}
+      {/* Right Column: Interactive Form based on selected Mode (7 Cols) */}
       <div className="lg:col-span-7">
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 sm:p-8 shadow-xl space-y-6"
-        >
-          <div className="border-b border-[var(--surface-border)] pb-4 flex items-center justify-between">
-            <div className="space-y-1">
-              <h3 className="text-lg font-bold font-mono text-[var(--foreground-bright)] flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-[var(--htb-green)]" />
-                <span>Pay with Mastercard</span>
-              </h3>
-              <p className="text-xs text-[var(--foreground-muted)] font-sans">
-                Supports Pakistani debit Mastercards (SadaPay, NayaPay) and international Mastercards.
-              </p>
-            </div>
-            <div className="text-right">
-              <span className="block text-xl font-bold font-mono text-[var(--htb-green)]">
-                {plan === "YEARLY" ? "$89.00" : "$9.00"}
-              </span>
-              <span className="text-[10px] font-mono text-[var(--foreground-muted)] uppercase">
-                {plan === "YEARLY" ? "Per Year" : "Per Month"}
-              </span>
-            </div>
-          </div>
-
-          {errorMessage && (
-            <div className="p-3.5 rounded-lg bg-[#ff3366]/10 border border-[#ff3366]/40 text-[#ff3366] text-xs font-mono flex items-center gap-2.5">
-              <AlertCircle className="w-4 h-4 flex-shrink-0 text-[#ff3366]" />
-              <span>{errorMessage}</span>
-            </div>
-          )}
-
-          {/* Guest Account Info (If not logged in) */}
-          {!currentUser && (
-            <div className="p-4 rounded-xl bg-[var(--surface-elevated)] border border-[var(--surface-border)] space-y-3">
-              <div className="text-xs font-mono font-bold text-[var(--foreground-bright)] flex items-center justify-between">
-                <span>Account Setup (New Operator)</span>
-                <Link href="/login" className="text-[var(--htb-green)] hover:underline text-[11px]">
-                  Already have an account? Sign In &rarr;
-                </Link>
+        {paymentMode === "SADAPAY_DIRECT" ? (
+          /* SadaPay Direct Verification Form */
+          <form
+            onSubmit={handleSadaPaySubmit}
+            className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 sm:p-8 shadow-xl space-y-6"
+          >
+            <div className="border-b border-[var(--surface-border)] pb-4 flex items-center justify-between">
+              <div className="space-y-1">
+                <h3 className="text-lg font-bold font-mono text-[var(--foreground-bright)] flex items-center gap-2">
+                  <Smartphone className="w-5 h-5 text-emerald-400" />
+                  <span>Confirm SadaPay Transfer</span>
+                </h3>
+                <p className="text-xs text-[var(--foreground-muted)] font-sans">
+                  Transfer sent to <strong>03434021355</strong>. Enter your Transaction Reference ID below to unlock immediately.
+                </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Your Full Name</label>
+              <div className="text-right">
+                <span className="block text-xl font-bold font-mono text-[var(--htb-green)]">
+                  {plan === "YEARLY"
+                    ? `Rs. ${SADAPAY_DETAILS.pricesPKR.YEARLY.toLocaleString()}`
+                    : `Rs. ${SADAPAY_DETAILS.pricesPKR.MONTHLY.toLocaleString()}`}
+                </span>
+                <span className="text-[10px] font-mono text-[var(--foreground-muted)] uppercase">
+                  {plan === "YEARLY" ? "PKR / Year" : "PKR / Month"}
+                </span>
+              </div>
+            </div>
+
+            {errorMessage && (
+              <div className="p-3.5 rounded-lg bg-[#ff3366]/10 border border-[#ff3366]/40 text-[#ff3366] text-xs font-mono flex items-center gap-2.5">
+                <AlertCircle className="w-4 h-4 flex-shrink-0 text-[#ff3366]" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {/* Guest Account Info (If not logged in) */}
+            {!currentUser && (
+              <div className="p-4 rounded-xl bg-[var(--surface-elevated)] border border-[var(--surface-border)] space-y-3">
+                <div className="text-xs font-mono font-bold text-[var(--foreground-bright)] flex items-center justify-between">
+                  <span>Create Account (New Pro Operator)</span>
+                  <Link href="/login" className="text-[var(--htb-green)] hover:underline text-[11px]">
+                    Already registered? Sign In &rarr;
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Your Full Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={guestName}
+                      onChange={(e) => {
+                        setGuestName(e.target.value);
+                        if (!senderName) setSenderName(e.target.value);
+                      }}
+                      placeholder="e.g. Alex Vance"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Email Address</label>
+                    <input
+                      type="email"
+                      required
+                      value={guestEmail}
+                      onChange={(e) => setGuestEmail(e.target.value)}
+                      placeholder="alex@example.com"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    />
+                  </div>
+                  <div className="sm:col-span-2 space-y-1">
+                    <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={guestPassword}
+                      onChange={(e) => setGuestPassword(e.target.value)}
+                      placeholder="Create secure password for Index 389"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Transfer Reference Details */}
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    Transaction ID / Reference Number (TRX ID)
+                  </label>
+                  <span className="text-[10px] font-mono text-emerald-400">From SadaPay / Bank Receipt</span>
+                </div>
+                <input
+                  type="text"
+                  required
+                  value={trxId}
+                  onChange={(e) => setTrxId(e.target.value)}
+                  placeholder="e.g. TRX-9823412 or 1234567890"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] tracking-wider focus:outline-none focus:border-emerald-400 uppercase"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    Sender Account / Phone Number
+                  </label>
                   <input
                     type="text"
                     required
-                    value={guestName}
-                    onChange={(e) => {
-                      setGuestName(e.target.value);
-                      if (!cardholderName) setCardholderName(e.target.value);
-                    }}
-                    placeholder="e.g. Alex Vance"
-                    className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    value={senderPhone}
+                    onChange={(e) => setSenderPhone(e.target.value)}
+                    placeholder="0300 ••••••• (Number you sent from)"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus:border-emerald-400"
                   />
                 </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Email Address</label>
+
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    Sender Account Title
+                  </label>
                   <input
-                    type="email"
-                    required
-                    value={guestEmail}
-                    onChange={(e) => setGuestEmail(e.target.value)}
-                    placeholder="alex@example.com"
-                    className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    type="text"
+                    value={senderName}
+                    onChange={(e) => setSenderName(e.target.value)}
+                    placeholder="Your Name on Sending App"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus:border-emerald-400"
                   />
                 </div>
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Password</label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 via-[var(--htb-green)] to-emerald-600 text-white dark:text-[#0b121e] font-extrabold text-xs font-mono uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>
+                {isSubmitting
+                  ? "Verifying SadaPay Transfer..."
+                  : `Verify & Unlock Pro Access (${plan === "YEARLY" ? "Rs. 24,000 PKR" : "Rs. 2,500 PKR"})`}
+              </span>
+            </button>
+
+            <div className="pt-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-[var(--foreground-muted)] gap-2 border-t border-[var(--surface-border)]">
+              <span className="flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Instant Auto-Activation</span>
+              </span>
+              <span>Direct Bank Settlement</span>
+              <span>24/7 Verified Access</span>
+            </div>
+          </form>
+        ) : (
+          /* Mastercard Online Form */
+          <form
+            onSubmit={handleMastercardSubmit}
+            className="rounded-2xl border border-[var(--surface-border)] bg-[var(--surface-card)] p-6 sm:p-8 shadow-xl space-y-6"
+          >
+            <div className="border-b border-[var(--surface-border)] pb-4 flex items-center justify-between">
+              <div className="space-y-1">
+                <h3 className="text-lg font-bold font-mono text-[var(--foreground-bright)] flex items-center gap-2">
+                  <CreditCard className="w-5 h-5 text-[var(--htb-green)]" />
+                  <span>Pay with Mastercard</span>
+                </h3>
+                <p className="text-xs text-[var(--foreground-muted)] font-sans">
+                  Supports Pakistani debit Mastercards (SadaPay, NayaPay) and international Mastercards.
+                </p>
+              </div>
+              <div className="text-right">
+                <span className="block text-xl font-bold font-mono text-[var(--htb-green)]">
+                  {plan === "YEARLY" ? "$89.00" : "$9.00"}
+                </span>
+                <span className="text-[10px] font-mono text-[var(--foreground-muted)] uppercase">
+                  {plan === "YEARLY" ? "Per Year" : "Per Month"}
+                </span>
+              </div>
+            </div>
+
+            {errorMessage && (
+              <div className="p-3.5 rounded-lg bg-[#ff3366]/10 border border-[#ff3366]/40 text-[#ff3366] text-xs font-mono flex items-center gap-2.5">
+                <AlertCircle className="w-4 h-4 flex-shrink-0 text-[#ff3366]" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {/* Guest Account Info (If not logged in) */}
+            {!currentUser && (
+              <div className="p-4 rounded-xl bg-[var(--surface-elevated)] border border-[var(--surface-border)] space-y-3">
+                <div className="text-xs font-mono font-bold text-[var(--foreground-bright)] flex items-center justify-between">
+                  <span>Account Setup (New Operator)</span>
+                  <Link href="/login" className="text-[var(--htb-green)] hover:underline text-[11px]">
+                    Already have an account? Sign In &rarr;
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Your Full Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={guestName}
+                      onChange={(e) => {
+                        setGuestName(e.target.value);
+                        if (!cardholderName) setCardholderName(e.target.value);
+                      }}
+                      placeholder="e.g. Alex Vance"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Email Address</label>
+                    <input
+                      type="email"
+                      required
+                      value={guestEmail}
+                      onChange={(e) => setGuestEmail(e.target.value)}
+                      placeholder="alex@example.com"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    />
+                  </div>
+                  <div className="sm:col-span-2 space-y-1">
+                    <label className="text-[11px] font-mono text-[var(--foreground-muted)]">Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={guestPassword}
+                      onChange={(e) => setGuestPassword(e.target.value)}
+                      placeholder="Secure password for Index 389"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Mastercard Payment Inputs */}
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                  Cardholder Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={cardholderName}
+                  onChange={(e) => setCardholderName(e.target.value)}
+                  placeholder="Name as printed on Mastercard"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus:border-[var(--htb-green)]"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    Mastercard Number (16 Digits)
+                  </label>
+                  {cardBrandInfo && (
+                    <span
+                      className={`text-[10px] font-mono font-bold ${
+                        cardBrandInfo.isMastercard ? "text-[var(--htb-green)]" : "text-[#ff3366]"
+                      }`}
+                    >
+                      {cardBrandInfo.label}
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    required
+                    value={formattedCardNumber}
+                    onChange={handleCardNumberChange}
+                    maxLength={19}
+                    placeholder="5100 •••• •••• •••• (e.g. SadaPay Mastercard)"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] tracking-wider focus:outline-none focus:border-[var(--htb-green)]"
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center -space-x-2 pointer-events-none">
+                    <div className="w-5 h-5 rounded-full bg-[#eb001b]"></div>
+                    <div className="w-5 h-5 rounded-full bg-[#f79e1b] opacity-90"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    Expiry Month
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={expiryMonth}
+                    onChange={(e) => setExpiryMonth(e.target.value.replace(/\D/g, "").slice(0, 2))}
+                    maxLength={2}
+                    placeholder="MM (e.g. 08)"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] text-center focus:outline-none focus:border-[var(--htb-green)]"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    Expiry Year
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={expiryYear}
+                    onChange={(e) => setExpiryYear(e.target.value.replace(/\D/g, "").slice(0, 2))}
+                    maxLength={2}
+                    placeholder="YY (e.g. 28)"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] text-center focus:outline-none focus:border-[var(--htb-green)]"
+                  />
+                </div>
+
+                <div className="col-span-2 sm:col-span-1 space-y-1.5">
+                  <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
+                    CVC / CVV
+                  </label>
                   <input
                     type="password"
                     required
-                    value={guestPassword}
-                    onChange={(e) => setGuestPassword(e.target.value)}
-                    placeholder="Secure password for Index 389"
-                    className="w-full px-3 py-2 rounded-lg bg-[var(--surface-card)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] focus:outline-none focus:border-[var(--htb-green)]"
+                    value={cvc}
+                    onChange={(e) => setCvc(e.target.value.replace(/\D/g, "").slice(0, 3))}
+                    maxLength={3}
+                    placeholder="3 digits"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] text-center tracking-widest focus:outline-none focus:border-[var(--htb-green)]"
                   />
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Mastercard Payment Inputs */}
-          <div className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
-                Cardholder Name
-              </label>
-              <input
-                type="text"
-                required
-                value={cardholderName}
-                onChange={(e) => setCardholderName(e.target.value)}
-                placeholder="Name as printed on Mastercard"
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] focus:outline-none focus:border-[var(--htb-green)]"
-              />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[var(--htb-green)] to-[#77c400] text-white dark:text-[#0b121e] font-extrabold text-xs font-mono uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(159,239,0,0.3)] hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>
+                {isSubmitting
+                  ? "Processing Mastercard..."
+                  : `Pay ${plan === "YEARLY" ? "$89.00 USD" : "$9.00 USD"} with Mastercard`}
+              </span>
+            </button>
+
+            <div className="pt-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-[var(--foreground-muted)] gap-2 border-t border-[var(--surface-border)]">
+              <span className="flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-[var(--htb-green)]" />
+                <span>256-Bit TLS Encryption</span>
+              </span>
+              <span>Mastercard 3D Secure Protected</span>
+              <span>Cancel Anytime</span>
             </div>
-
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
-                  Mastercard Number (16 Digits)
-                </label>
-                {cardBrandInfo && (
-                  <span
-                    className={`text-[10px] font-mono font-bold ${
-                      cardBrandInfo.isMastercard ? "text-[var(--htb-green)]" : "text-[#ff3366]"
-                    }`}
-                  >
-                    {cardBrandInfo.label}
-                  </span>
-                )}
-              </div>
-              <div className="relative">
-                <input
-                  type="text"
-                  required
-                  value={formattedCardNumber}
-                  onChange={handleCardNumberChange}
-                  maxLength={19}
-                  placeholder="5100 •••• •••• •••• (e.g. SadaPay Mastercard)"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] tracking-wider focus:outline-none focus:border-[var(--htb-green)]"
-                />
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center -space-x-2 pointer-events-none">
-                  <div className="w-5 h-5 rounded-full bg-[#eb001b]"></div>
-                  <div className="w-5 h-5 rounded-full bg-[#f79e1b] opacity-90"></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <div className="space-y-1.5">
-                <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
-                  Expiry Month
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={expiryMonth}
-                  onChange={handleExpiryMonthChange}
-                  maxLength={2}
-                  placeholder="MM (e.g. 08)"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] text-center focus:outline-none focus:border-[var(--htb-green)]"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
-                  Expiry Year
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={expiryYear}
-                  onChange={handleExpiryYearChange}
-                  maxLength={2}
-                  placeholder="YY (e.g. 28)"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] text-center focus:outline-none focus:border-[var(--htb-green)]"
-                />
-              </div>
-
-              <div className="col-span-2 sm:col-span-1 space-y-1.5">
-                <label className="block text-xs font-mono text-[var(--foreground-bright)] font-semibold">
-                  CVC / CVV
-                </label>
-                <input
-                  type="password"
-                  required
-                  value={cvc}
-                  onChange={handleCvcChange}
-                  maxLength={3}
-                  placeholder="3 digits"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[var(--surface-elevated)] border border-[var(--surface-border)] text-xs font-mono text-[var(--foreground-bright)] placeholder:text-[var(--foreground-muted)] text-center tracking-widest focus:outline-none focus:border-[var(--htb-green)]"
-                />
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[var(--htb-green)] to-[#77c400] text-white dark:text-[#0b121e] font-extrabold text-xs font-mono uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(159,239,0,0.3)] hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>
-              {isSubmitting
-                ? "Processing Mastercard..."
-                : `Pay ${plan === "YEARLY" ? "$89.00 USD" : "$9.00 USD"} with Mastercard`}
-            </span>
-          </button>
-
-          <div className="pt-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-[var(--foreground-muted)] gap-2 border-t border-[var(--surface-border)]">
-            <span className="flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-[var(--htb-green)]" />
-              <span>256-Bit TLS Encryption</span>
-            </span>
-            <span>Mastercard 3D Secure Protected</span>
-            <span>Cancel Anytime</span>
-          </div>
-        </form>
+          </form>
+        )}
       </div>
     </div>
   );
