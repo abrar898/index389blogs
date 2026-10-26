@@ -2,7 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, Shield, Search, PenLine, User, LogOut, LayoutDashboard } from "lucide-react";
+import {
+  Menu,
+  X,
+  Shield,
+  Search,
+  PenLine,
+  User,
+  LogOut,
+  LayoutDashboard,
+  BookOpen,
+  CheckSquare,
+  Folder,
+  Terminal,
+  Zap,
+  Users,
+} from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 interface MobileNavProps {
@@ -16,8 +31,29 @@ interface MobileNavProps {
   navLinks: {
     label: string;
     href: string;
-    icon?: any;
+    iconName?: string;
   }[];
+}
+
+function renderMobileNavIcon(iconName?: string) {
+  switch (iconName) {
+    case "book":
+      return <BookOpen className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "check":
+      return <CheckSquare className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "folder":
+      return <Folder className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "terminal":
+      return <Terminal className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "shield":
+      return <Shield className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "zap":
+      return <Zap className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    case "users":
+      return <Users className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />;
+    default:
+      return null;
+  }
 }
 
 export function MobileNav({ user, isSubscribed, navLinks }: MobileNavProps) {
@@ -55,22 +91,17 @@ export function MobileNav({ user, isSubscribed, navLinks }: MobileNavProps) {
 
             {/* Navigation Links with Icons & Neon Green Styling */}
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#1f3352]">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white bg-[#14233c] border border-[#1f3352] hover:border-[var(--htb-green)]/50 transition-colors group"
-                  >
-                    {Icon && (
-                      <Icon className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white flex-shrink-0 transition-colors" />
-                    )}
-                    <span className="truncate">{link.label}</span>
-                  </Link>
-                );
-              })}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white bg-[#14233c] border border-[#1f3352] hover:border-[var(--htb-green)]/50 transition-colors group"
+                >
+                  {renderMobileNavIcon(link.iconName)}
+                  <span className="truncate">{link.label}</span>
+                </Link>
+              ))}
             </div>
 
             {/* User or Auth Links */}

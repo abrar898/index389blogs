@@ -19,18 +19,48 @@ import {
 import { ThemeToggle } from "./ThemeToggle";
 import { MobileNav } from "./MobileNav";
 
+function renderNavIcon(iconName: string) {
+  switch (iconName) {
+    case "book":
+      return <BookOpen className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "check":
+      return <CheckSquare className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "folder":
+      return <Folder className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "terminal":
+      return <Terminal className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "shield":
+      return <Shield className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "zap":
+      return <Zap className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    case "users":
+      return <Users className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+    default:
+      return <Folder className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />;
+  }
+}
+
 export async function Header() {
-  const user = await getCurrentUser();
-  const isSubscribed = await isUserSubscribed(user?.id);
+  let user = null;
+  let isSubscribed = false;
+
+  try {
+    user = await getCurrentUser();
+    if (user?.id) {
+      isSubscribed = await isUserSubscribed(user.id);
+    }
+  } catch (err) {
+    console.error("Failed to resolve user session in Header:", err);
+  }
 
   const navLinks = [
-    { label: "REPOSITORY", href: "/articles", icon: BookOpen },
-    { label: "METHODOLOGY", href: "/research", icon: CheckSquare },
-    { label: "TAXONOMY", href: "/vulnerabilities", icon: Folder },
-    { label: "CHEATSHEETS", href: "/cheatsheets", icon: Terminal },
-    { label: "WRITE-UPS", href: "/writeups", icon: Shield },
-    { label: "PRICING", href: "/subscribe", icon: Zap },
-    { label: "COMMUNITY", href: "/community", icon: Users },
+    { label: "REPOSITORY", href: "/articles", iconName: "book" },
+    { label: "METHODOLOGY", href: "/research", iconName: "check" },
+    { label: "TAXONOMY", href: "/vulnerabilities", iconName: "folder" },
+    { label: "CHEATSHEETS", href: "/cheatsheets", iconName: "terminal" },
+    { label: "WRITE-UPS", href: "/writeups", iconName: "shield" },
+    { label: "PRICING", href: "/subscribe", iconName: "zap" },
+    { label: "COMMUNITY", href: "/community", iconName: "users" },
   ];
 
   return (
@@ -61,37 +91,31 @@ export async function Header() {
 
           {/* Desktop Nav: Vibrant HTB Neon Green Icons + Uppercase Monospace Labels */}
           <nav className="hidden xl:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap group"
-                >
-                  <Icon className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />
-                  <span>{link.label}</span>
-                </Link>
-              );
-            })}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap group"
+              >
+                {renderNavIcon(link.iconName)}
+                <span>{link.label}</span>
+              </Link>
+            ))}
           </nav>
         </div>
 
         {/* Medium and Large screen navigation */}
         <div className="hidden lg:flex xl:hidden items-center gap-1">
-          {navLinks.slice(0, 4).map((link) => {
-            const Icon = link.icon;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap group"
-              >
-                <Icon className="w-3.5 h-3.5 text-[var(--htb-green)] group-hover:text-white transition-colors flex-shrink-0" />
-                <span>{link.label}</span>
-              </Link>
-            );
-          })}
+          {navLinks.slice(0, 4).map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap group"
+            >
+              {renderNavIcon(link.iconName)}
+              <span>{link.label}</span>
+            </Link>
+          ))}
           <Link
             href="/cheatsheets"
             className="px-2 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-[var(--htb-green)] hover:text-white hover:bg-[var(--htb-green)]/15 transition-all whitespace-nowrap"
